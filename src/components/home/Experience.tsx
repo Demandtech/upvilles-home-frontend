@@ -18,8 +18,8 @@ const Experience: FC = () => {
 
 	return (
 		<div className="py-16">
-			<div className="max-w-[1220px] gap-10 mx-auto px-6 flex justify-between flex-col lg:flex-row">
-				<div className="md:w-3/6 min-h-[250px] gap-2 grid grid-cols-2 grid-rows-5">
+			<div className="max-w-[1220px] gap-10 mx-auto px-6 flex md:justify-between flex-col lg:flex-row">
+				<div className="w-full lg:w-3/6 min-h-[250px] sm:min-h-[300px] gap-2 grid grid-cols-2 grid-rows-5">
 					<div
 						style={{
 							background: `url(${img1}) center no-repeat`,
@@ -45,7 +45,7 @@ const Experience: FC = () => {
 					/>
 				</div>
 
-				<div className="md:w-2/6 space-y-5">
+				<div className="w-full lg:w-2/6 space-y-5">
 					<h2 className="text-3xl md:text-4xl font-medium">
 						Experience the Benefits of a Smarter Property Management Solution
 					</h2>

@@ -32,7 +32,7 @@ const Hero: FC = () => {
 					</Button>
 				</div>
 				<div className="w-full">
-					<Image src={heroImg} />
+					<Image alt="Hero Image" src={heroImg} />
 				</div>
 			</div>
 		</section>

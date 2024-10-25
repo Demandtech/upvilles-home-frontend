@@ -17,7 +17,7 @@ export default function Header() {
 			className="bg-white sticky"
 		>
 			<NavbarBrand className="block w-full">
-				<LogoSvg />
+				<LogoSvg className="w-[60px] h-[50px] md:w-[122px] md:h-[86px]" />
 			</NavbarBrand>
 			<NavbarContent className="flex gap-4 !justify-end">
 				<NavbarItem>

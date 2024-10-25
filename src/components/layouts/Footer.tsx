@@ -28,7 +28,7 @@ const Footer: FC = () => {
 						<a href="#">
 							<FacebookIconSvg />
 						</a>
-						<a href="">
+						<a href="#">
 							<InstagramIconSvg />
 						</a>
 					</div>

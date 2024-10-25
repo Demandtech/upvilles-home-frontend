@@ -35,7 +35,7 @@ export default ({
 		| "shadow"
 		| "ghost";
 	className?: string;
-	onPress?: () => void;
+	onPress?: any;
 	ariaLabel?: string;
 	isIconOnly?: boolean;
 }) => {
@@ -51,6 +51,9 @@ export default ({
 				onPress={onPress}
 				aria-label={ariaLabel}
 				isIconOnly={isIconOnly}
+				style={{
+					cursor: "pointer",
+				}}
 			>
 				{children}
 			</Button>

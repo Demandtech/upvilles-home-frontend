@@ -15,27 +15,27 @@ const GuideStep: FC = () => {
 	const navigate = useNavigate();
 	return (
 		<div className="bg-lightGrey py-16">
-			<div className="max-w-[1220px]  gap-10 mx-auto px-6 flex justify-between flex-col lg:flex-row-reverse lg:items-center">
-				<div className="md:w-3/6 relative sm:px-5 md:px-10">
+			<div className="max-w-[1220px]  gap-10 mx-auto px-6 flex justify-between flex-col md:flex-row-reverse lg:items-center">
+				<div className="md:w-3/6 relative">
 					<div
 						style={{
 							background: `url(${img}) center no-repeat`,
-							backgroundSize: "contain",
+							backgroundSize: "cover",
 						}}
 						className="min-h-[250px] md:min-h-[350px] overflow-hidden rounded-xl h-full w-full"
 					></div>
 
-					<div className="flex gap-3 items-center px-3 py-2 absolute bottom-5 -left-4 sm:left-0 bg-white border border-[#EDEAEA] rounded-lg">
+					<div className="flex gap-3 items-center px-3 py-2 absolute bottom-5 -left-6 bg-white border border-[#EDEAEA] rounded-lg">
 						<ReduceIconSvg />
 						<p className="text-sm">Reduced maintenance downtime</p>
 					</div>
-					<div className="flex gap-3 items-center px-3 py-2 absolute bottom-1/2 translate-y-1/2 bg-white -right-4 sm:right-0 border border-[#EDEAEA] rounded-lg">
+					<div className="flex gap-3 items-center px-3 py-2 absolute bottom-1/2 translate-y-1/2 bg-white -right-6 border border-[#EDEAEA] rounded-lg">
 						<PreventIconSvg />
 						<p className="text-sm">Prevent issues before they arise</p>
 					</div>
 				</div>
 
-				<div className="md:w-2/6 space-y-5">
+				<div className="w-full sm:w-3/6 lg:w-2/6 space-y-5">
 					<h2 className="text-3xl md:text-4xl font-medium">
 						Step-by-Step Guide
 					</h2>

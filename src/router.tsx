@@ -8,6 +8,7 @@ import {
 	PageNotFound,
 	Login,
 	Signup,
+	ResetPassword,
 } from "./pages";
 
 const routes: RouteObject[] = [
@@ -28,6 +29,10 @@ const routes: RouteObject[] = [
 			{
 				path: "signup",
 				element: <Signup />,
+			},
+			{
+				path: "reset-password",
+				element: <ResetPassword />,
 			},
 		],
 	},
