@@ -1,15 +1,28 @@
-import { FormEventHandler } from "react";
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
 import { Link } from "react-router-dom";
+import { resetPasswordSchema } from "../../../utils/schemas/auth";
+import { useForm, yupResolver } from "../../../configs/services";
+import { useState } from "react";
 
-const ResetPasswordForm = ({
-	submitForm,
-}: {
-	submitForm: FormEventHandler<HTMLFormElement>;
-}) => {
+const ResetPasswordForm = () => {
+	const [isLoading, setIsLoading] = useState(false);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(resetPasswordSchema),
+	});
+
+	function submitForm(data: any) {
+		console.log(data);
+	}
 	return (
-		<form className="flex flex-col my-8 space-y-8 items-center w-full">
+		<form
+			onSubmit={handleSubmit(submitForm)}
+			className="flex flex-col my-8 space-y-8 items-center w-full"
+		>
 			<div className="w-full space-y-5">
 				<Input
 					label="Email Address"
@@ -17,12 +30,15 @@ const ResetPasswordForm = ({
 					placeholder="Enter your your email"
 					name="email"
 					required={true}
+					register={register}
+					error={errors?.email?.message}
 				/>
 				<Button
 					onPress={submitForm}
 					size="lg"
 					className="w-full bg-white text-default"
 					type="submit"
+					isLoading={isLoading}
 				>
 					Reset Password
 				</Button>

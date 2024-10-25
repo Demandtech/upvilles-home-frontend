@@ -1,6 +1,4 @@
-
 import { Input } from "@nextui-org/input";
-
 
 export default ({
 	placeholder,
@@ -8,12 +6,16 @@ export default ({
 	label,
 	name,
 	required,
+	register,
+	error,
 }: {
 	placeholder: string;
 	size: "sm" | "md" | "lg" | undefined;
 	label: string;
 	name: string;
-	required: boolean;
+	required?: boolean;
+	register?: any;
+	error?: string | undefined | null;
 }) => {
 	return (
 		<div>
@@ -33,6 +35,9 @@ export default ({
 				size={size}
 				placeholder={placeholder}
 				labelPlacement="outside"
+				{...register(name)}
+				isInvalid={!!error}
+				errorMessage={error}
 			/>
 		</div>
 	);

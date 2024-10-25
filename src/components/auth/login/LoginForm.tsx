@@ -1,13 +1,26 @@
 import Button from "../../ui/Button";
-import { FC, FormEventHandler } from "react";
+import { FC, useState } from "react";
 import Input from "../../ui/Input";
 import { Link } from "react-router-dom";
+import { loginSchema } from "../../../utils/schemas/auth";
+import { useForm, yupResolver } from "../../../configs/services";
 
-const LoginForm: FC<{
-	submitForm: FormEventHandler<HTMLFormElement>;
-}> = ({ submitForm }) => {
+const LoginForm: FC = () => {
+	const [isLoading, setIsLoading] = useState(false);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(loginSchema),
+	});
+
+	function submitForm(data: any) {
+		console.log(data);
+	}
+
 	return (
-		<form className="mt-10 space-y-8" onSubmit={submitForm}>
+		<form className="mt-10 space-y-8" onSubmit={handleSubmit(submitForm)}>
 			<div>
 				<div className="space-y-4">
 					<Input
@@ -16,6 +29,8 @@ const LoginForm: FC<{
 						placeholder="Enter your your email"
 						name="email"
 						required={true}
+						register={register}
+						error={errors.email?.message}
 					/>
 
 					<Input
@@ -24,6 +39,8 @@ const LoginForm: FC<{
 						size="lg"
 						placeholder="Create a password"
 						required={true}
+						register={register}
+						error={errors.password?.message}
 					/>
 				</div>
 				<div className="text-end mt-1">
@@ -33,10 +50,10 @@ const LoginForm: FC<{
 				</div>
 			</div>
 			<Button
-				onPress={submitForm}
 				size="lg"
 				className="w-full bg-white text-default"
 				type="submit"
+				isLoading={isLoading}
 			>
 				Login
 			</Button>

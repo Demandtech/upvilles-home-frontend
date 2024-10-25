@@ -13,6 +13,7 @@ export default ({
 	onPress,
 	ariaLabel,
 	isIconOnly = false,
+	isLoading = false,
 }: {
 	children: ReactNode;
 	type: "button" | "submit" | "reset" | undefined;
@@ -38,6 +39,7 @@ export default ({
 	onPress?: any;
 	ariaLabel?: string;
 	isIconOnly?: boolean;
+	isLoading?: boolean;
 }) => {
 	return (
 		<div>
@@ -54,6 +56,7 @@ export default ({
 				style={{
 					cursor: "pointer",
 				}}
+				isLoading={isLoading}
 			>
 				{children}
 			</Button>

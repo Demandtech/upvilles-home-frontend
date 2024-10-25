@@ -1,14 +1,27 @@
-import { FormEventHandler, FC } from "react";
+import { FC, useState } from "react";
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
 import { Checkbox } from "@nextui-org/checkbox";
 import { Link } from "react-router-dom";
+import { signupSchema } from "../../../utils/schemas/auth";
+import { useForm, yupResolver } from "../../../configs/services";
 
-const SignupForm: FC<{
-	submitForm: FormEventHandler<HTMLFormElement>;
-}> = ({ submitForm }) => {
+const SignupForm: FC = () => {
+	const [isLoading, setIsLoading] = useState(false);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(signupSchema),
+	});
+
+	function submitForm(data: any) {
+		console.log(data);
+	}
+
 	return (
-		<form className="space-y-10 mt-10" onSubmit={submitForm}>
+		<form className="space-y-10 mt-10" onSubmit={handleSubmit(submitForm)}>
 			<div>
 				<div className="grid gap-y-5 gap-x-3 sm:grid-cols-2">
 					<Input
@@ -17,6 +30,8 @@ const SignupForm: FC<{
 						placeholder="Enter your full name"
 						name="name"
 						required={true}
+						register={register}
+						error={errors.name?.message}
 					/>
 					<Input
 						label="Email Address"
@@ -24,6 +39,8 @@ const SignupForm: FC<{
 						placeholder="Enter your your email"
 						name="email"
 						required={true}
+						register={register}
+						error={errors.email?.message}
 					/>
 					<Input
 						label="Phone number"
@@ -31,6 +48,8 @@ const SignupForm: FC<{
 						placeholder="Enter your your phone number"
 						name="phone"
 						required={false}
+						register={register}
+						error={errors.phone?.message}
 					/>
 					<Input
 						label="Company name"
@@ -38,6 +57,8 @@ const SignupForm: FC<{
 						placeholder="Enter company name"
 						name="company"
 						required={false}
+						register={register}
+						error={errors.company?.message}
 					/>
 					<Input
 						name="password"
@@ -45,13 +66,17 @@ const SignupForm: FC<{
 						size="lg"
 						placeholder="Create a password"
 						required={true}
+						register={register}
+						error={errors.password?.message}
 					/>
 					<Input
-						name="confirm_password"
+						name="confirmPassword"
 						label="Confirm password"
 						size="lg"
 						placeholder="Re-enter your password"
 						required={true}
+						register={register}
+						error={errors.confirmPassword?.message}
 					/>
 				</div>
 				<div className="mt-3">
@@ -63,6 +88,8 @@ const SignupForm: FC<{
 						}}
 						className="border-none"
 						color="primary"
+						{...register("termCondition")}
+						isInvalid={!!errors.termCondition?.message}
 					>
 						<div className="text-white/80">
 							I agree to the Terms of
@@ -77,9 +104,19 @@ const SignupForm: FC<{
 							</Link>
 						</div>
 					</Checkbox>
+					{errors.termCondition && (
+						<p className="text-xs text-danger">
+							{errors.termCondition.message}
+						</p>
+					)}
 				</div>
 			</div>
-			<Button size="lg" className="w-full text-default bg-white" type="submit">
+			<Button
+				isLoading={isLoading}
+				size="lg"
+				className="w-full text-default bg-white"
+				type="submit"
+			>
 				Sign up
 			</Button>
 		</form>
