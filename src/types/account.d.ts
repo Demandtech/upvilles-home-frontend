@@ -6,12 +6,15 @@ export interface UserType {
 
 export interface PropertyType {
 	name: string;
+	address: string;
+	description: string;
+	id: number;
 }
 
 export type PropertyListType = PropertyType[] | [];
 
 export interface AccountSliceProps {
 	user: UserType | null;
-	properties: PropertyType[] | [];
+	properties: PropertyListType;
 	propertyDetails: PropertyType | null;
 }

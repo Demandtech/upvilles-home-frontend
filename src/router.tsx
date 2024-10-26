@@ -1,14 +1,19 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
-import AccountLayout from "./components/layouts/AccountLayout";
-import AuthLayout from "./components/layouts/AuthLayout";
+import DashboardLayout from "./components/layouts/dashboard/DashboardLayout";
+import AuthLayout from "./components/layouts/auth/AuthLayout";
 import {
 	PropertyDetails,
-	Properties,
+	Dashboard,
 	Home,
 	PageNotFound,
 	Login,
 	Signup,
 	ResetPassword,
+	Maintenance,
+	Settings,
+	Report,
+	Support,
+	Notification,
 } from "./pages";
 
 const routes: RouteObject[] = [
@@ -38,12 +43,32 @@ const routes: RouteObject[] = [
 	},
 
 	{
-		path: "/account",
-		element: <AccountLayout />,
+		path: "/dashboard",
+		element: <DashboardLayout />,
 		children: [
 			{
 				path: "properties",
-				element: <Properties />,
+				element: <Dashboard />,
+			},
+			{
+				path: "maintenance",
+				element: <Maintenance />,
+			},
+			{
+				path: "notification",
+				element: <Notification />,
+			},
+			{
+				path: "support",
+				element: <Support />,
+			},
+			{
+				path: "report",
+				element: <Report />,
+			},
+			{
+				path: "settings",
+				element: <Settings />,
 			},
 			{
 				path: "properties/:id",

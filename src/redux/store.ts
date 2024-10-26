@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import accountReducer from "./slices/account";
+import stateReducer from "./slices/state";
 
 const store = configureStore({
 	reducer: {
 		account: accountReducer,
+		state: stateReducer,
 	},
 });
 

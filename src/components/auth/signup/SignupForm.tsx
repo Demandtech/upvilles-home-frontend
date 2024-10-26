@@ -2,11 +2,14 @@ import { FC, useState } from "react";
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
 import { Checkbox } from "@nextui-org/checkbox";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signupSchema } from "../../../utils/schemas/auth";
 import { useForm, yupResolver } from "../../../configs/services";
+import { EyeFilledIcon } from "../../svgs";
 
 const SignupForm: FC = () => {
+	const navigate = useNavigate();
+
 	const [isLoading, setIsLoading] = useState(false);
 	const {
 		register,
@@ -18,6 +21,7 @@ const SignupForm: FC = () => {
 
 	function submitForm(data: any) {
 		console.log(data);
+		navigate("/dashboard/properties");
 	}
 
 	return (
@@ -32,6 +36,7 @@ const SignupForm: FC = () => {
 						required={true}
 						register={register}
 						error={errors.name?.message}
+						type="text"
 					/>
 					<Input
 						label="Email Address"
@@ -41,6 +46,7 @@ const SignupForm: FC = () => {
 						required={true}
 						register={register}
 						error={errors.email?.message}
+						type="text"
 					/>
 					<Input
 						label="Phone number"
@@ -50,6 +56,7 @@ const SignupForm: FC = () => {
 						required={false}
 						register={register}
 						error={errors.phone?.message}
+						type="text"
 					/>
 					<Input
 						label="Company name"
@@ -59,6 +66,7 @@ const SignupForm: FC = () => {
 						required={false}
 						register={register}
 						error={errors.company?.message}
+						type="text"
 					/>
 					<Input
 						name="password"
@@ -68,6 +76,17 @@ const SignupForm: FC = () => {
 						required={true}
 						register={register}
 						error={errors.password?.message}
+						type="password"
+						endContent={
+							<Button
+								className="bg-transparent rounded-full"
+								size="sm"
+								type="button"
+								isIconOnly
+							>
+								<EyeFilledIcon />
+							</Button>
+						}
 					/>
 					<Input
 						name="confirmPassword"
@@ -77,6 +96,17 @@ const SignupForm: FC = () => {
 						required={true}
 						register={register}
 						error={errors.confirmPassword?.message}
+						type="password"
+						endContent={
+							<Button
+								className="bg-transparent rounded-full"
+								size="sm"
+								type="button"
+								isIconOnly
+							>
+								<EyeFilledIcon />
+							</Button>
+						}
 					/>
 				</div>
 				<div className="mt-3">
@@ -84,7 +114,7 @@ const SignupForm: FC = () => {
 						classNames={{
 							base: "border-none",
 							icon: "text-white",
-							wrapper: "bg-white",
+							wrapper: "bg-white/80",
 						}}
 						className="border-none"
 						color="primary"

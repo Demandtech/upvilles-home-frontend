@@ -1,11 +1,13 @@
 import Button from "../../ui/Button";
 import { FC, useState } from "react";
 import Input from "../../ui/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "../../../utils/schemas/auth";
 import { useForm, yupResolver } from "../../../configs/services";
+import { EyeFilledIcon } from "../../svgs";
 
 const LoginForm: FC = () => {
+	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
 	const {
 		register,
@@ -17,6 +19,7 @@ const LoginForm: FC = () => {
 
 	function submitForm(data: any) {
 		console.log(data);
+		navigate("/dashboard/properties");
 	}
 
 	return (
@@ -31,6 +34,7 @@ const LoginForm: FC = () => {
 						required={true}
 						register={register}
 						error={errors.email?.message}
+						type="text"
 					/>
 
 					<Input
@@ -41,6 +45,17 @@ const LoginForm: FC = () => {
 						required={true}
 						register={register}
 						error={errors.password?.message}
+						type="password"
+						endContent={
+							<Button
+								className="bg-transparent rounded-full"
+								size="sm"
+								type="button"
+								isIconOnly
+							>
+								<EyeFilledIcon />
+							</Button>
+						}
 					/>
 				</div>
 				<div className="text-end mt-1">

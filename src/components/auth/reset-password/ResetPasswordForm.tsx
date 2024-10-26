@@ -1,11 +1,12 @@
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { resetPasswordSchema } from "../../../utils/schemas/auth";
 import { useForm, yupResolver } from "../../../configs/services";
 import { useState } from "react";
 
 const ResetPasswordForm = () => {
+	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
 	const {
 		register,
@@ -17,6 +18,7 @@ const ResetPasswordForm = () => {
 
 	function submitForm(data: any) {
 		console.log(data);
+		navigate("/auth/login");
 	}
 	return (
 		<form

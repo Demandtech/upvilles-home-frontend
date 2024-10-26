@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { LogoSvg } from "../svgs";
-import Button from "../ui/Button";
+import { LogoSvg } from "../../svgs";
+import Button from "../../ui/Button";
 import {
 	Navbar,
 	NavbarBrand,

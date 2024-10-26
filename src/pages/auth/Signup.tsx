@@ -3,12 +3,9 @@ import { Link } from "react-router-dom";
 import SignupForm from "../../components/auth/signup/SignupForm";
 
 const Signup: FC = () => {
-	function submitForm() {
-		console.log("Sign up...");
-	}
 	return (
 		<div>
-			<SignupForm submitForm={submitForm} />
+			<SignupForm />
 
 			<p className="text-center mt-10">
 				Already have an account?{" "}

@@ -6,9 +6,9 @@ export const loginSchema: yup.ObjectSchema<{
 }> = yup.object().shape({
 	email: yup
 		.string()
+		.required("Email is required")
 		.label("Email")
-		.email("Invalid email format")
-		.required("Email is required"),
+		.email("Invalid email format"),
 	password: yup
 		.string()
 		.required("Password is required")
@@ -60,4 +60,10 @@ export const resetPasswordSchema: yup.ObjectSchema<{ email: string }> = yup
 			.string()
 			.required("Email is required")
 			.email("Enter a valid email"),
+	});
+
+export const searchSchema: yup.ObjectSchema<{ search: string }> = yup
+	.object()
+	.shape({
+		search: yup.string().required("Search field is required"),
 	});

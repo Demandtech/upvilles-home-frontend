@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { LogoSvg, FacebookIconSvg, InstagramIconSvg } from "../svgs";
+import { LogoSvg, FacebookIconSvg, InstagramIconSvg } from "../../svgs";
 
 const Footer: FC = () => {
 	return (

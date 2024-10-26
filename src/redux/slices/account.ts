@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { propertyData } from "../../utils/dummy-data";
 import {
 	AccountSliceProps,
 	PropertyType,
 	UserType,
 	PropertyListType,
-} from "../../types";
+} from "../../types/account";
 
 const initialState: AccountSliceProps = {
 	user: null,
-	properties: [],
+	properties: propertyData,
 	propertyDetails: null,
 };
 

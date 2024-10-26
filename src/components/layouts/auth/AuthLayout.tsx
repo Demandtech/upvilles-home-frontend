@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { FC } from "react";
-import { WhiteLogoSvg } from "../svgs";
+import { WhiteLogoSvg } from "../../svgs";
 
 const AuthLayout: FC = () => {
 	const { pathname } = useLocation();

@@ -14,6 +14,8 @@ export default ({
 	ariaLabel,
 	isIconOnly = false,
 	isLoading = false,
+	startContent,
+	endContent,
 }: {
 	children: ReactNode;
 	type: "button" | "submit" | "reset" | undefined;
@@ -40,6 +42,8 @@ export default ({
 	ariaLabel?: string;
 	isIconOnly?: boolean;
 	isLoading?: boolean;
+	startContent?: ReactNode;
+	endContent?: ReactNode;
 }) => {
 	return (
 		<div>
@@ -57,6 +61,8 @@ export default ({
 					cursor: "pointer",
 				}}
 				isLoading={isLoading}
+				startContent={startContent}
+				endContent={endContent}
 			>
 				{children}
 			</Button>
