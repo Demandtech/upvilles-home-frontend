@@ -9,6 +9,8 @@ const PropertyDetials: FC = () => {
 	const dispatch = useDispatch();
 	const { id } = useParams();
 
+	console.log(id)
+
 	useEffect(() => {
 		dispatch(setTitle("Property Details"));
 	}, []);
