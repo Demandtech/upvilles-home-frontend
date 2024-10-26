@@ -34,6 +34,7 @@ const ResetPasswordForm = () => {
 					required={true}
 					register={register}
 					error={errors?.email?.message}
+					type="text"
 				/>
 				<Button
 					onPress={submitForm}
