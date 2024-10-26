@@ -10,7 +10,7 @@ import Footer from "../../components/layouts/public/Footer";
 
 const Home: FC = () => {
 	return (
-		<>
+		<div className="max-w-[1440px] mx-auto">
 			<Header />
 			<main className="mx-auto">
 				<Hero />
@@ -21,7 +21,7 @@ const Home: FC = () => {
 				<Ready />
 				<Footer />
 			</main>
-		</>
+		</div>
 	);
 };
 
