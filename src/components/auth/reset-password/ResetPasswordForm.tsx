@@ -18,6 +18,7 @@ const ResetPasswordForm = () => {
 
 	function submitForm(data: any) {
 		console.log(data);
+		setIsLoading(true)
 		navigate("/auth/login");
 	}
 	return (
