@@ -20,6 +20,7 @@ const SignupForm: FC = () => {
 	});
 
 	function submitForm(data: any) {
+		setIsLoading(true)
 		console.log(data);
 		navigate("/dashboard/properties");
 	}
