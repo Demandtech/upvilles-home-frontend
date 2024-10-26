@@ -22,7 +22,7 @@ export default function Header() {
 			<NavbarContent className="flex gap-4 !justify-end">
 				<NavbarItem>
 					<Button
-						className=" md:px-10"
+						className="px-10"
 						size="sm"
 						disabled={false}
 						color="primary"
@@ -40,7 +40,7 @@ export default function Header() {
 						disabled={false}
 						color="default"
 						type="button"
-						className="md:px-10 border-1"
+						className="px-10 border-1"
 						ariaLabel="Sign up navigation button"
 						onPress={() => navigate("/auth/signup")}
 					>
