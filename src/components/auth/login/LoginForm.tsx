@@ -19,7 +19,9 @@ const LoginForm: FC = () => {
 
 	function submitForm(data: any) {
 		console.log(data);
+		setIsLoading(true)
 		navigate("/dashboard/properties");
+
 	}
 
 	return (
