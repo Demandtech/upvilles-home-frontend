@@ -9,7 +9,7 @@ import {
 	CameraIcon,
 	EditIconSvg,
 } from "../../svgs";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Button from "../../ui/Button";
 import { Avatar } from "@nextui-org/avatar";
 
@@ -18,7 +18,9 @@ const Sidebar = () => {
 	return (
 		<div className="p-5 h-full flex gap-7 flex-col w-full">
 			<div className="flex justify-center">
-				<WhiteLogoSvg className="w-[200px] h-[100px]" />
+				<Link to="/">
+					<WhiteLogoSvg className="w-[200px] h-[100px]" />
+				</Link>
 			</div>
 			<div className="flex items-center flex-col">
 				<div className="relative w-24 h-24 rounded-full">

@@ -1,5 +1,6 @@
-export { default as Dashboard } from "./dashboard/Properties";
-export { default as PropertyDetails } from "./dashboard/PropertyDetials";
+export { default as Properties } from "./dashboard/properties/Properties";
+export { default as PropertyDetails } from "./dashboard/properties/PropertyDetials";
+export {default as ManageProperty} from "./dashboard/properties/ManageProperty";
 export { default as Home } from "./public/Home";
 export { default as PageNotFound } from "./public/PageNotFound";
 export { default as Login } from "./auth/Login";

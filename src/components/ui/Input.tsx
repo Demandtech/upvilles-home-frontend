@@ -1,5 +1,5 @@
 import { Input } from "@nextui-org/input";
-import { ChangeEventHandler, ReactNode } from "react";
+import { InputProps } from "../../types/common";
 
 export default ({
 	placeholder,
@@ -12,30 +12,18 @@ export default ({
 	startContent,
 	endContent,
 	type,
-	onChange,
-
-	value,
-}: {
-	placeholder: string;
-	size: "sm" | "md" | "lg" | undefined;
-	label?: string;
-	name: string;
-	required?: boolean;
-	register?: any;
-	error?: string | undefined | null;
-	startContent?: ReactNode;
-	endContent?: ReactNode;
-	type: string;
-	onChange?: ChangeEventHandler;
-	value?: string;
-}) => {
+	optionalColor="text-white/80"
+}: InputProps) => {
 	return (
 		<div>
 			{label && (
 				<label className="mb-1 block" htmlFor={name}>
 					{label}
 					{!required && (
-						<span className="text-white/80 font-light"> (Optional) </span>
+						<span className={`${optionalColor} text-xs font-light`}>
+							{" "}
+							(Optional){" "}
+						</span>
 					)}
 					:
 				</label>
@@ -43,10 +31,10 @@ export default ({
 			<Input
 				id={name}
 				classNames={{
-					inputWrapper: "rounded-md bg-white",
+					inputWrapper: "rounded-md",
+					input: "bg-red",
 					label: "text-white",
 				}}
-				value={value && value}
 				size={size}
 				placeholder={placeholder}
 				labelPlacement="outside"
@@ -56,7 +44,6 @@ export default ({
 				endContent={endContent && endContent}
 				startContent={startContent && startContent}
 				type={type}
-				onChange={onChange}
 			/>
 		</div>
 	);

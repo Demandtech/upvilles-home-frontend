@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import accountReducer from "./slices/account";
-import stateReducer from "./slices/state";
+import stateReducer from "./slices/app";
 
 const store = configureStore({
 	reducer: {

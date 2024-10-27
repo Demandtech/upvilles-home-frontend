@@ -18,7 +18,7 @@ const ResetPasswordForm = () => {
 
 	function submitForm(data: any) {
 		console.log(data);
-		setIsLoading(true)
+		setIsLoading(true);
 		navigate("/auth/login");
 	}
 	return (
@@ -38,7 +38,6 @@ const ResetPasswordForm = () => {
 					type="text"
 				/>
 				<Button
-					onPress={submitForm}
 					size="lg"
 					className="w-full bg-white text-default"
 					type="submit"

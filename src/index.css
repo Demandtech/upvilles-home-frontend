@@ -24,3 +24,28 @@ html {
 .active {
 	background: hsla(255, 100%, 100%, 0.1);
 }
+
+/* Extend Tailwind CSS for custom scrollbar styles */
+@layer utilities {
+	.scrollbar-thin {
+		scrollbar-width: thin;
+	}
+	.scrollbar-rounded {
+		scrollbar-width: thin;
+		scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+	}
+	.scrollbar-rounded::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+	.scrollbar-rounded::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	.scrollbar-rounded::-webkit-scrollbar-thumb {
+		background-color: rgba(255, 255, 255, 0.1);
+		border-radius: 8px;
+	}
+	.scrollbar-rounded::-webkit-scrollbar-thumb:hover {
+		background-color:rgba(255, 255, 255, 0.3); 
+	}
+}

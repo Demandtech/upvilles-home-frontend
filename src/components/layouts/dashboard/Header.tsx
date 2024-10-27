@@ -1,28 +1,49 @@
-import { useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import Button from "../../ui/Button";
-import Input from "../../ui/Input";
-import { NotificationIconSvg, SearchIconSvg } from "../../svgs";
+import { Input } from "@nextui-org/input";
+import { NotificationIconSvg, SearchIconSvg, ArrowBack } from "../../svgs";
 import { debounce } from "../../../utils/debounce";
+import { useNavigate } from "react-router-dom";
 
-const Header = ({ title }: { title: string }) => {
+const Header = ({ title, showIcon }: { title: string; showIcon: boolean }) => {
 	const [searchValue, setSearchValue] = useState("");
+	const navigate = useNavigate();
 
-	const handleSearch = useCallback(
-		debounce(async (data: any) => {
-			setSearchValue(data);
-		}, 500),
-		[]
-	);
+	async function searchDate(query: string) {
+		setSearchValue(query);
+	}
 
-	function handleChange(event: any) {
+	const handleSearch = useCallback(debounce(searchDate, 500), []);
+
+	function handleChange(event: ChangeEvent<HTMLInputElement>) {
 		handleSearch(event.target.value);
 	}
 
 	return (
-		<div className="bg-lightBg px-3 py-3 sm:py-5 sm:px-5 sticky top-0 z-10">
+		<div
+			id="dashboard-header"
+			className="bg-lightBg px-3 py-3 sm:py-5 sm:px-5 sticky top-0 z-40"
+		>
 			<div className="flex gap-3 justify-between items-center">
-				<div>
-					<h6 className="font-semibold md:text-lg lg:min-w-28">{title}</h6>
+				<div className="flex items-center">
+					{showIcon && (
+						<Button
+							type="button"
+							variant="light"
+							size="sm"
+							className="bg-transparent text-default justify-start px-0 min-w-[30px] pr-5"
+							onPress={() => navigate(-1)}
+						>
+							<ArrowBack />
+						</Button>
+					)}
+					<p
+						className={`font-semibold  md:text-lg lg:min-w-28 text-nowrap ${
+							showIcon ? "hidden sm:block" : "block"
+						}`}
+					>
+						{title}
+					</p>
 				</div>
 				<div className="w-full max-w-sm">
 					<Input
