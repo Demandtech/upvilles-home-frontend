@@ -31,6 +31,7 @@ export interface ButtonProps {
 	isLoading?: boolean;
 	startContent?: ReactNode;
 	endContent?: ReactNode;
+	onClick?: () => void;
 }
 
 export interface InputProps {

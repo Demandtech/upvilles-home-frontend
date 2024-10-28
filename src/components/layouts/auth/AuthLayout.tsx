@@ -11,9 +11,9 @@ const AuthLayout: FC = () => {
 				<div className="max-w-[600px] h-full overflow-auto p-5 mx-auto scrollbar-hide">
 					<div className="flex flex-col gap-1 items-center">
 						<Link to="/">
-							<WhiteLogoSvg className="w-[200px] h-[100px]" />
+							<WhiteLogoSvg className="w-32 h-16 lg:w-[200px] lg:h-[100px]" />
 						</Link>
-						<h5 className="font-semibold text-2xl text-center">
+						<h5 className="font-semibold text-lg lg:text-2xl text-center">
 							{pathname.includes("signup") &&
 								"Create Your Upville Homes Account"}
 							{pathname.includes("login") &&
@@ -21,7 +21,7 @@ const AuthLayout: FC = () => {
 							{pathname.includes("reset-password") &&
 								"Forgot Your Upville Homes password?"}
 						</h5>
-						<p className="text-sm text-center text-white/80">
+						<p className="text-xs sm:text-sm text-center text-white/80">
 							{pathname.includes("signup") &&
 								"Join Upvile Homes Today and Simplify Your Property Management Journey."}
 							{pathname.includes("login") &&

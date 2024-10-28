@@ -12,12 +12,12 @@ export default ({
 	startContent,
 	endContent,
 	type,
-	optionalColor="text-white/80"
+	optionalColor = "text-white/80",
 }: InputProps) => {
 	return (
 		<div>
 			{label && (
-				<label className="mb-1 block" htmlFor={name}>
+				<label className="mb-1 block text-sm" htmlFor={name}>
 					{label}
 					{!required && (
 						<span className={`${optionalColor} text-xs font-light`}>
@@ -44,6 +44,7 @@ export default ({
 				endContent={endContent && endContent}
 				startContent={startContent && startContent}
 				type={type}
+				autoComplete="off"
 			/>
 		</div>
 	);

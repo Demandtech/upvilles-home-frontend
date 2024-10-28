@@ -15,6 +15,7 @@ const MyButton = ({
 	isLoading = false,
 	startContent,
 	endContent,
+	onClick,
 }: ButtonProps) => {
 	return (
 		<div>
@@ -24,7 +25,7 @@ const MyButton = ({
 				// disabled={true}
 				color={color}
 				type={type}
-				className={`rounded-md ${className}`}
+				className={`rounded-md text-sm ${className}`}
 				onPress={onPress}
 				aria-label={ariaLabel}
 				isIconOnly={isIconOnly}
@@ -35,6 +36,7 @@ const MyButton = ({
 				startContent={startContent}
 				endContent={endContent}
 				isDisabled={disabled}
+				onClick={onClick}
 			>
 				{children}
 			</Button>

@@ -20,7 +20,7 @@ const SignupForm: FC = () => {
 	});
 
 	function submitForm(data: any) {
-		setIsLoading(true)
+		setIsLoading(true);
 		console.log(data);
 		navigate("/dashboard/properties");
 	}
@@ -122,7 +122,7 @@ const SignupForm: FC = () => {
 						{...register("termCondition")}
 						isInvalid={!!errors.termCondition?.message}
 					>
-						<div className="text-white/80">
+						<div className="text-sm text-white/80">
 							I agree to the Terms of
 							<Link className="underline text-white" to="#">
 								{" "}

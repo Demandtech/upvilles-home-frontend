@@ -11,10 +11,10 @@ const Hero: FC = () => {
 		<section className="bg-secondary pb-10 md:pb-0">
 			<div className="flex flex-col-reverse md:items-center md:gap-10 lg:flex-row bg-secondary max-w-[1220px] mx-auto md:px-6">
 				<div className="w-full space-y-5 px-6 md:px-0">
-					<h1 className="text-3xl md:text-[3.1rem] font-semibold md:leading-[60px]">
+					<h1 className="text-2xl md:text-[3.1rem] font-semibold md:leading-[60px]">
 						Streamline Your Property Management with Upville Homes.
 					</h1>
-					<p className="text-accent">
+					<p className="text-base text-accent">
 						Effortlessly manage your assets, reduce downtime, and stay compliant
 						with a comprehensive web-based platform tailored for property owners
 						and managers in Nigeria
@@ -22,7 +22,6 @@ const Hero: FC = () => {
 					<Button
 						variant="solid"
 						size="lg"
-						disabled={true}
 						color="primary"
 						type="button"
 						className="px-16 border-1"

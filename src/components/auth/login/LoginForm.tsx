@@ -9,6 +9,7 @@ import { EyeFilledIcon } from "../../svgs";
 const LoginForm: FC = () => {
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
+	
 	const {
 		register,
 		handleSubmit,
