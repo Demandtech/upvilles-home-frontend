@@ -24,11 +24,11 @@ const SignupForm: FC = () => {
 
   function submitForm(data: {
     name: string;
-    password: string;
     email: string;
+    company?: string;
+    phone?: string;
+    password: string;
     confirmPassword: string;
-    company: string | undefined;
-    phone: string;
   }) {
     setIsLoading(true);
     console.log(data);
@@ -87,7 +87,7 @@ const SignupForm: FC = () => {
             required={true}
             register={register}
             error={errors.password?.message}
-            type={showPassword ? "text" : "password"}
+            type={showPassword.password ? "text" : "password"}
             endContent={
               <Button
                 className="bg-transparent rounded-full"
@@ -117,7 +117,7 @@ const SignupForm: FC = () => {
             required={true}
             register={register}
             error={errors.confirmPassword?.message}
-            type="password"
+            type={showPassword.confirmPassword ? "text" : "password"}
             endContent={
               <Button
                 className="bg-transparent rounded-full"
@@ -131,7 +131,11 @@ const SignupForm: FC = () => {
                   }))
                 }
               >
-                <EyeFilledIcon />
+                {showPassword.confirmPassword ? (
+                  <EyeSlashFilledIcon />
+                ) : (
+                  <EyeFilledIcon />
+                )}
               </Button>
             }
           />

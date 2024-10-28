@@ -2,8 +2,9 @@ import { createBrowserRouter, RouteObject } from "react-router-dom";
 import DashboardLayout from "./components/layouts/dashboard/DashboardLayout";
 import AuthLayout from "./components/layouts/auth/AuthLayout";
 import {
+	Properties,
+	ManageProperty,
 	PropertyDetails,
-	Dashboard,
 	Home,
 	PageNotFound,
 	Login,
@@ -48,8 +49,17 @@ const routes: RouteObject[] = [
 		children: [
 			{
 				path: "properties",
-				element: <Dashboard />,
+				element: <Properties />,
 			},
+			{
+				path: "properties/manage",
+				element: <ManageProperty />,
+			},
+			{
+				path: "properties/:id",
+				element: <PropertyDetails />,
+			},
+
 			{
 				path: "maintenance",
 				element: <Maintenance />,
@@ -69,10 +79,6 @@ const routes: RouteObject[] = [
 			{
 				path: "settings",
 				element: <Settings />,
-			},
-			{
-				path: "properties/:id",
-				element: <PropertyDetails />,
 			},
 		],
 	},

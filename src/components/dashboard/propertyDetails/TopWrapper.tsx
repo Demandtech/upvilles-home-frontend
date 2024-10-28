@@ -1,11 +1,14 @@
 import { ImageGallery, PropertyInfo } from ".";
 
-const TopWrapper = () => {
+const TopWrapper = ({ id }: { id: number }) => {
 	return (
-		<div className="bg-lightBg py-8 px-4 rounded-xl flex gap-5 md:gap-10 flex-col md:flex-row">
+		<section
+			id="property-section"
+			className="bg-lightBg py-8 px-4 rounded-xl flex gap-5 md:gap-8 flex-col lg:flex-row lg:items-center"
+		>
 			<ImageGallery />
-			<PropertyInfo />
-		</div>
+			<PropertyInfo id={id} />
+		</section>
 	);
 };
 

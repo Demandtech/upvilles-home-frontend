@@ -5,14 +5,14 @@ import {
 	ComplianceIconSvg,
 	EhnaceIconSvg,
 	ComprehensiveIconSvg,
-} from "../svgs";
+} from "../../svgs";
 
 const Features: FC = () => {
 	return (
-		<section className="bg-lightGrey py-16">
-			<div className="max-w-[1220px] gap-10  mx-auto px-6 flex flex-col lg:flex-row">
+		<section className="bg-lightGrey py-10 lg:py-14">
+			<div className="max-w-[1220px] gap-6 lg:gap-10  mx-auto px-6 flex flex-col lg:flex-row">
 				<div className="lg:w-2/5 md:pr-5 lg:pr-10 flex flex-col">
-					<h2 className="text-3xl w-full md:text-4xl font-medium">
+					<h2 className="text-xl w-full md:text-4xl font-medium">
 						Powerful Features to Simplify Your Property Management
 					</h2>
 					<div className="hidden lg:block mt-auto">
@@ -22,15 +22,19 @@ const Features: FC = () => {
 				<div className="grid  md:grid-cols-2 flex-1 gap-3">
 					<div className="bg-white space-y-3 p-5 rounded-lg">
 						<PredictiveIconSvg />
-						<h3 className="font-semibold text-lg">Predictive Maintenance</h3>
-						<p className="text-accent text-sm">
+						<h3 className="font-semibold text-base md:text-lg">
+							Predictive Maintenance
+						</h3>
+						<p className="text-accent text-xs md:text-sm">
 							Avoid unexpected breakdowns with proactive maintenance scheduling
 							based on data-driven insights.
 						</p>
 					</div>
 					<div className="bg-white space-y-3 p-5 rounded-lg">
 						<ComplianceIconSvg />
-						<h3 className="font-semibold md:text-lg">Compliance Tracking</h3>
+						<h3 className="font-semibold text-base md:text-lg">
+							Compliance Tracking
+						</h3>
 						<p className="text-accent text-sm  ">
 							Stay on top of regulatory requirements and minimize audit risks
 							with automated compliance management.
@@ -38,7 +42,7 @@ const Features: FC = () => {
 					</div>
 					<div className="bg-white space-y-3 p-5 rounded-lg">
 						<EhnaceIconSvg />
-						<h3 className="font-semibold md:text-lg">
+						<h3 className="font-semibold text-base md:text-lg">
 							Enhanced Security Management
 						</h3>
 						<p className="text-accent text-sm">

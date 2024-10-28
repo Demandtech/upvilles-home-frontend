@@ -1,6 +1,6 @@
 import { FC } from "react";
-import Button from "../ui/Button";
-import { EmailIconSvg, AddressIconSvg, PhoneIconSvg } from "../svgs";
+import Button from "../../ui/Button";
+import { EmailIconSvg, AddressIconSvg, PhoneIconSvg } from "../../svgs";
 import { useNavigate } from "react-router-dom";
 
 const Ready: FC = () => {
@@ -33,7 +33,9 @@ const Ready: FC = () => {
 								<EmailIconSvg />
 							</div>
 							<div>
-								<h3 className="font-semibold text-base mb-0.5">Email</h3>
+								<h3 className="font-semibold text-sm md:text-base mb-0.5">
+									Email
+								</h3>
 								<p className="text-white/80 text-xs sm:text-sm">
 									upvillehomes@gmail.com
 								</p>
@@ -44,7 +46,9 @@ const Ready: FC = () => {
 								<PhoneIconSvg />
 							</div>
 							<div>
-								<h3 className="font-semibold text-base mb-0.5">Phone</h3>
+								<h3 className="font-semibold text-sm md:text-base mb-0.5">
+									Phone
+								</h3>
 								<p className="text-white/80 text-xs sm:text-sm">
 									+234 8109 7891 45
 								</p>
@@ -55,7 +59,9 @@ const Ready: FC = () => {
 								<AddressIconSvg />
 							</div>
 							<div>
-								<h3 className="font-semibold text-lg mb-0.5">Address</h3>
+								<h3 className="font-semibold text-sm md:text-base mb-0.5">
+									Address
+								</h3>
 								<p className="text-white/80 text-xs sm:text-sm">
 									1, Old Olowora, Omole Phase 1, Ojodu Berger, Lagos Nigeria.
 								</p>

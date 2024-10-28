@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setTitle } from "../../redux/slices/state";
+import { setTitle } from "../../redux/slices/app";
 
 const Settings = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(setTitle("Settings"));
+		dispatch(setTitle({title:"Settings", showIcon:false}));
 	}, []);
 	return <div>Settings</div>;
 };

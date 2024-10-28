@@ -1,9 +1,9 @@
 import { FC } from "react";
-import img1 from "../../assets/images/exp-img1.png";
-import img2 from "../../assets/images/exp-img2.png";
-import img3 from "../../assets/images/exp-img3.png";
-import ListItem from "../common/ListItem";
-import Button from "../ui/Button";
+import img1 from "../../../assets/images/exp-img1.png";
+import img2 from "../../../assets/images/exp-img2.png";
+import img3 from "../../../assets/images/exp-img3.png";
+import ListItem from "../../common/ListItem";
+import Button from "../../ui/Button";
 import { useNavigate } from "react-router-dom";
 
 const experiences: string[] = [
@@ -46,7 +46,7 @@ const Experience: FC = () => {
 				</div>
 
 				<div className="w-full lg:w-2/6 space-y-5">
-					<h2 className="text-3xl md:text-4xl font-medium">
+					<h2 className="text-xl md:text-4xl font-medium">
 						Experience the Benefits of a Smarter Property Management Solution
 					</h2>
 					<ul className="space-y-3">
@@ -55,7 +55,6 @@ const Experience: FC = () => {
 						))}
 					</ul>
 					<Button
-						disabled={false}
 						type="button"
 						className="px-16"
 						color="primary"

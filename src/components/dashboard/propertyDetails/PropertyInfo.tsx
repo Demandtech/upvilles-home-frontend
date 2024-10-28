@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { CheckIconSvg, LocationIconSvg, DescriptionIconSvg } from "../../svgs";
 import Button from "../../ui/Button";
 
@@ -9,9 +10,15 @@ const sideAttractions: string[] | [] = [
 	"Kitchen Cabinets",
 	"Microwave",
 ];
-const PropertyInfo = () => {
+const PropertyInfo = ({ id }: { id: number }) => {
+	const navigate = useNavigate();
+
+	function handleNavigate() {
+		navigate(`/dashboard/properties/manage?id=${id}`);
+	}
+
 	return (
-		<div className="w-full md:w-3/6 flex flex-col gap-4 md:px-5">
+		<div className="w-full lg:w-3/6 flex flex-col gap-4 lg:px-5">
 			<div>
 				<h4 className="text-darkGrey font-semibold mb-2">
 					Property Information
@@ -41,7 +48,7 @@ const PropertyInfo = () => {
 			</div>
 			<div>
 				<h4 className="text-darkGrey font-semibold mb-2">Side Attraction</h4>
-				<ul className="grid grid-cols-2 gap-1">
+				<ul className="grid grid-cols-2 gap-2">
 					{sideAttractions.map((item) => {
 						return (
 							<li className="text-sm flex items-center gap-2" key={item}>
@@ -53,7 +60,12 @@ const PropertyInfo = () => {
 				</ul>
 			</div>
 			<div className="flex flex-col gap-3">
-				<Button type="button" size="md" className="w-full rounded-md">
+				<Button
+					onPress={handleNavigate}
+					type="button"
+					size="md"
+					className="w-full rounded-md"
+				>
 					Edit Property Details
 				</Button>
 				<Button

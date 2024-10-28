@@ -1,6 +1,7 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { FC } from "react";
-import { WhiteLogoSvg } from "../../svgs";
+import { Image } from "@nextui-org/image";
+import whitelogo from "../../../assets/images/white-logo.png";
 
 const AuthLayout: FC = () => {
   const { pathname } = useLocation();
@@ -11,9 +12,9 @@ const AuthLayout: FC = () => {
         <div className="max-w-[600px] h-full overflow-auto p-5 mx-auto scrollbar-hide">
           <div className="flex flex-col gap-1 items-center">
             <Link to="/">
-              <WhiteLogoSvg className="w-[60px] h-[50px] md:w-[122px] md:h-[86px]" />
+              <Image src={whitelogo} className="w-32 lg:w-[200px]" />
             </Link>
-            <h5 className="font-semibold text-lg md:text-2xl text-center">
+            <h5 className="font-semibold text-lg lg:text-2xl text-center">
               {pathname.includes("signup") &&
                 "Create Your Upville Homes Account"}
               {pathname.includes("login") &&

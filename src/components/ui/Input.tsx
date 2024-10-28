@@ -1,28 +1,29 @@
 import { Input } from "@nextui-org/input";
+import { InputProps } from "../../types/common";
 
-import { InputProps } from "../../types/commont";
-import { FieldValues } from "react-hook-form";
-
-const MyInput = <TFieldValues extends FieldValues>({
+export default function MyInput({
   placeholder,
-  size = "md",
+  size,
   label,
   name,
-  required = false,
+  required,
   register,
   error,
   startContent,
   endContent,
-  type = "text",
-  ...rest
-}: InputProps<TFieldValues>) => {
+  type,
+  optionalColor = "text-white/80",
+}: InputProps) {
   return (
     <div>
       {label && (
-        <label className="mb-1 block" htmlFor={name}>
+        <label className="mb-1 block text-sm" htmlFor={name}>
           {label}
           {!required && (
-            <span className="text-white/80 font-light"> (Optional) </span>
+            <span className={`${optionalColor} text-xs font-light`}>
+              {" "}
+              (Optional){" "}
+            </span>
           )}
           :
         </label>
@@ -30,7 +31,8 @@ const MyInput = <TFieldValues extends FieldValues>({
       <Input
         id={name}
         classNames={{
-          inputWrapper: "rounded-md bg-white",
+          inputWrapper: "rounded-md",
+          input: "bg-red",
           label: "text-white",
         }}
         size={size}
@@ -42,10 +44,8 @@ const MyInput = <TFieldValues extends FieldValues>({
         endContent={endContent && endContent}
         startContent={startContent && startContent}
         type={type}
-        {...rest}
+        autoComplete="off"
       />
     </div>
   );
-};
-
-export default MyInput;
+}
