@@ -1,5 +1,5 @@
 import { FC } from "react";
-import sectionImage from "../../assets/images/allinone-img.png";
+import sectionImage from "../../../assets/images/allinone-img.png";
 
 const AllInOne: FC = () => {
 	return (
@@ -22,9 +22,7 @@ const AllInOne: FC = () => {
 					backgroundSize: "cover",
 				}}
 				className="w-full h-[240px] md:h-[400px] rounded-2xl"
-			>
-				{/* <Image width="100%" className="object-cover" src={sectionImage} /> */}
-			</div>
+			></div>
 		</section>
 	);
 };

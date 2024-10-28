@@ -1,9 +1,9 @@
 import { FC } from "react";
-import img1 from "../../assets/images/exp-img1.png";
-import img2 from "../../assets/images/exp-img2.png";
-import img3 from "../../assets/images/exp-img3.png";
-import ListItem from "../common/ListItem";
-import Button from "../ui/Button";
+import img1 from "../../../assets/images/exp-img1.png";
+import img2 from "../../../assets/images/exp-img2.png";
+import img3 from "../../../assets/images/exp-img3.png";
+import ListItem from "../../common/ListItem";
+import Button from "../../ui/Button";
 import { useNavigate } from "react-router-dom";
 
 const experiences: string[] = [
@@ -55,7 +55,7 @@ const Experience: FC = () => {
 						))}
 					</ul>
 					<Button
-						disabled={false}
+						disabled={true}
 						type="button"
 						className="px-16"
 						color="primary"

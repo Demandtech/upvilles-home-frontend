@@ -21,7 +21,7 @@ const MyButton = ({
 			<Button
 				variant={variant}
 				size={size}
-				disabled={disabled}
+				// disabled={true}
 				color={color}
 				type={type}
 				className={`rounded-md ${className}`}
@@ -34,6 +34,7 @@ const MyButton = ({
 				isLoading={isLoading}
 				startContent={startContent}
 				endContent={endContent}
+				isDisabled={disabled}
 			>
 				{children}
 			</Button>

@@ -1,6 +1,6 @@
 import { FC } from "react";
-import Button from "../ui/Button";
-import { EmailIconSvg, AddressIconSvg, PhoneIconSvg } from "../svgs";
+import Button from "../../ui/Button";
+import { EmailIconSvg, AddressIconSvg, PhoneIconSvg } from "../../svgs";
 import { useNavigate } from "react-router-dom";
 
 const Ready: FC = () => {
@@ -23,6 +23,7 @@ const Ready: FC = () => {
 							type="submit"
 							className="bg-white text-default px-10 lg:px-16"
 							onPress={() => navigate("/auth/signup")}
+							disabled={true}
 						>
 							Get Started
 						</Button>

@@ -5,7 +5,7 @@ import {
 	ComplianceIconSvg,
 	EhnaceIconSvg,
 	ComprehensiveIconSvg,
-} from "../svgs";
+} from "../../svgs";
 
 const Features: FC = () => {
 	return (

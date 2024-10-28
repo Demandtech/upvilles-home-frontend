@@ -1,9 +1,9 @@
 import { FC } from "react";
-import img from "../../assets/images/guide-img.png";
-import ListItem from "../common/ListItem";
-import Button from "../ui/Button";
+import img from "../../../assets/images/guide-img.png";
+import ListItem from "../../common/ListItem";
+import Button from "../../ui/Button";
 import { useNavigate } from "react-router-dom";
-import { PreventIconSvg, ReduceIconSvg } from "../svgs";
+import { PreventIconSvg, ReduceIconSvg } from "../../svgs";
 
 const guides: string[] = [
 	"Create your account and set up your property portfolio.",
@@ -45,7 +45,7 @@ const GuideStep: FC = () => {
 						))}
 					</ul>
 					<Button
-						disabled={false}
+						disabled={true}
 						type="button"
 						className="px-16"
 						color="primary"

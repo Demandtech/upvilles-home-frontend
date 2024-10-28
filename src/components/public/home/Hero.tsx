@@ -1,7 +1,8 @@
 import { FC } from "react";
-import heroImg from "../../assets/images/hero-img.png";
+import heroImg from "../../../assets/images/hero-img.png";
 import { Image } from "@nextui-org/image";
-import Button from "../ui/Button";
+import Button from "../../ui/Button";
+
 import { useNavigate } from "react-router-dom";
 
 const Hero: FC = () => {
@@ -21,7 +22,7 @@ const Hero: FC = () => {
 					<Button
 						variant="solid"
 						size="lg"
-						disabled={false}
+						disabled={true}
 						color="primary"
 						type="button"
 						className="px-16 border-1"
