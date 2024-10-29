@@ -8,24 +8,24 @@ import loginReducer from "./slices/forms/login";
 import signupReducer from "./slices/forms/signup";
 
 const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["login", "signup"],
+	key: "root",
+	storage,
+	whitelist: ["login", "signup"],
 };
 
 const rootReducer = combineReducers({
-  dashboard: dashboardReducer,
-  state: stateReducer,
-  login: loginReducer,
-  signup: signupReducer,
+	app: stateReducer,
+	dashboard: dashboardReducer,
+	login: loginReducer,
+	signup: signupReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }),
+	reducer: persistedReducer,
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
