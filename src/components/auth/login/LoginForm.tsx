@@ -1,28 +1,48 @@
 import Button from "../../ui/Button";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import Input from "../../ui/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "../../../utils/schemas/auth";
 import { useForm, yupResolver } from "../../../configs/services";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "../../svgs";
+import { updateForm, resetForm } from "../../../redux/slices/forms/login";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { LoginFormState } from "../../../types/forms";
 
 const LoginForm: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const formData = useSelector((state: RootState) => state.login);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    reset,
   } = useForm({
     resolver: yupResolver(loginSchema),
+    defaultValues: formData,
   });
 
-  function submitForm(data: { email: string; password: string }) {
+  function submitForm(data: LoginFormState) {
     console.log(data);
     setIsLoading(true);
     navigate("/dashboard/properties");
+    dispatch(resetForm());
+    reset();
+    console.log(formData);
   }
+
+  const watchedFields = watch();
+
+  useEffect(() => {
+    Object.entries(watchedFields).forEach(([key, value]) => {
+      dispatch(updateForm({ field: key as keyof typeof formData, value }));
+    });
+  }, [watchedFields, dispatch]);
 
   return (
     <form className="mt-10 space-y-8" onSubmit={handleSubmit(submitForm)}>

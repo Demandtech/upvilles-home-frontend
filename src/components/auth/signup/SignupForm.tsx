@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
 import { Checkbox } from "@nextui-org/checkbox";
@@ -6,34 +6,47 @@ import { Link, useNavigate } from "react-router-dom";
 import { signupSchema } from "../../../utils/schemas/auth";
 import { useForm, yupResolver } from "../../../configs/services";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "../../svgs";
+import { SignupFormState } from "../../../types/forms";
+import { updateForm, resetForm } from "../../../redux/slices/forms/signup";
+import { useSelector, useDispatch } from "react-redux";
+import { persistor, RootState } from "../../../redux/store";
 
 const SignupForm: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState({
     password: false,
     confirmPassword: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const formData = useSelector((state: RootState) => state.signup);
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(signupSchema),
+    defaultValues: formData,
   });
 
-  function submitForm(data: {
-    name: string;
-    email: string;
-    company?: string;
-    phone?: string;
-    password: string;
-    confirmPassword: string;
-  }) {
+  console.log(formData);
+
+  const watchedFields = watch();
+
+  function submitForm(data: SignupFormState) {
     setIsLoading(true);
     console.log(data);
     navigate("/dashboard/properties");
+    dispatch(resetForm());
+    persistor.purge();
   }
+
+  useEffect(() => {
+    Object.entries(watchedFields).forEach(([key, value]) => {
+      dispatch(updateForm({ field: key as keyof typeof formData, value }));
+    });
+  }, [watchedFields, dispatch]);
 
   return (
     <form className="space-y-10 mt-10" onSubmit={handleSubmit(submitForm)}>
