@@ -5,7 +5,14 @@ import { NotificationIconSvg, SearchIconSvg, ArrowBack } from "../../svgs";
 import { debounce } from "../../../utils/debounce";
 import { useNavigate } from "react-router-dom";
 
-const Header = ({ title, showIcon }: { title: string; showIcon: boolean }) => {
+const Header = ({
+	title,
+	showIcon,
+}: {
+	title: string;
+	showIcon: boolean;
+	isAuthenticated: boolean;
+}) => {
 	const [searchValue, setSearchValue] = useState("");
 	const navigate = useNavigate();
 

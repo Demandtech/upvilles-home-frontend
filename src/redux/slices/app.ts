@@ -2,8 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: {
 	dashboardPageTitle: { title: string; showIcon: boolean };
+	toast: { message: string };
 } = {
 	dashboardPageTitle: { title: "", showIcon: false },
+	toast: { message: "" },
 };
 
 const accountSlice = createSlice({
@@ -16,8 +18,15 @@ const accountSlice = createSlice({
 		) => {
 			state.dashboardPageTitle = payload;
 		},
+
+		closeToast: (state) => {
+			state.toast = { message: "" };
+		},
+		openToast: (state, { payload }: PayloadAction<{ message: string }>) => {
+			state.toast = { message: payload.message };
+		},
 	},
 });
 
-export const { setTitle } = accountSlice.actions;
+export const { setTitle, closeToast, openToast } = accountSlice.actions;
 export default accountSlice.reducer;
