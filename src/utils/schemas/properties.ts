@@ -1,4 +1,4 @@
-import { yup } from "../../configs/services";
+import { yup } from "../../../configs/services";
 
 export const managePropertySchema = yup.object().shape({
 	title: yup.string().required("Title is required!"),

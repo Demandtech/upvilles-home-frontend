@@ -2,7 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import accountReducer from "./slices/account";
+import dashboardReducer from "./slices/dashboard";
 import stateReducer from "./slices/app";
 import loginReducer from "./slices/forms/login";
 import signupReducer from "./slices/forms/signup";
@@ -14,7 +14,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  account: accountReducer,
+  dashboard: dashboardReducer,
   state: stateReducer,
   login: loginReducer,
   signup: signupReducer,

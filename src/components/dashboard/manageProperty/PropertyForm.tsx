@@ -4,7 +4,7 @@ import Input from "../../ui/Input";
 import Select from "../../ui/Select";
 import { FileUpload } from "../../svgs";
 import Button from "../../ui/Button";
-import { useForm, yupResolver } from "../../../configs/services";
+import { useForm, yupResolver } from "../../../../configs/services";
 import { managePropertySchema } from "../../../utils/schemas/properties";
 // import { ChangeEvent, useEffect, useState } from "react";
 

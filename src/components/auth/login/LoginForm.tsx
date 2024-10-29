@@ -3,7 +3,7 @@ import { FC, useState, useEffect } from "react";
 import Input from "../../ui/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "../../../utils/schemas/auth";
-import { useForm, yupResolver } from "../../../configs/services";
+import { useForm, yupResolver } from "../../../../configs/services";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "../../svgs";
 import { updateForm, resetForm } from "../../../redux/slices/forms/login";
 import { useSelector, useDispatch } from "react-redux";

@@ -1,5 +1,5 @@
 import { Card, CardBody } from "@nextui-org/card";
-import { PropertyType } from "../../../types/account";
+import { PropertyType } from "../../../types/dashboard";
 import Button from "../../ui/Button";
 import imgTemp from "../../../assets/images/exp-img1.png";
 import { useNavigate } from "react-router-dom";
