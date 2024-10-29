@@ -10,7 +10,6 @@ import { useQuery, useMutation, UseQueryOptions } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import { AxiosResponse } from "axios";
 import { setUser } from "../../../redux/slices/dashboard";
-import { Spinner } from "@nextui-org/spinner";
 
 const DashboardLayout: FC = () => {
   const navigate = useNavigate();
@@ -34,6 +33,7 @@ const DashboardLayout: FC = () => {
   const mutation = useMutation({
     mutationFn: handleRefreshToken,
     onSuccess: (data) => {
+      console.log("Success", data);
       Cookies.set(
         "auth_token",
         JSON.stringify({
@@ -50,7 +50,8 @@ const DashboardLayout: FC = () => {
   const {
     data: authUserData,
     isLoading,
-    status,
+    isError,
+    error,
   } = useQuery<AxiosResponse, Error>({
     queryKey: ["authUser"],
     queryFn: () => {
@@ -82,17 +83,17 @@ const DashboardLayout: FC = () => {
   }, [tokens]);
 
   useEffect(() => {
-    if (status === "success" && authUserData) {
+    if (authUserData) {
       dispatch(
         setUser({
           user: authUserData.data.user,
           stats: authUserData.data.stats,
         })
       );
-    } else if (status === "error") {
-      navigate("/auth/login");
     }
-  }, [authUserData, dispatch, status, navigate]);
+  }, [authUserData, dispatch]);
+
+  console.log(error);
 
   return (
     <main
@@ -119,11 +120,7 @@ const DashboardLayout: FC = () => {
             } h-full bg-primary overflow-auto scrollbar-thin scrollbar-rounded`}
             onClick={(event) => event.stopPropagation()}
           >
-            <Sidebar
-              image_url={authUserData?.data.user.image_url}
-              name={authUserData?.data.user.name}
-              isLoading={isLoading}
-            />
+            <Sidebar />
           </div>
         </div>
         <div className="flex-1 relative h-screen overflow-auto">
@@ -131,13 +128,7 @@ const DashboardLayout: FC = () => {
             title={dashboardPageTitle.title}
             showIcon={dashboardPageTitle.showIcon}
           />
-          {isLoading ? (
-            <div className="w-full h-[calc(100vh-96px)] flex justify-center items-center">
-              <Spinner size="lg" label="Loading..." />
-            </div>
-          ) : (
-            <Outlet />
-          )}
+          {!isLoading && !isError && <Outlet />}
         </div>
       </div>
     </main>
