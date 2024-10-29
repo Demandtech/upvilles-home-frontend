@@ -15,11 +15,11 @@ const client = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={client}>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NextUIProvider>
+      <NextUIProvider>
+        <PersistGate loading={null} persistor={persistor}>
           <RouterProvider router={routes} />
-        </NextUIProvider>
-      </PersistGate>
+        </PersistGate>
+      </NextUIProvider>
     </Provider>
   </QueryClientProvider>
 );
