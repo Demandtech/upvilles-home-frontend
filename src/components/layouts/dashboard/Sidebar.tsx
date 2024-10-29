@@ -13,8 +13,17 @@ import Button from "../../ui/Button";
 import { Avatar } from "@nextui-org/avatar";
 import { Image } from "@nextui-org/image";
 import whitelogo from "../../../assets/images/white-logo.png";
+import { Spinner } from "@nextui-org/spinner";
 
-const Sidebar = () => {
+const Sidebar = ({
+  isLoading,
+  name,
+  image_url,
+}: {
+  isLoading: boolean;
+  name: string;
+  image_url: string | undefined;
+}) => {
   const navigate = useNavigate();
   return (
     <div className="p-5 h-full flex gap-7 flex-col w-full">
@@ -24,26 +33,38 @@ const Sidebar = () => {
         </Link>
       </div>
       <div className="flex items-center flex-col">
-        <div className="relative w-24 h-24 rounded-full">
-          <Avatar
-            src=""
-            color="default"
-            showFallback
-            name="Ayomide Ifeoluwa"
-            size="lg"
-            className=" text-large w-full h-full text-white/80 mb-2"
-            fallback={<CameraIcon />}
+        {isLoading ? (
+          <Spinner
+            size="sm"
+            color="warning"
+            classNames={{
+              circle1: "text-white",
+            }}
           />
-          <Button
-            className="absolute shadow-sm bg-[#003566;] -right-4 bottom-2 rounded-full"
-            isIconOnly={true}
-            type="button"
-            size="md"
-          >
-            <EditIconSvg />
-          </Button>
-        </div>
-        <p className="text-white">Ayomide Ifeoluwa</p>
+        ) : (
+          <>
+            <div className="relative w-24 h-24 rounded-full">
+              <Avatar
+                src={image_url}
+                color="default"
+                showFallback
+                name="Ayomide Ifeoluwa"
+                size="lg"
+                className=" text-large w-full h-full text-white/80 mb-2"
+                fallback={<CameraIcon />}
+              />
+              <Button
+                className="absolute shadow-sm bg-[#003566;] -right-4 bottom-2 rounded-full"
+                isIconOnly={true}
+                type="button"
+                size="md"
+              >
+                <EditIconSvg />
+              </Button>
+            </div>
+            <p className="text-white">{name}</p>
+          </>
+        )}
       </div>
       <ul className="text-white space-y-3">
         <li className="">

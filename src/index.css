@@ -20,6 +20,7 @@ html {
   --accent: 219, 13%, 46%, 1;
   --lightGrey: 210, 20%, 98%, 1;
   --danger: 3, 100%, 59%, 1;
+  --warning: 100, 100%, 100%, 1
 }
 
 .active {
