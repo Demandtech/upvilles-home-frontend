@@ -13,6 +13,7 @@ export interface UserType {
 
 export interface StatsType {
   total_properties: number;
+  total_tenants: number;
   empty_units: number;
   occupied_units: number;
 }
