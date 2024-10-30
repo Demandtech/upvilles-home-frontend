@@ -896,7 +896,7 @@ export const PlusIcon = ({
   >
     <g
       fill="none"
-      stroke="currentColor"
+      stroke="white"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}

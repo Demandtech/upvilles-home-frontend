@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Table,
   TableHeader,
@@ -8,74 +8,60 @@ import {
   TableCell,
 } from "@nextui-org/table";
 
-import { columns, tenants } from "./data";
-import {
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-} from "@nextui-org/dropdown";
-import { VerticalDotsIcon } from "../svgs";
-import Button from "../ui/Button";
+import { TableColumnType, Tenant, TableRowsType } from "../../types/common";
+import Dropdown from "../ui/Dropdown";
 
-type Tenant = (typeof tenants)[0];
+export default function MyTable({
+  columns,
+  rows,
+}: {
+  columns: Partial<TableColumnType>[];
+  rows: Partial<TableRowsType>[];
+}) {
+  const renderCell = React.useCallback(
+    (user: (typeof rows)[0], columnKey: React.Key) => {
+      const cellValue = user[columnKey as keyof Tenant];
 
-export default function MyTable() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  console.log(isOpen);
-
-  const renderCell = React.useCallback((user: Tenant, columnKey: React.Key) => {
-    const cellValue = user[columnKey as keyof Tenant];
-
-    switch (columnKey) {
-      case "actions":
-        return (
-          <div className="relative flex justify-center items-center gap-2">
-            <Dropdown isOpen={isOpen}>
-              <DropdownTrigger>
-                <Button
-                  onPress={() => setIsOpen(!isOpen)}
-                  isIconOnly
-                  size="sm"
-                  variant="light"
-                >
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              {isOpen && (
-                <DropdownMenu color="primary">
-                  <DropdownItem>View</DropdownItem>
-                  <DropdownItem>Edit</DropdownItem>
-                  <DropdownItem>Delete</DropdownItem>
-                </DropdownMenu>
-              )}
-            </Dropdown>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+      switch (columnKey) {
+        case "actions":
+          return (
+            <div className="relative flex justify-center items-center gap-2">
+              <Dropdown />
+            </div>
+          );
+        case "status":
+          return (
+            <div className="flex items-center gap-2">
+              <div
+                className={`border-2 h-4 w-4 rounded-full ${
+                  typeof cellValue === "string" && cellValue === "Completed"
+                    ? "bg-[#00D285] border-[#e2f7e4]"
+                    : cellValue === "Overdue"
+                    ? "bg-[#ff3b30] border-[#f7e8e2]"
+                    : cellValue === "Scheduled"
+                    ? "bg-[#007AFF] border-[#E3F4FD]"
+                    : ""
+                }`}
+              ></div>
+              {cellValue}
+            </div>
+          );
+        default:
+          return cellValue;
+      }
+    },
+    [rows, columns]
+  );
 
   return (
     <Table
       aria-label="Tenant table"
       isHeaderSticky
-      // bottomContent={bottomContent}
-      // bottomContentPlacement="outside"
       classNames={{
         wrapper:
-          "overflow-auto max-h-[339px] p-0 rounded-md shadow-none scrollbar-hide",
+          "overflow-auto max-h-[300px] p-0 rounded-md shadow-none scrollbar-hide",
         thead: "[&>tr]:first:shadow-none",
       }}
-      // selectedKeys={selectedKeys}
-      // selectionMode="multiple"
-      // sortDescriptor={sortDescriptor}
-      // topContent={topContent}
-      // topContentPlacement="outside"
-      // onSelectionChange={setSelectedKeys}
-      // onSortChange={setSortDescriptor}
     >
       <TableHeader className="" columns={columns}>
         {(column) => (
@@ -93,11 +79,11 @@ export default function MyTable() {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No tenant found"} items={tenants}>
+      <TableBody emptyContent={"No tenant found"} items={rows}>
         {(item) => (
           <TableRow
-            className="border-b border-[#F0F2F5] bg-[#FBFEFF]"
-            key={item.id}
+            className="border-b-2 border-[#F0F2F5] bg-[#FBFEFF]"
+            key={item._id}
           >
             {(columnKey) => (
               <TableCell className="text-nowrap">

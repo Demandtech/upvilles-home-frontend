@@ -10,4 +10,4 @@ export { default as Notification } from "./dashboard/Notification";
 export { default as Settings } from "./dashboard/Settings";
 export { default as Support } from "./dashboard/Support";
 export { default as Report } from "./dashboard/Report";
-export { default as Maintenance } from "./dashboard/Maintenance";
+export { default as Maintenance } from "./dashboard/maintenance/Maintenance";

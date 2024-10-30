@@ -15,7 +15,7 @@ const DashboardLayout: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { dashboardPageTitle } = useSelector((state: RootState) => state.state);
+  const { dashboardPageTitle } = useSelector((state: RootState) => state.app);
   const { handleRefreshToken, getAuthUser } = useAuth();
 
   const tokens = Cookies.get("auth_token");
@@ -93,7 +93,10 @@ const DashboardLayout: FC = () => {
     }
   }, [authUserData, dispatch]);
 
-  console.log(error);
+  useEffect(() => {
+    if (!error) return;
+    navigate("/auth/login");
+  }, [error, navigate]);
 
   return (
     <main

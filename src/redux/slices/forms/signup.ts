@@ -11,8 +11,8 @@ const initialState: SignupFormState = {
   termCondition: false,
 };
 
-const formSlice = createSlice({
-  name: "forms",
+const signupSlice = createSlice({
+  name: "signup",
   initialState,
   reducers: {
     updateForm: (
@@ -37,5 +37,5 @@ const formSlice = createSlice({
   },
 });
 
-export const { updateForm, resetForm } = formSlice.actions;
-export default formSlice.reducer;
+export const { updateForm, resetForm } = signupSlice.actions;
+export default signupSlice.reducer;
