@@ -4,7 +4,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@nextui-org/theme/dist/components/(avatar|button|card|checkbox|dropdown|image|input|navbar|select|table|ripple|spinner|menu|divider|popover|listbox|scroll-shadow|spacer).js"
+    "./node_modules/@nextui-org/theme/dist/components/(avatar|button|card|checkbox|dropdown|image|input|modal|navbar|select|table|ripple|spinner|menu|divider|popover|listbox|scroll-shadow|spacer).js"
   ],
 	theme: {
 		extend: {
@@ -16,6 +16,7 @@ export default {
 				lightGrey: `hsla(var(--lightGrey))`,
 				darkGrey: "#667185",
 				lightBg: "#fafafa",
+				danger: `hsla(var(--danger))`
 			},
 		},
 	},

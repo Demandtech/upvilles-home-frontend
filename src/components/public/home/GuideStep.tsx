@@ -25,18 +25,20 @@ const GuideStep: FC = () => {
 						className="min-h-[250px] md:min-h-[350px] overflow-hidden rounded-xl h-full w-full"
 					></div>
 
-					<div className="flex gap-3 items-center px-3 py-2 absolute bottom-5 -left-6 bg-white border border-[#EDEAEA] rounded-lg">
+					<div className="flex gap-3 items-center px-3 py-2 absolute bottom-5 -left-5 md:-left-10 bg-white border border-[#EDEAEA] rounded-lg">
 						<ReduceIconSvg />
-						<p className="text-sm">Reduced maintenance downtime</p>
+						<p className="text-xs md:text-sm">Reduced maintenance downtime</p>
 					</div>
-					<div className="flex gap-3 items-center px-3 py-2 absolute bottom-1/2 translate-y-1/2 bg-white -right-6 border border-[#EDEAEA] rounded-lg">
+					<div className="flex gap-3 items-center px-3 py-2 absolute bottom-1/2 translate-y-1/2 bg-white -right-5 md:right-10 border border-[#EDEAEA] rounded-lg">
 						<PreventIconSvg />
-						<p className="text-sm">Prevent issues before they arise</p>
+						<p className="text-xs md:text-sm">
+							Prevent issues before they arise
+						</p>
 					</div>
 				</div>
 
 				<div className="w-full sm:w-3/6 lg:w-2/6 space-y-5">
-					<h2 className="text-3xl md:text-4xl font-medium">
+					<h2 className="text-xl md:text-4xl font-medium">
 						Step-by-Step Guide
 					</h2>
 					<ul className="space-y-3">
@@ -45,7 +47,7 @@ const GuideStep: FC = () => {
 						))}
 					</ul>
 					<Button
-						disabled={true}
+						disabled={false}
 						type="button"
 						className="px-16"
 						color="primary"

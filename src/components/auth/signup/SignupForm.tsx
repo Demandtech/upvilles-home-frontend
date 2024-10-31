@@ -1,29 +1,73 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
 import { Checkbox } from "@nextui-org/checkbox";
 import { Link, useNavigate } from "react-router-dom";
 import { signupSchema } from "../../../utils/schemas/auth";
-import { useForm, yupResolver } from "../../../configs/services";
-import { EyeFilledIcon } from "../../svgs";
+import { useForm, yupResolver } from "../../../../configs/services";
+import { EyeFilledIcon, EyeSlashFilledIcon } from "../../svgs";
+import { SignupFormState } from "../../../types/forms";
+import { updateForm, resetForm } from "../../../redux/slices/forms/signup";
+import { useSelector, useDispatch } from "react-redux";
+import { persistor, RootState } from "../../../redux/store";
+import { useMutation } from "@tanstack/react-query";
+import useAuth from "../../../hooks/useAuth";
+import Cookies from "js-cookie";
+import { setUser } from "../../../redux/slices/dashboard";
 
 const SignupForm: FC = () => {
 	const navigate = useNavigate();
-
-	const [isLoading, setIsLoading] = useState(false);
+	const dispatch = useDispatch();
+	const [showPassword, setShowPassword] = useState({
+		password: false,
+		confirmPassword: false,
+	});
+	const formData = useSelector((state: RootState) => state.signup);
+	const { handleSignup } = useAuth();
 	const {
 		register,
 		handleSubmit,
+		watch,
+		reset,
 		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(signupSchema),
+		defaultValues: formData,
 	});
 
-	function submitForm(data: any) {
-		setIsLoading(true)
-		console.log(data);
-		navigate("/dashboard/properties");
+	const watchedFields = watch();
+
+	const mutation = useMutation({
+		mutationFn: handleSignup,
+		onSuccess: (data) => {
+			console.log("Success", data);
+			Cookies.set(
+				"auth_token",
+				JSON.stringify({
+					access_token: data.data.access_token,
+					refresh_token: data.data.refresh_token,
+				})
+			);
+			persistor.purge();
+			reset();
+			dispatch(resetForm());;
+			dispatch(setUser(data.data));
+			navigate("/dashboard/properties");
+		},
+		onError: (error) => {
+			console.log("Error: ", error);
+		},
+	});
+
+	function submitForm(data: SignupFormState) {
+		mutation.mutate(data);
 	}
+
+	useEffect(() => {
+		Object.entries(watchedFields).forEach(([key, value]) => {
+			dispatch(updateForm({ field: key as keyof typeof formData, value }));
+		});
+	}, [watchedFields, dispatch]);
 
 	return (
 		<form className="space-y-10 mt-10" onSubmit={handleSubmit(submitForm)}>
@@ -77,15 +121,25 @@ const SignupForm: FC = () => {
 						required={true}
 						register={register}
 						error={errors.password?.message}
-						type="password"
+						type={showPassword.password ? "text" : "password"}
 						endContent={
 							<Button
 								className="bg-transparent rounded-full"
 								size="sm"
 								type="button"
 								isIconOnly
+								onPress={() =>
+									setShowPassword((prev) => ({
+										...prev,
+										password: !prev.password,
+									}))
+								}
 							>
-								<EyeFilledIcon />
+								{showPassword.password ? (
+									<EyeSlashFilledIcon />
+								) : (
+									<EyeFilledIcon />
+								)}
 							</Button>
 						}
 					/>
@@ -97,15 +151,25 @@ const SignupForm: FC = () => {
 						required={true}
 						register={register}
 						error={errors.confirmPassword?.message}
-						type="password"
+						type={showPassword.confirmPassword ? "text" : "password"}
 						endContent={
 							<Button
 								className="bg-transparent rounded-full"
 								size="sm"
 								type="button"
 								isIconOnly
+								onPress={() =>
+									setShowPassword((prev) => ({
+										...prev,
+										confirmPassword: !prev.confirmPassword,
+									}))
+								}
 							>
-								<EyeFilledIcon />
+								{showPassword.confirmPassword ? (
+									<EyeSlashFilledIcon />
+								) : (
+									<EyeFilledIcon />
+								)}
 							</Button>
 						}
 					/>
@@ -143,7 +207,7 @@ const SignupForm: FC = () => {
 				</div>
 			</div>
 			<Button
-				isLoading={isLoading}
+				isLoading={mutation.isPending}
 				size="lg"
 				className="w-full text-default bg-white"
 				type="submit"

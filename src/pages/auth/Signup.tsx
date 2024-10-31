@@ -7,7 +7,7 @@ const Signup: FC = () => {
 		<div>
 			<SignupForm />
 
-			<p className="text-center mt-10">
+			<p className="text-center mt-10 text-sm">
 				Already have an account?{" "}
 				<Link className=" underline" to="/auth/login">
 					Sign In

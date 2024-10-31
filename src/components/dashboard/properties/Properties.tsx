@@ -6,8 +6,9 @@ import { PlusIcon } from "../../svgs";
 import { useNavigate } from "react-router-dom";
 
 const Properties = () => {
-	const { properties } = useSelector((state: RootState) => state.account);
+	const { properties } = useSelector((state: RootState) => state.dashboard);
 	const navigate = useNavigate();
+	
 	return (
 		<div className="bg-[#fafafa] px-3 py-5 sm:px-5 h-full">
 			<div className="flex items-center mb-5 justify-between">

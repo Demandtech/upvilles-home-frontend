@@ -23,7 +23,6 @@ const Ready: FC = () => {
 							type="submit"
 							className="bg-white text-default px-10 lg:px-16"
 							onPress={() => navigate("/auth/signup")}
-							disabled={true}
 						>
 							Get Started
 						</Button>
@@ -34,7 +33,9 @@ const Ready: FC = () => {
 								<EmailIconSvg />
 							</div>
 							<div>
-								<h3 className="font-semibold text-base mb-0.5">Email</h3>
+								<h3 className="font-semibold text-sm md:text-base mb-0.5">
+									Email
+								</h3>
 								<p className="text-white/80 text-xs sm:text-sm">
 									upvillehomes@gmail.com
 								</p>
@@ -45,7 +46,9 @@ const Ready: FC = () => {
 								<PhoneIconSvg />
 							</div>
 							<div>
-								<h3 className="font-semibold text-base mb-0.5">Phone</h3>
+								<h3 className="font-semibold text-sm md:text-base mb-0.5">
+									Phone
+								</h3>
 								<p className="text-white/80 text-xs sm:text-sm">
 									+234 8109 7891 45
 								</p>
@@ -56,7 +59,9 @@ const Ready: FC = () => {
 								<AddressIconSvg />
 							</div>
 							<div>
-								<h3 className="font-semibold text-lg mb-0.5">Address</h3>
+								<h3 className="font-semibold text-sm md:text-base mb-0.5">
+									Address
+								</h3>
 								<p className="text-white/80 text-xs sm:text-sm">
 									1, Old Olowora, Omole Phase 1, Ojodu Berger, Lagos Nigeria.
 								</p>

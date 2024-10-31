@@ -1,9 +1,9 @@
 const columns = [
 	{ name: "NAME", uid: "name", sortable: true },
 	{ name: "Unit Number", uid: "unit_number", sortable: true },
+	{ name: "Actions", uid: "actions" },
 	{ name: "Contact", uid: "contact" },
 	{ name: "Move in Date", uid: "move_in_date", sortable: true },
-	{ name: "Actions", uid: "actions" },
 ];
 
 const tenants = [
