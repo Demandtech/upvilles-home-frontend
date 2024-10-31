@@ -25,7 +25,6 @@ const LoginForm: FC = () => {
 
   const formData = useSelector((state: RootState) => state.login);
 
-  console.log(formData);
 
   const { handleLogin } = useAuth();
   const {
