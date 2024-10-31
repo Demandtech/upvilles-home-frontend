@@ -107,8 +107,8 @@ const DashboardLayout: FC = () => {
         <div
           className={`fixed md:static z-50 bg-black/20  left-0 top-0 overflow-hidden ${
             isSidebarOpen
-              ? "w-screen md:max-w-[280px]"
-              : "w-0 md:w-full md:max-w-[280px]"
+              ? "w-screen md:max-w-[250px]"
+              : "w-0 md:w-full md:max-w-[250px]"
           } h-full`}
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           aria-hidden={!isSidebarOpen}
@@ -118,8 +118,8 @@ const DashboardLayout: FC = () => {
           <div
             className={`${
               isSidebarOpen
-                ? "w-full max-w-[80%] md:max-w-[280px]"
-                : "w-0 md:w-full md:max-w-[280px]"
+                ? "w-full max-w-[80%] md:max-w-[250px]"
+                : "w-0 md:w-full md:max-w-[250px]"
             } h-full bg-primary overflow-auto scrollbar-thin scrollbar-rounded`}
             onClick={(event) => event.stopPropagation()}
           >
