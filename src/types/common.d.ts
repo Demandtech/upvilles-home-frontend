@@ -35,21 +35,7 @@ export interface ButtonProps {
   onClick?: () => void;
 }
 
-// export interface InputProps {
-//   name: string;
-//   placeholder?: string;
-//   size: "sm" | "md" | "lg" | undefined;
-//   label?: string;
-//   required?: boolean;
-//   register?: any;
-//   error?: string | undefined | null;
-//   startContent?: ReactNode;
-//   endContent?: ReactNode;
-//   type: string;
-//   optionalColor?: string;
-// }
-
-export interface InputProps<TFieldValues extends FieldValues> {
+export interface InputProps<TFieldValues extends FieldValues = FieldValues> {
   placeholder: string;
   size?: "sm" | "md" | "lg";
   label?: string;
@@ -60,7 +46,9 @@ export interface InputProps<TFieldValues extends FieldValues> {
   startContent?: ReactNode;
   endContent?: ReactNode;
   type?: string;
+  optionalColor?: string;
 }
+
 export interface TableColumnType {
   name: string;
   uid: string;

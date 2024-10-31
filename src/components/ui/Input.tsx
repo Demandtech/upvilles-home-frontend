@@ -22,7 +22,7 @@ export default function MyInput({
           {!required && (
             <span className={`${optionalColor} text-xs font-light`}>
               {" "}
-              (Optional){" "}
+              (Optional)
             </span>
           )}
           :
@@ -33,7 +33,7 @@ export default function MyInput({
         classNames={{
           inputWrapper: "rounded-md",
           input: "bg-red",
-          label: "text-white",
+          label: "text-white text-lg",
         }}
         size={size}
         placeholder={placeholder}
