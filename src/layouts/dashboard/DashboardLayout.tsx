@@ -3,13 +3,13 @@ import { FC, useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { RootState } from "../../redux/store";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useQuery, useMutation, UseQueryOptions } from "@tanstack/react-query";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import { AxiosResponse } from "axios";
-import { setUser } from "../../../redux/slices/dashboard";
+import { setUser } from "../../redux/slices/dashboard";
 
 const DashboardLayout: FC = () => {
   const navigate = useNavigate();
@@ -47,12 +47,7 @@ const DashboardLayout: FC = () => {
     },
   });
 
-  const {
-    data: authUserData,
-    isLoading,
-    isError,
-    error,
-  } = useQuery<AxiosResponse, Error>({
+  const { data: authUserData, error } = useQuery<AxiosResponse, Error>({
     queryKey: ["authUser"],
     queryFn: () => {
       const { access_token } = JSON.parse(tokens || "{}");
@@ -131,7 +126,7 @@ const DashboardLayout: FC = () => {
             title={dashboardPageTitle.title}
             showIcon={dashboardPageTitle.showIcon}
           />
-          {!isLoading && !isError && <Outlet />}
+          <Outlet />
         </div>
       </div>
     </main>

@@ -1,8 +1,8 @@
 import { ChangeEvent, useCallback, useState } from "react";
-import Button from "../../ui/Button";
+import Button from "../../components/ui/Button";
 import { Input } from "@nextui-org/input";
-import { NotificationIconSvg, SearchIconSvg, ArrowBack } from "../../svgs";
-import { debounce } from "../../../utils/debounce";
+import { NotificationIconSvg, SearchIconSvg, ArrowBack } from "../../components/svgs";
+import { debounce } from "../../utils/debounce";
 import { useNavigate } from "react-router-dom";
 
 const Header = ({ title, showIcon }: { title: string; showIcon: boolean }) => {

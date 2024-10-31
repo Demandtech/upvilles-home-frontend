@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
-import DashboardLayout from "./components/layouts/dashboard/DashboardLayout";
-import AuthLayout from "./components/layouts/auth/AuthLayout";
+import DashboardLayout from "./layouts/dashboard/DashboardLayout";
+import AuthLayout from "./layouts/auth/AuthLayout";
 import {
   Properties,
   ManageProperty,

@@ -1,15 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../../ui/Button";
+import Button from "../../components/ui/Button";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/navbar";
-import logo from "../../../assets/images/logo.png";
+import logo from "../../assets/images/logo.png";
 import { Image } from "@nextui-org/image";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { RootState } from "../../redux/store";
 
 export default function Header() {
   const navigate = useNavigate();

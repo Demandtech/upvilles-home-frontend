@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { FacebookIconSvg, InstagramIconSvg } from "../../svgs";
-import logo from "../../../assets/images/logo.png";
+import { FacebookIconSvg, InstagramIconSvg } from "../../components/svgs";
+import logo from "../../assets/images/logo.png";
 import { Image } from "@nextui-org/image";
 
 const Footer: FC = () => {

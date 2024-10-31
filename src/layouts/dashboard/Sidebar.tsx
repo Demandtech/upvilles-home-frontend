@@ -7,15 +7,26 @@ import {
   LogoutNavSvg,
   CameraIcon,
   EditIconSvg,
-} from "../../svgs";
+} from "../../components/svgs";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import Button from "../../ui/Button";
+import Button from "../../components/ui/Button";
 import { Avatar } from "@nextui-org/avatar";
 import { Image } from "@nextui-org/image";
-import whitelogo from "../../../assets/images/white-logo.png";
+import whitelogo from "../../assets/images/white-logo.png";
+import Cookies from "js-cookie";
+import { setLogout } from "../../redux/slices/dashboard";
+import { useDispatch } from "react-redux";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    navigate("/auth/login");
+    dispatch(setLogout());
+    Cookies.remove("auth_token");
+  };
+
   return (
     <div className="p-5 h-full flex gap-7 flex-col w-full">
       <div className="flex justify-center">
@@ -106,7 +117,7 @@ const Sidebar = () => {
           type="button"
           size="md"
           startContent={<LogoutNavSvg />}
-          onPress={() => navigate("/auth/login")}
+          onPress={handleLogout}
         >
           Log out
         </Button>

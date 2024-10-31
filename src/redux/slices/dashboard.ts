@@ -32,8 +32,11 @@ const dashboardSlice = createSlice({
     setProperties: (state, { payload }: { payload: PropertyListType }) => {
       state.properties = payload;
     },
+    setLogout: () => {
+      return initialState;
+    },
   },
 });
 
-export const { setUser } = dashboardSlice.actions;
+export const { setUser, setLogout } = dashboardSlice.actions;
 export default dashboardSlice.reducer;
