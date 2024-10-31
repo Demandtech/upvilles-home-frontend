@@ -19,14 +19,14 @@ export default function MyTable({
   rows: Partial<TableRowsType>[];
 }) {
   const renderCell = React.useCallback(
-    (user: (typeof rows)[0], columnKey: React.Key) => {
+    (user: (typeof rows)[0], columnKey: React.Key, id: string | undefined) => {
       const cellValue = user[columnKey as keyof Tenant];
 
       switch (columnKey) {
         case "actions":
           return (
             <div className="relative flex justify-center items-center gap-2">
-              <Dropdown />
+              <Dropdown rowId={id} />
             </div>
           );
         case "status":
@@ -55,11 +55,11 @@ export default function MyTable({
 
   return (
     <Table
-      aria-label="Tenant table"
+      aria-label="Data table"
       isHeaderSticky
       classNames={{
         wrapper:
-          "overflow-auto max-h-[300px] p-0 rounded-md shadow-none scrollbar-hide",
+          "overflow-auto max-h-[335px] p-0 rounded-md shadow-none scrollbar-hide",
         thead: "[&>tr]:first:shadow-none",
       }}
     >
@@ -82,12 +82,12 @@ export default function MyTable({
       <TableBody emptyContent={"No tenant found"} items={rows}>
         {(item) => (
           <TableRow
-            className="border-b-2 border-[#F0F2F5] bg-[#FBFEFF]"
+            className={` border-b-2 border-[#F0F2F5] bg-[#FBFEFF] hover:bg-primary-50 transition-all duration-300 ease-linear`}
             key={item._id}
           >
             {(columnKey) => (
               <TableCell className="text-nowrap">
-                {renderCell(item, columnKey)}
+                {renderCell(item, columnKey, item._id)}
               </TableCell>
             )}
           </TableRow>

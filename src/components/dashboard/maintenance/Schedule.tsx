@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Table from "../../common/Table";
 import { PlusIcon } from "../../svgs";
 import Button from "../../ui/Button";
@@ -79,25 +80,31 @@ const tenants = [
 ];
 
 function Schedule() {
+  const navigate = useNavigate();
   return (
-    <div className="w-full bg-lightBg py-8 px-4 rounded-xl" id="tenant-section">
-      <div className="flex items-center justify-between mb-5">
-        <div>
-          <p className="font-bold sm:font-lg">Tenant Information</p>
+    <div className="w-full  py-10 px-6 rounded-xl" id="tenant-section">
+      <div className="bg-lightBg p-5 rounded-lg">
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <p className="font-bold sm:font-lg text-nowrap">
+              Maintenance Schedule
+            </p>
+          </div>
+          <div>
+            <Button
+              startContent={<PlusIcon size={20} />}
+              type="button"
+              color="primary"
+              size="md"
+              className="rounded-sm ml-auto"
+              onClick={() => navigate("/dashboard/maintenance/manage")}
+            >
+              Create <span className="hidden sm:block"> Maintenance Task</span>
+            </Button>
+          </div>
         </div>
-        <div>
-          <Button
-            startContent={<PlusIcon size={20} />}
-            type="button"
-            color="primary"
-            size="md"
-            className="rounded-sm ml-auto"
-          >
-            Create Maintenance Task
-          </Button>
-        </div>
+        <Table columns={columns} rows={tenants} />
       </div>
-      <Table columns={columns} rows={tenants} />
     </div>
   );
 }
