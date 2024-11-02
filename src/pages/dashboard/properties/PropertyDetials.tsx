@@ -7,10 +7,27 @@ import {
   TopWrapper,
   BottomWrapper,
 } from "../../../components/dashboard/propertyDetails";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
+import useProperty from "../../../hooks/useProperty";
+import { setPropertyDetails } from "../../../redux/slices/dashboard";
 
 const PropertyDetials: FC = () => {
   const dispatch = useDispatch();
   const { id }: Readonly<Params<string>> = useParams();
+  const { getSingleProperty } = useProperty();
+
+  const { data: singleProperty, isSuccess } = useQuery<AxiosResponse, Error>({
+    queryKey: ["single_property", id],
+    queryFn: () => getSingleProperty(id as string),
+    enabled: !!id,
+  } as UseQueryOptions<AxiosResponse, Error>);
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setPropertyDetails(singleProperty.data));
+    }
+  }, [isSuccess, dispatch, singleProperty]);
 
   useEffect(() => {
     dispatch(setTitle({ title: "Property Details", showIcon: true }));

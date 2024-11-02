@@ -16,7 +16,7 @@ export interface SignupFormState {
 export interface ManagePropertyFormState {
   street: string;
   description: string;
-  attraction?: string[];
+  attraction?: string;
   images?: File[] | undefined;
   title: string;
   location: string;

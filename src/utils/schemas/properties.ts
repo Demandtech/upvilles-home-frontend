@@ -1,6 +1,6 @@
 import { yup } from "../../../configs/services";
 
-export const managePropertySchema = (id:string) =>
+export const managePropertySchema = (id: string) =>
   yup.object().shape({
     title: yup.string().required("Title is required!"),
     location: yup.string().required("Location is required!"),
@@ -8,13 +8,7 @@ export const managePropertySchema = (id:string) =>
     street: yup.string().required("Street / Road / Estate is required!"),
     property_type: yup.string().required("Property type is required"),
     unit_number: yup.number().required("Number of unit is required"),
-    attraction: yup.array().transform((value, originalValue) => {
-      if (value) return;
-      if (typeof originalValue === "string") {
-        return originalValue.split(",").map((item) => item.trim());
-      }
-      return value.split(",").map((item: string) => item.trim());
-    }),
+    attraction: yup.string().optional(),
     images: yup.mixed<File[]>().when([], {
       is: () => !id,
       then: (schema) =>

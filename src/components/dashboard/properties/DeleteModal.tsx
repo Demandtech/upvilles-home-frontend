@@ -36,7 +36,7 @@ function DeleteModal({ onClose, id }: { onClose: () => void; id: string }) {
           <div>
             <SuccessIcon />
           </div>
-          <p className="my-15">Maintenance Schedule created successfully</p>
+          <p className="my-15">Property deleted successfully</p>
 
           <ModalFooter className="border-t justify-center w-full">
             <Button

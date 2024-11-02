@@ -8,6 +8,8 @@ import { useForm, yupResolver } from "../../../../configs/services";
 import { managePropertySchema } from "../../../utils/schemas/properties";
 import useProperty from "../../../hooks/useProperty";
 import { ManagePropertyFormState } from "../../../types/forms";
+import ManagementModal from "../properties/ManagePropertySuccessModal";
+import { useDisclosure } from "@nextui-org/use-disclosure";
 import {
   useMutation,
   useQuery,
@@ -16,6 +18,7 @@ import {
 } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { useEffect } from "react";
+import { CustomModal } from "../../ui/Modal";
 
 const typesData = [
   { key: "Residential", label: "Residential" },
@@ -33,8 +36,9 @@ const PropertyForm = ({ id }: { id: string }) => {
   } = useForm({
     resolver: yupResolver(managePropertySchema(id)),
   });
-
   const queryClient = useQueryClient();
+
+  const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
 
   const { addProperty, editProperty, getSingleProperty } = useProperty();
 
@@ -47,8 +51,6 @@ const PropertyForm = ({ id }: { id: string }) => {
             formData.append("images", file);
           }
         });
-      } else if (key === "attraction") {
-        console.log(val);
       } else if (val !== undefined) {
         formData.append(key, val);
       }
@@ -77,6 +79,7 @@ const PropertyForm = ({ id }: { id: string }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["properties"] });
       queryClient.invalidateQueries({ queryKey: ["single_propert", id] });
+      onOpen();
     },
     onError: (error) => {
       console.log("Error: ", error);
@@ -238,6 +241,14 @@ const PropertyForm = ({ id }: { id: string }) => {
           </div>
         </form>
       </div>
+      <CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ManagementModal
+          message={
+            id ? "Property Updated successfully" : "Property Added successfully"
+          }
+          onClose={onClose}
+        />
+      </CustomModal>
     </section>
   );
 };

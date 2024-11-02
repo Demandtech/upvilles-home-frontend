@@ -4,18 +4,20 @@ import Button from "../../ui/Button";
 import DeleteModal from "../properties/DeleteModal";
 import { CustomModal } from "../../ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
-const sideAttractions: string[] | [] = [
-  "24-hour Electricity",
-  "Hot Water",
-  "Kitchen Shelf",
-  "Air Conditioning",
-  "Kitchen Cabinets",
-  "Microwave",
-];
+
+
 const PropertyInfo = ({ id }: { id: string }) => {
   const navigate = useNavigate();
   const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
+
+  const { propertyDetails } = useSelector(
+    (state: RootState) => state.dashboard
+  );
+
+  console.log(propertyDetails);
 
   function handleNavigate() {
     navigate(`/dashboard/properties/manage?id=${id}`);
@@ -28,13 +30,11 @@ const PropertyInfo = ({ id }: { id: string }) => {
           Property Information
         </h4>
         <h3 className="font-bold text-default mb-1 text-2xl">
-          Goshen Honey Apartment
+          {propertyDetails?.title}
         </h3>
         <div className="flex items-center gap-2 mb-1">
           <LocationIconSvg />
-          <p className="text-darkGrey text-sm">
-            Caterpillar Estate, Opic Berger, Lagos
-          </p>
+          <p className="text-darkGrey text-sm">{propertyDetails?.location}</p>
         </div>
         <div className="flex items-center gap-2">
           <DescriptionIconSvg />
@@ -45,15 +45,12 @@ const PropertyInfo = ({ id }: { id: string }) => {
         <h4 className="text-darkGrey font-semibold mb-2">
           Property Description
         </h4>
-        <p className="text-darkGrey text-sm">
-          This is a spacious lovely 3bedroom semi-detached duplex in a well in a
-          well-secured and located estate. It also comes with BQ.
-        </p>
+        <p className="text-darkGrey text-sm">{propertyDetails?.description}</p>
       </div>
       <div>
         <h4 className="text-darkGrey font-semibold mb-2">Side Attraction</h4>
         <ul className="grid grid-cols-2 gap-2">
-          {sideAttractions.map((item) => {
+          {propertyDetails?.attraction?.split(",").map((item: string) => {
             return (
               <li className="text-sm flex items-center gap-2" key={item}>
                 <CheckIconSvg />

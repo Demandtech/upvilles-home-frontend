@@ -1,7 +1,7 @@
 import { Card, CardBody } from "@nextui-org/card";
 import { PropertyType } from "../../../types/dashboard";
 import Button from "../../ui/Button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowTopSvg } from "../../svgs";
 import { Image } from "@nextui-org/image";
 
@@ -36,7 +36,7 @@ const PropertyItem = ({ item }: { item: PropertyType }) => {
             onPress={() => navigate(`/dashboard/properties/${item._id}`)}
             endContent={<ArrowTopSvg />}
           >
-            More Details
+            <Link to={`/dashboard/properties/${item._id}`}>More Details</Link>
           </Button>
         </div>
       </CardBody>
