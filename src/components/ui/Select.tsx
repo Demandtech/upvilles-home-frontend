@@ -3,7 +3,7 @@ import { UseFormRegister, FieldValues, Path } from "react-hook-form";
 
 interface AppProps<T extends FieldValues> {
   register: UseFormRegister<T>;
-  data: { key: number; label: string }[];
+  data: { key: string; label: string }[];
   label?: string;
   name: Path<T>;
   error?: string;
@@ -37,7 +37,7 @@ export default function App<T extends FieldValues>({
         errorMessage={error}
         isInvalid={!!error}
       >
-        {data.map((item: { key: number; label: string }) => {
+        {data.map((item: { key: string; label: string }) => {
           return (
             <SelectItem color="primary" key={item.key}>
               {item.label}

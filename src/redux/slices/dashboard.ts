@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { propertyData } from "../../utils/dummy-data";
 import {
   AccountSliceProps,
   PropertyType,
@@ -10,7 +9,7 @@ import {
 
 const initialState: AccountSliceProps = {
   user: null,
-  properties: propertyData,
+  properties: [],
   propertyDetails: null,
   stats: null,
 };
@@ -38,5 +37,6 @@ const dashboardSlice = createSlice({
   },
 });
 
-export const { setUser, setLogout } = dashboardSlice.actions;
+export const { setUser, setLogout, setProperties, setPropertyDetails } =
+  dashboardSlice.actions;
 export default dashboardSlice.reducer;
