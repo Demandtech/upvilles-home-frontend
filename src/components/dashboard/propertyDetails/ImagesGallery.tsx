@@ -4,6 +4,7 @@ import { useState } from "react";
 const ImagesGallery = ({ thumbnails }: { thumbnails: string[] }) => {
   const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState(0);
 
+
   return (
     <div className="w-full lg:w-3/5 flex flex-col">
       <div className="flex flex-col gap-1">

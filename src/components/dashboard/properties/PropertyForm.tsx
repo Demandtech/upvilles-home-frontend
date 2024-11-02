@@ -5,100 +5,35 @@ import Select from "../../ui/Select";
 import { FileUpload } from "../../svgs";
 import Button from "../../ui/Button";
 import { useForm, yupResolver } from "../../../../configs/services";
-import { managePropertySchema } from "../../../utils/schemas/properties";
-import useProperty from "../../../hooks/useProperty";
+import { ObjectSchema } from "yup";
 import { ManagePropertyFormState } from "../../../types/forms";
-import ManagementModal from "../properties/ManagePropertySuccessModal";
-import { useDisclosure } from "@nextui-org/use-disclosure";
-import {
-  useMutation,
-  useQuery,
-  UseQueryOptions,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
-import { useEffect } from "react";
-import { CustomModal } from "../../ui/Modal";
 
 const typesData = [
   { key: "Residential", label: "Residential" },
   { key: "Commercial", label: "Commercial" },
 ];
 
-const PropertyForm = ({ id }: { id: string }) => {
+const PropertyForm = ({
+  id,
+  schema,
+  onFormSubmit,
+  formDefaultValue,
+  isLoading,
+}: {
+  id?: string;
+  schema: ObjectSchema<ManagePropertyFormState>;
+  onFormSubmit: (data: ManagePropertyFormState) => void;
+  formDefaultValue?: Partial<ManagePropertyFormState>;
+  isLoading: boolean;
+}) => {
   const {
     register,
     handleSubmit,
-    setValue,
-    reset,
-    getValues,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(managePropertySchema(id)),
+  } = useForm<ManagePropertyFormState>({
+    resolver: yupResolver(schema),
+    defaultValues: formDefaultValue,
   });
-  const queryClient = useQueryClient();
-
-  const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
-
-  const { addProperty, editProperty, getSingleProperty } = useProperty();
-
-  const handleManageProperty = (data: ManagePropertyFormState) => {
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, val]) => {
-      if (key === "images") {
-        Array.from(val).forEach((file) => {
-          if (file instanceof File) {
-            formData.append("images", file);
-          }
-        });
-      } else if (val !== undefined) {
-        formData.append(key, val);
-      }
-    });
-
-    mutation.mutate(
-      id ? { updateProperty: formData, productId: id } : formData
-    );
-  };
-
-  const mutation = useMutation({
-    mutationFn: async (
-      variables: FormData | { updateProperty: FormData; productId: string }
-    ) => {
-      if (typeof variables === "object" && variables !== null) {
-        if ("productId" in variables) {
-          return await editProperty(
-            variables.productId,
-            variables.updateProperty
-          );
-        } else if (variables instanceof FormData) {
-          return await addProperty(variables);
-        }
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["properties"] });
-      queryClient.invalidateQueries({ queryKey: ["single_propert", id] });
-      onOpen();
-    },
-    onError: (error) => {
-      console.log("Error: ", error);
-    },
-  });
-
-  const { data: singleProperty } = useQuery<AxiosResponse, Error>({
-    queryKey: ["single_property"],
-    queryFn: () => getSingleProperty(id),
-    enabled: !!id,
-  } as UseQueryOptions<AxiosResponse, Error>);
-
-  useEffect(() => {
-    if (!id) return;
-
-    if (singleProperty?.data) {
-      reset(singleProperty.data);
-    }
-  }, [singleProperty, setValue]);
 
   return (
     <section className="flex flex-col lg:flex-row h-full overflow-auto scrollbar-hide">
@@ -119,7 +54,7 @@ const PropertyForm = ({ id }: { id: string }) => {
         <form
           method="post"
           encType="multipart/form-data"
-          onSubmit={handleSubmit(handleManageProperty)}
+          onSubmit={handleSubmit(onFormSubmit)}
         >
           <div className="grid md:grid-cols-2 gap-4 mb-5">
             <Input
@@ -130,7 +65,7 @@ const PropertyForm = ({ id }: { id: string }) => {
               size="md"
               placeholder="Enter property title"
               register={register}
-              error={errors.title?.message}
+              error={errors.title?.message as string | undefined}
             />
             <Input
               required={true}
@@ -140,7 +75,7 @@ const PropertyForm = ({ id }: { id: string }) => {
               size="md"
               placeholder="Enter property location"
               register={register}
-              error={errors.location?.message}
+              error={errors.location?.message as string | undefined}
             />
             <Input
               label="Street / Road / Estate"
@@ -150,15 +85,15 @@ const PropertyForm = ({ id }: { id: string }) => {
               required={true}
               placeholder="Enter property address"
               register={register}
-              error={errors.street?.message}
+              error={errors.street?.message as string | undefined}
             />
             <Select
               name="property_type"
               register={register}
               data={typesData}
               label="Property Type:"
-              error={errors.property_type?.message}
-              defaultValue={getValues("property_type")}
+              error={errors.property_type?.message as string | undefined}
+              defaultValue={formDefaultValue?.property_type as string}
             />
 
             <Input
@@ -169,7 +104,7 @@ const PropertyForm = ({ id }: { id: string }) => {
               required={true}
               placeholder="Enter units number"
               register={register}
-              error={errors.unit_number?.message}
+              error={errors.unit_number?.message as string | undefined}
             />
             <Input
               label="Side Attraction"
@@ -179,7 +114,7 @@ const PropertyForm = ({ id }: { id: string }) => {
               required={false}
               placeholder="Enter side attractions"
               register={register}
-              error={errors.attraction?.message}
+              error={errors.attraction?.message as string | undefined}
               optionalColor="text-darkGrey"
             />
           </div>
@@ -212,7 +147,9 @@ const PropertyForm = ({ id }: { id: string }) => {
                 </label>
               </div>
               {errors.images && (
-                <p className="text-danger text-xs">{errors.images.message}</p>
+                <p className="text-danger text-xs">
+                  {errors.images.message as string | undefined}
+                </p>
               )}
             </div>
             <div>
@@ -227,28 +164,16 @@ const PropertyForm = ({ id }: { id: string }) => {
               ></textarea>
               {errors.description && (
                 <p className="text-danger text-xs">
-                  {errors.description?.message}
+                  {errors.description?.message as string | undefined}
                 </p>
               )}
             </div>
-            <Button
-              isLoading={mutation.isPending}
-              type="submit"
-              className="w-full"
-            >
+            <Button isLoading={isLoading} type="submit" className="w-full">
               {id ? "Edit" : "Add"} Property Details
             </Button>
           </div>
         </form>
       </div>
-      <CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ManagementModal
-          message={
-            id ? "Property Updated successfully" : "Property Added successfully"
-          }
-          onClose={onClose}
-        />
-      </CustomModal>
     </section>
   );
 };
