@@ -17,8 +17,6 @@ const PropertyInfo = ({ id }: { id: string }) => {
     (state: RootState) => state.dashboard
   );
 
-  console.log(propertyDetails);
-
   function handleNavigate() {
     navigate(`/dashboard/properties/manage?id=${id}`);
   }

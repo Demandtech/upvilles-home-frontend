@@ -35,7 +35,10 @@ const PropertyDetials: FC = () => {
 
   return (
     <div className="px-3 flex flex-col py-3 gap-3  sm:px-5">
-      <TopWrapper id={id ? id : ""} />
+      <TopWrapper
+        thumbnails={singleProperty?.data.images_url || []}
+        id={id ? id : ""}
+      />
       <BottomWrapper />
     </div>
   );

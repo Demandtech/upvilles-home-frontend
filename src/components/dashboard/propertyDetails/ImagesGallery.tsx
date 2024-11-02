@@ -1,13 +1,7 @@
 import { Image } from "@nextui-org/image";
 import { useState } from "react";
 
-const ImagesGallery = () => {
-  const thumbnails = [
-    "https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/2343465/pexels-photo-2343465.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/277667/pexels-photo-277667.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  ];
+const ImagesGallery = ({ thumbnails }: { thumbnails: string[] }) => {
   const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState(0);
 
   return (
@@ -21,8 +15,8 @@ const ImagesGallery = () => {
             alt="main"
           />
         </div>
-        <div className="flex w-full h-20 justify-between sm:h-28 overflow-x-auto gap-1">
-          {thumbnails.slice(0, 4).map((thumbnail, index) => (
+        <div className="flex w-full h-20 justify-between sm:h-32 gap-1">
+          {thumbnails.slice(0, 4).map((thumbnail: string, index: number) => (
             <div
               className={`h-20 sm:h-28  ${
                 selectedThumbnailIndex === index ? "opacity-60" : " opacity-100"

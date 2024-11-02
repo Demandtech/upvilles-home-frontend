@@ -8,8 +8,8 @@ import { CustomModal } from "../../ui/Modal";
 import CreateSuccess from "./CreateSuccess";
 
 const data = [
-  { key: 1, label: "Overdue" },
-  { key: 2, label: "Upcoming" },
+  { key: "Overdue", label: "Overdue" },
+  { key: "Upcoming", label: "Upcoming" },
 ];
 
 function MaintenanceForm() {
@@ -78,6 +78,7 @@ function MaintenanceForm() {
             error={errors.status?.message}
             label="Task Status:"
             size="lg"
+            defaultValue=""
           />
         </div>
         <Button onClick={() => onOpen()} type="submit" className="w-full">
