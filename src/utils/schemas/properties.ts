@@ -1,22 +1,28 @@
 import { yup } from "../../../configs/services";
 
-export const managePropertySchema = yup.object().shape({
-  title: yup.string().required("Title is required!"),
-  location: yup.string().required("Location is required!"),
-  description: yup.string().required("Description is required!"),
-  attraction: yup.string(),
-  address: yup.string().required("Address is required!"),
-  type: yup.string().required("Property type is required"),
-  unit_number: yup.string().required("Number of unit is required"),
-  images: yup
-    .mixed<File[]>()
-    .test("required", "You need to provide at least 4 images", (value) => {
-      return value && value.length > 0;
-    })
-    .test("max", "Images should not be more than 25", (value) => {
-      return !value || value.length <= 2;
+export const managePropertySchema = (id: string) =>
+  yup.object().shape({
+    title: yup.string().required("Title is required!"),
+    location: yup.string().required("Location is required!"),
+    description: yup.string().required("Description is required!"),
+    street: yup.string().required("Street / Road / Estate is required!"),
+    property_type: yup.string().required("Property type is required"),
+    unit_number: yup.number().required("Number of unit is required"),
+    attraction: yup.string().optional(),
+    images: yup.mixed<File[]>().when([], {
+      is: () => !id,
+      then: (schema) =>
+        schema
+          .required("You need to provide images when Adding a property")
+          .test("min", "You need to provide at least 4 images", (value) => {
+            return value && value.length >= 4;
+          })
+          .test("max", "Images should not be more than 25", (value) => {
+            return value && value.length <= 25;
+          }),
+      otherwise: (schema) => schema.optional(), // Make it optional otherwise
     }),
-});
+  });
 
 export const maintenanceSchema = yup.object().shape({
   status: yup.string().required("Status is required"),

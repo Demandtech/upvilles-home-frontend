@@ -4,12 +4,10 @@ import { setTitle } from "../../../redux/slices/app";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 
+
 const Dashboard: FC = () => {
   const dispatch = useDispatch();
-  const { user , stats} = useSelector((state: RootState) => state.dashboard);
-
-
-  console.log({ user , stats})
+  const { stats } = useSelector((state: RootState) => state.dashboard);
 
   useEffect(() => {
     dispatch(setTitle({ title: "Dashboard", showIcon: false }));
@@ -17,7 +15,7 @@ const Dashboard: FC = () => {
 
   return (
     <div>
-      <Summary />
+      <Summary stats={stats} />
       <Properties />
     </div>
   );

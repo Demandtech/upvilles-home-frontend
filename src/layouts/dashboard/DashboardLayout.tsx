@@ -3,20 +3,23 @@ import { FC, useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { RootState } from "../../redux/store";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useQuery, useMutation, UseQueryOptions } from "@tanstack/react-query";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
+import useProperty from "../../hooks/useProperty";
 import { AxiosResponse } from "axios";
-import { setUser } from "../../../redux/slices/dashboard";
+import { setUser, setProperties } from "../../redux/slices/dashboard";
 
 const DashboardLayout: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { dashboardPageTitle } = useSelector((state: RootState) => state.app);
+  const { user } = useSelector((state: RootState) => state.dashboard);
   const { handleRefreshToken, getAuthUser } = useAuth();
+  const { allProperties } = useProperty();
 
   const tokens = Cookies.get("auth_token");
 
@@ -47,18 +50,18 @@ const DashboardLayout: FC = () => {
     },
   });
 
-  const {
-    data: authUserData,
-    isLoading,
-    isError,
-    error,
-  } = useQuery<AxiosResponse, Error>({
+  const { data: authUserData, error } = useQuery<AxiosResponse, Error>({
     queryKey: ["authUser"],
     queryFn: () => {
       const { access_token } = JSON.parse(tokens || "{}");
       return getAuthUser(access_token);
     },
     enabled: tokens ? !isTokenExpired(JSON.parse(tokens).access_token) : false,
+  } as UseQueryOptions<AxiosResponse, Error>);
+
+  const { data: propertiesData } = useQuery<AxiosResponse, Error>({
+    queryKey: ["properties"],
+    queryFn: allProperties,
   } as UseQueryOptions<AxiosResponse, Error>);
 
   const authenticateUser = async () => {
@@ -77,6 +80,13 @@ const DashboardLayout: FC = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (!propertiesData) return;
+    if (propertiesData?.data.length > 0) {
+      dispatch(setProperties(propertiesData.data));
+    }
+  }, [propertiesData, dispatch]);
 
   useEffect(() => {
     authenticateUser();
@@ -105,7 +115,7 @@ const DashboardLayout: FC = () => {
     >
       <div className="flex h-full">
         <div
-          className={`fixed md:static z-50 bg-black/20  left-0 top-0 overflow-hidden ${
+          className={`fixed md:static z-50 bg-black/20  left-0 top-0  ${
             isSidebarOpen
               ? "w-screen md:max-w-[250px]"
               : "w-0 md:w-full md:max-w-[250px]"
@@ -123,7 +133,10 @@ const DashboardLayout: FC = () => {
             } h-full bg-primary overflow-auto scrollbar-thin scrollbar-rounded`}
             onClick={(event) => event.stopPropagation()}
           >
-            <Sidebar />
+            <Sidebar
+              name={user?.name}
+              image_uri={user?.image_url as string | undefined}
+            />
           </div>
         </div>
         <div className="flex-1 relative h-screen overflow-auto">
@@ -131,7 +144,7 @@ const DashboardLayout: FC = () => {
             title={dashboardPageTitle.title}
             showIcon={dashboardPageTitle.showIcon}
           />
-          {!isLoading && !isError && <Outlet />}
+          <Outlet />
         </div>
       </div>
     </main>

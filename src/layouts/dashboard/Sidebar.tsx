@@ -7,15 +7,32 @@ import {
   LogoutNavSvg,
   CameraIcon,
   EditIconSvg,
-} from "../../svgs";
+} from "../../components/svgs";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import Button from "../../ui/Button";
+import Button from "../../components/ui/Button";
 import { Avatar } from "@nextui-org/avatar";
 import { Image } from "@nextui-org/image";
-import whitelogo from "../../../assets/images/white-logo.png";
+import whitelogo from "../../assets/images/white-logo.png";
+import Cookies from "js-cookie";
+import { setLogout } from "../../redux/slices/dashboard";
+import { useDispatch } from "react-redux";
 
-const Sidebar = () => {
+const Sidebar = ({
+  name,
+  image_uri,
+}: {
+  name: string | undefined;
+  image_uri: string | undefined;
+}) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    navigate("/auth/login");
+    dispatch(setLogout());
+    Cookies.remove("auth_token");
+  };
+
   return (
     <div className="p-5 h-full flex gap-7 flex-col w-full">
       <div className="flex justify-center">
@@ -26,10 +43,10 @@ const Sidebar = () => {
       <div className="flex items-center flex-col">
         <div className="relative w-24 h-24 rounded-full">
           <Avatar
-            src=""
+            src={image_uri}
             color="default"
             showFallback
-            name="Ayomide Ifeoluwa"
+            name={name}
             size="lg"
             className=" text-large w-full h-full text-white/80 mb-2"
             fallback={<CameraIcon />}
@@ -43,7 +60,7 @@ const Sidebar = () => {
             <EditIconSvg />
           </Button>
         </div>
-        <p className="text-white">Ayomide Ifeoluwa</p>
+        <p className="text-white">{name}</p>
       </div>
       <ul className="text-white space-y-3">
         <li className="">
@@ -66,10 +83,12 @@ const Sidebar = () => {
         </li>
         <li>
           <NavLink
-            className="w-full text-sm px-3 py-2 flex gap-2 rounded-sm hover:bg-white/10 duration-200 ease-linear transition-background"
+            className="w-full text-sm px-3 gap-2 flex items-center rounded-sm hover:bg-white/10 duration-200 ease-linear transition-background"
             to="/dashboard/report"
           >
+            {/* <div className="bg-red-600 py-2 px-3"> */}
             <ReportNavSvg />
+            {/* </div> */}
             <span>Report</span>
           </NavLink>
         </li>
@@ -106,7 +125,7 @@ const Sidebar = () => {
           type="button"
           size="md"
           startContent={<LogoutNavSvg />}
-          onPress={() => navigate("/auth/login")}
+          onPress={handleLogout}
         >
           Log out
         </Button>

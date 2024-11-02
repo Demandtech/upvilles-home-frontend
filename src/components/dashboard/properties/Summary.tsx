@@ -5,8 +5,10 @@ import {
   VacantUnitIconSvg,
 } from "../../svgs";
 
+import { StatsType } from "../../../types/dashboard";
+import Counter from "../../common/Counter";
 
-export default function Summary() {
+export default function Summary({ stats }: { stats: StatsType }) {
   return (
     <div className="py-5 sm:py-8 px-3 sm:px-5">
       <div className="grid grid-cols-6 gap-2 items-center">
@@ -18,27 +20,27 @@ export default function Summary() {
             schedules.
           </p>
         </div>
-        <div className="space-y-3 col-span-3 lg:col-span-1 text-white p-4 rounded-xl bg-[#8BB6A2]">
+        <div className="space-y-3 col-span-3 lg:col-span-1 text-white p-4 rounded-xl bg-[#8BB6A2] shadow-sm">
           <TotalHousesIconSvg />
           <p className="text-xs text-[#f0e7e7]">Total Houses</p>
-          <p className="font-medium text-xl">10</p>
+
+          <Counter labelColor="white" targetNumber={stats?.total_properties} />
         </div>
-        <div className="space-y-3 col-span-3 lg:col-span-1 p-4 text-white rounded-xl bg-[#4D4E8E]">
+        <div className="space-y-3 col-span-3 lg:col-span-1 p-4 text-white rounded-xl bg-[#4D4E8E] shadow-sm">
           <TotalTenantsIconSvg />
           <p className="text-xs text-[#f0e7e7]">Total Tenants</p>
-          <p className="font-medium text-xl">10</p>
+          <Counter labelColor="white" targetNumber={stats?.total_tenants} />
         </div>
-        <div className="space-y-3 col-span-3 lg:col-span-1 p-4 text-white rounded-xl bg-[#636D79]">
+        <div className="space-y-3 col-span-3 lg:col-span-1 p-4 text-white rounded-xl bg-[#636D79] shadow-sm">
           <OccupiedUnitsIconSvg />
           <p className="text-xs text-[f0e7e7]">Occupied Units</p>
-          <p className="font-medium text-xl">8</p>
+          <Counter labelColor="white" targetNumber={stats?.occupied_units} />
         </div>
-        <div className="space-y-3 col-span-3 lg:col-span-1 p-4 text-white rounded-xl bg-[#284B63]">
+        <div className="space-y-3 col-span-3 lg:col-span-1 p-4 text-white rounded-xl bg-[#284B63] shadow-sm">
           <VacantUnitIconSvg />
           <p className="text-xs text-[#f0e7e7]">Vacant Units</p>
-          <p className="font-medium text-xl">2</p>
+          <Counter labelColor="white" targetNumber={stats?.empty_units} />
         </div>
-        {/* <div className="lg:col-span-1"></div> */}
       </div>
     </div>
   );

@@ -1205,9 +1205,9 @@ export function SuccessIcon() {
       <path
         d="M25.5447 43.3401C28.9833 46.0982 35.8607 51.6141 35.8607 51.6141C35.8607 51.6141 48.4979 37.528 54.8165 30.4851"
         stroke="white"
-        stroke-width="6"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

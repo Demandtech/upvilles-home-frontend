@@ -4,25 +4,44 @@ import { useDispatch } from "react-redux";
 import { setTitle } from "../../../redux/slices/app";
 import { useParams, Params } from "react-router-dom";
 import {
-	TopWrapper,
-	BottomWrapper,
+  TopWrapper,
+  BottomWrapper,
 } from "../../../components/dashboard/propertyDetails";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
+import useProperty from "../../../hooks/useProperty";
+import { setPropertyDetails } from "../../../redux/slices/dashboard";
 
 const PropertyDetials: FC = () => {
-	
-	const dispatch = useDispatch();
-	const { id }: Readonly<Params<string>> = useParams();
+  const dispatch = useDispatch();
+  const { id }: Readonly<Params<string>> = useParams();
+  const { getSingleProperty } = useProperty();
 
-	useEffect(() => {
-		dispatch(setTitle({ title: "Property Details", showIcon: true }));
-	}, []);
+  const { data: singleProperty, isSuccess } = useQuery<AxiosResponse, Error>({
+    queryKey: ["single_property", id],
+    queryFn: () => getSingleProperty(id as string),
+    enabled: !!id,
+  } as UseQueryOptions<AxiosResponse, Error>);
 
-	return (
-		<div className="px-3 flex flex-col py-3 gap-3  sm:px-5">
-			<TopWrapper id={Number(id)} />
-			<BottomWrapper />
-		</div>
-	);
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setPropertyDetails(singleProperty.data));
+    }
+  }, [isSuccess, dispatch, singleProperty]);
+
+  useEffect(() => {
+    dispatch(setTitle({ title: "Property Details", showIcon: true }));
+  }, []);
+
+  return (
+    <div className="px-3 flex flex-col py-3 gap-3  sm:px-5">
+      <TopWrapper
+        thumbnails={singleProperty?.data.images_url || []}
+        id={id ? id : ""}
+      />
+      <BottomWrapper />
+    </div>
+  );
 };
 
 export default PropertyDetials;

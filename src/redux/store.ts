@@ -7,6 +7,7 @@ import stateReducer from "./slices/app";
 import loginReducer from "./slices/forms/login";
 import signupReducer from "./slices/forms/signup";
 
+
 const persistConfig = {
   key: "root",
   storage,

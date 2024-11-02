@@ -6,31 +6,99 @@ import { FileUpload } from "../../svgs";
 import Button from "../../ui/Button";
 import { useForm, yupResolver } from "../../../../configs/services";
 import { managePropertySchema } from "../../../utils/schemas/properties";
+import useProperty from "../../../hooks/useProperty";
+import { ManagePropertyFormState } from "../../../types/forms";
+import ManagementModal from "../properties/ManagePropertySuccessModal";
+import { useDisclosure } from "@nextui-org/use-disclosure";
+import {
+  useMutation,
+  useQuery,
+  UseQueryOptions,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
+import { useEffect } from "react";
+import { CustomModal } from "../../ui/Modal";
 
-const data = [
-  { key: 1, label: "Residential" },
-  { key: 2, label: "Commercial" },
+const typesData = [
+  { key: "Residential", label: "Residential" },
+  { key: "Commercial", label: "Commercial" },
 ];
 
-const PropertyForm = ({ id }: { id: number }) => {
+const PropertyForm = ({ id }: { id: string }) => {
   const {
     register,
     handleSubmit,
+    setValue,
+    reset,
+    getValues,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(managePropertySchema) });
+  } = useForm({
+    resolver: yupResolver(managePropertySchema(id)),
+  });
+  const queryClient = useQueryClient();
 
-  const handleEditProperty = (data: {
-    attraction?: string | undefined;
-    images?: File[] | undefined;
-    title: string;
-    location: string;
-    description: string;
-    address: string;
-    type: string;
-    unit_number: string;
-  }) => {
-    console.log(data);
+  const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
+
+  const { addProperty, editProperty, getSingleProperty } = useProperty();
+
+  const handleManageProperty = (data: ManagePropertyFormState) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, val]) => {
+      if (key === "images") {
+        Array.from(val).forEach((file) => {
+          if (file instanceof File) {
+            formData.append("images", file);
+          }
+        });
+      } else if (val !== undefined) {
+        formData.append(key, val);
+      }
+    });
+
+    mutation.mutate(
+      id ? { updateProperty: formData, productId: id } : formData
+    );
   };
+
+  const mutation = useMutation({
+    mutationFn: async (
+      variables: FormData | { updateProperty: FormData; productId: string }
+    ) => {
+      if (typeof variables === "object" && variables !== null) {
+        if ("productId" in variables) {
+          return await editProperty(
+            variables.productId,
+            variables.updateProperty
+          );
+        } else if (variables instanceof FormData) {
+          return await addProperty(variables);
+        }
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
+      queryClient.invalidateQueries({ queryKey: ["single_propert", id] });
+      onOpen();
+    },
+    onError: (error) => {
+      console.log("Error: ", error);
+    },
+  });
+
+  const { data: singleProperty } = useQuery<AxiosResponse, Error>({
+    queryKey: ["single_property"],
+    queryFn: () => getSingleProperty(id),
+    enabled: !!id,
+  } as UseQueryOptions<AxiosResponse, Error>);
+
+  useEffect(() => {
+    if (!id) return;
+
+    if (singleProperty?.data) {
+      reset(singleProperty.data);
+    }
+  }, [singleProperty, setValue]);
 
   return (
     <section className="flex flex-col lg:flex-row h-full overflow-auto scrollbar-hide">
@@ -48,7 +116,11 @@ const PropertyForm = ({ id }: { id: number }) => {
             Update property details to keep information accurate and up-to-date.
           </p>
         </div>
-        <form onSubmit={handleSubmit(handleEditProperty)}>
+        <form
+          method="post"
+          encType="multipart/form-data"
+          onSubmit={handleSubmit(handleManageProperty)}
+        >
           <div className="grid md:grid-cols-2 gap-4 mb-5">
             <Input
               required={true}
@@ -73,19 +145,20 @@ const PropertyForm = ({ id }: { id: number }) => {
             <Input
               label="Street / Road / Estate"
               type="text"
-              name="address"
+              name="street"
               size="md"
               required={true}
               placeholder="Enter property address"
               register={register}
-              error={errors.address?.message}
+              error={errors.street?.message}
             />
             <Select
-              name="type"
+              name="property_type"
               register={register}
-              data={data}
+              data={typesData}
               label="Property Type:"
-              error={errors.type?.message}
+              error={errors.property_type?.message}
+              defaultValue={getValues("property_type")}
             />
 
             <Input
@@ -127,8 +200,6 @@ const PropertyForm = ({ id }: { id: number }) => {
                     hidden
                     accept="image/*"
                     multiple
-                    // name="images"
-                    // onChange={onImageChange}
                     {...register("images")}
                   />
                   <div className="flex flex-col gap-1 items-center">
@@ -160,12 +231,24 @@ const PropertyForm = ({ id }: { id: number }) => {
                 </p>
               )}
             </div>
-            <Button type="submit" className="w-full">
+            <Button
+              isLoading={mutation.isPending}
+              type="submit"
+              className="w-full"
+            >
               {id ? "Edit" : "Add"} Property Details
             </Button>
           </div>
         </form>
       </div>
+      <CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ManagementModal
+          message={
+            id ? "Property Updated successfully" : "Property Added successfully"
+          }
+          onClose={onClose}
+        />
+      </CustomModal>
     </section>
   );
 };

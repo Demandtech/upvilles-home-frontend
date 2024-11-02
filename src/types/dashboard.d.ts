@@ -19,10 +19,16 @@ export interface StatsType {
 }
 
 export interface PropertyType {
-  name: string;
+  _id: string;
   address: string;
   description: string;
-  id: number;
+  attraction: string;
+  images_url: string[];
+  title: string;
+  location: string;
+  description: string;
+  type: string;
+  unit_number: string;
 }
 
 export type PropertyListType = PropertyType[] | [];
