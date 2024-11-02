@@ -15,30 +15,22 @@ const ImagesGallery = ({ thumbnails }: { thumbnails: string[] }) => {
             alt="main"
           />
         </div>
-        <div className="flex w-full h-20 justify-between sm:h-32 gap-1">
+        <div className="w-full flex gap-1">
           {thumbnails.slice(0, 4).map((thumbnail: string, index: number) => (
             <div
-              className={`h-20 sm:h-28  ${
-                selectedThumbnailIndex === index ? "opacity-60" : " opacity-100"
+              className={`relative flex-1 bg-white/80 h-24 lg:h-32  ${
+                selectedThumbnailIndex === index
+                  ? "opacity-60"
+                  : " opacity-100 cursor-pointer"
               }`}
               key={index}
+              onClick={() => setSelectedThumbnailIndex(index)}
             >
-              <div
-                className={`rounded-none flex-1 object-cover object-center w-full h-20 sm:h-28 relative${
-                  selectedThumbnailIndex === index
-                    ? "opacity-60"
-                    : " opacity-100"
-                }`}
-                onClick={() => setSelectedThumbnailIndex(index)}
-              >
-                <Image
-                  className={`rounded-none flex-1 object-cover object-center w-full`}
-                  src={thumbnail}
-                  alt="thumbnail"
-                  width="100%"
-                  height="100%"
-                />
-              </div>
+              <img
+                className={`rounded-none h-full w-full object-cover `}
+                src={thumbnail}
+                alt="thumbnail"
+              />
             </div>
           ))}
         </div>
