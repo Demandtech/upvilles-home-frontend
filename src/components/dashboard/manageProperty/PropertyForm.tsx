@@ -8,7 +8,14 @@ import { useForm, yupResolver } from "../../../../configs/services";
 import { managePropertySchema } from "../../../utils/schemas/properties";
 import useProperty from "../../../hooks/useProperty";
 import { ManagePropertyFormState } from "../../../types/forms";
-import { useMutation } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  UseQueryOptions,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
+import { useEffect } from "react";
 
 const typesData = [
   { key: "Residential", label: "Residential" },
@@ -19,14 +26,20 @@ const PropertyForm = ({ id }: { id: string }) => {
   const {
     register,
     handleSubmit,
+    setValue,
+    reset,
+    getValues,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(managePropertySchema) });
+  } = useForm({
+    resolver: yupResolver(managePropertySchema(id)),
+  });
 
-  const { addProperty, editProperty } = useProperty();
+  const queryClient = useQueryClient();
+
+  const { addProperty, editProperty, getSingleProperty } = useProperty();
 
   const handleManageProperty = (data: ManagePropertyFormState) => {
     const formData = new FormData();
-
     Object.entries(data).forEach(([key, val]) => {
       if (key === "images") {
         Array.from(val).forEach((file) => {
@@ -61,13 +74,28 @@ const PropertyForm = ({ id }: { id: string }) => {
         }
       }
     },
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
+      queryClient.invalidateQueries({ queryKey: ["single_propert", id] });
     },
     onError: (error) => {
       console.log("Error: ", error);
     },
   });
+
+  const { data: singleProperty } = useQuery<AxiosResponse, Error>({
+    queryKey: ["single_property"],
+    queryFn: () => getSingleProperty(id),
+    enabled: !!id,
+  } as UseQueryOptions<AxiosResponse, Error>);
+
+  useEffect(() => {
+    if (!id) return;
+
+    if (singleProperty?.data) {
+      reset(singleProperty.data);
+    }
+  }, [singleProperty, setValue]);
 
   return (
     <section className="flex flex-col lg:flex-row h-full overflow-auto scrollbar-hide">
@@ -122,11 +150,12 @@ const PropertyForm = ({ id }: { id: string }) => {
               error={errors.street?.message}
             />
             <Select
-              name="type"
+              name="property_type"
               register={register}
               data={typesData}
               label="Property Type:"
-              error={errors.type?.message}
+              error={errors.property_type?.message}
+              defaultValue={getValues("property_type")}
             />
 
             <Input
@@ -168,8 +197,6 @@ const PropertyForm = ({ id }: { id: string }) => {
                     hidden
                     accept="image/*"
                     multiple
-                    // name="images"
-                    // onChange={onImageChange}
                     {...register("images")}
                   />
                   <div className="flex flex-col gap-1 items-center">

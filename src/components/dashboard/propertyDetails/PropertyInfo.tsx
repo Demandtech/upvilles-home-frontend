@@ -13,7 +13,7 @@ const sideAttractions: string[] | [] = [
   "Kitchen Cabinets",
   "Microwave",
 ];
-const PropertyInfo = ({ id }: { id: number }) => {
+const PropertyInfo = ({ id }: { id: string }) => {
   const navigate = useNavigate();
   const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
 
@@ -88,7 +88,7 @@ const PropertyInfo = ({ id }: { id: number }) => {
         isOpen={isOpen}
         onClose={onClose}
       >
-        <DeleteModal onClose={onClose} />
+        <DeleteModal onClose={onClose} id={id} />
       </CustomModal>
     </div>
   );

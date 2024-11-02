@@ -2,7 +2,6 @@ import PropertyItem from "./PropertyItem";
 import { PropertyListType, PropertyType } from "../../../types/dashboard";
 
 export default function PropertyList({ data }: { data: PropertyListType }) {
-	console.log(data)
 	return (
 		<div className="">
 			{data.length > 0 ? (

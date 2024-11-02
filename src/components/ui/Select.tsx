@@ -8,6 +8,7 @@ interface AppProps<T extends FieldValues> {
   name: Path<T>;
   error?: string;
   size?: "sm" | "md" | "lg";
+  defaultValue: string;
 }
 
 export default function App<T extends FieldValues>({
@@ -17,6 +18,7 @@ export default function App<T extends FieldValues>({
   name,
   error,
   size = "md",
+  defaultValue,
 }: AppProps<T>) {
   return (
     <div className="w-full">
@@ -32,10 +34,10 @@ export default function App<T extends FieldValues>({
         classNames={{ popoverContent: "rounded-md", trigger: "rounded-md" }}
         placeholder="Select"
         aria-label="Selector"
-        // name={name}
         {...register(name)}
         errorMessage={error}
         isInvalid={!!error}
+        defaultSelectedKeys={[defaultValue]}
       >
         {data.map((item: { key: string; label: string }) => {
           return (

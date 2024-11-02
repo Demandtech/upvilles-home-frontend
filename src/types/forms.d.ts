@@ -21,6 +21,6 @@ export interface ManagePropertyFormState {
   title: string;
   location: string;
   description: string;
-  type: string;
+  property_type: string;
   unit_number: number;
 }

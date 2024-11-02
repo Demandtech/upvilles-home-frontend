@@ -31,6 +31,7 @@ const dashboardSlice = createSlice({
     setProperties: (state, { payload }: { payload: PropertyListType }) => {
       state.properties = payload;
     },
+
     setLogout: () => {
       return initialState;
     },

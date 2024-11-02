@@ -22,7 +22,7 @@ export interface PropertyType {
   _id: string;
   address: string;
   description: string;
-  attraction?: string[] | [];
+  attraction: string[] | [];
   images_url: string[];
   title: string;
   location: string;

@@ -4,11 +4,13 @@ import Cookies from "js-cookie";
 
 export default function useProperty(): {
   allProperties: () => Promise<AxiosResponse>;
-  addProperty: (newProperty: FormData) => Promise<AxiosResponse>;
+  getSingleProperty: (params: string) => Promise<AxiosResponse>;
+  addProperty: (params: FormData) => Promise<AxiosResponse>;
   editProperty: (
     propertyId: string,
     updatedProperty: FormData
   ) => Promise<AxiosResponse>;
+  deleteProperty: (params: string) => Promise<AxiosResponse>;
 } {
   const tokenStr: string | undefined = Cookies.get("auth_token");
 
@@ -25,10 +27,17 @@ export default function useProperty(): {
   };
 
   const allProperties = async () => {
-    const authUser = await customAxios(false, token?.access_token).get(
-      "properties"
+    const properties = await customAxios(false, token?.access_token).get(
+      "/properties"
     );
-    return authUser;
+    return properties;
+  };
+
+  const getSingleProperty = async (productId: string) => {
+    const property = await customAxios(false, token?.access_token).get(
+      `/properties/${productId}`
+    );
+    return property;
   };
 
   const editProperty = async (
@@ -36,11 +45,30 @@ export default function useProperty(): {
     updateProperty: FormData
   ): Promise<AxiosResponse> => {
     const result = await customAxios(true, token?.access_token).put(
-      `/properties/:${propertyId}`,
+      `/properties/${propertyId}`,
       updateProperty
     );
 
     return result;
   };
-  return { addProperty, editProperty, allProperties };
+
+  const deleteProperty = async (propertyId: string) => {
+    try {
+      const result = await customAxios(true, token?.access_token).delete(
+        `/properties/${propertyId}`
+      );
+
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new Error();
+    }
+  };
+  return {
+    addProperty,
+    editProperty,
+    allProperties,
+    getSingleProperty,
+    deleteProperty,
+  };
 }
