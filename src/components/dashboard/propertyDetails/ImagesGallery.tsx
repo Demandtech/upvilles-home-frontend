@@ -19,7 +19,7 @@ const ImagesGallery = ({ thumbnails }: { thumbnails: string[] }) => {
         <div className="w-full flex gap-1">
           {thumbnails.slice(0, 4).map((thumbnail: string, index: number) => (
             <div
-              className={`relative flex-1 bg-white/80 h-24 lg:h-32  ${
+              className={`relative flex-1 bg-white/80 h-24 lg:h-28  ${
                 selectedThumbnailIndex === index
                   ? "opacity-60"
                   : " opacity-100 cursor-pointer"

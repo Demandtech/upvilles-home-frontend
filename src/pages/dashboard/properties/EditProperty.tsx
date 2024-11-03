@@ -89,7 +89,7 @@ const EditProperty = () => {
 
 			<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
 				<ManagementModal
-					message="Property Added successfully"
+					message="Property info updated successfully"
 					onClose={onClose}
 				/>
 			</CustomModal>

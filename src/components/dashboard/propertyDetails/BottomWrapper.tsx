@@ -79,7 +79,7 @@ const tenants = [
 
 const BottomWrapper = () => {
   return (
-    <div className="w-full bg-lightBg py-8 px-4 rounded-xl" id="tenant-section">
+    <div className="w-full bg-lightBg py-8 px-4 rounded-xl mb-20" id="tenant-section">
       <div className="flex items-center justify-between mb-5">
         <div>
           <p className="font-bold sm:font-lg">Tenant Information</p>
