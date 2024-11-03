@@ -18,6 +18,7 @@ function DeleteModal({ onClose, id }: { onClose: () => void; id: string }) {
     mutationFn: deleteProperty,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["properties"] });
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
       setIsSuccess(true);
     },
     onError: (error) => {
