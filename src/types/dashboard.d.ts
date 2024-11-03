@@ -20,7 +20,7 @@ export interface StatsType {
 
 export interface PropertyType {
   _id: string;
-  address: string;
+  street: string;
   description: string;
   attraction: string;
   images_url: string[];
