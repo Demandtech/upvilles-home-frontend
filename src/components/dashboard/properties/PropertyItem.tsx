@@ -22,7 +22,7 @@ const PropertyItem = ({ item }: { item: PropertyType }) => {
           <div>
             <h6 className="font-bold mb-1">{item.title}</h6>
             <p className="text-xs text-[#667185] line-clamp-1">
-              {item.address}
+              {item.street}
             </p>
           </div>
           <p className=" line-clamp-1 text-sm text-default">
