@@ -7,8 +7,6 @@ import { useDisclosure } from "@nextui-org/use-disclosure";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 
-
-
 const PropertyInfo = ({ id }: { id: string }) => {
   const navigate = useNavigate();
   const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
@@ -18,7 +16,7 @@ const PropertyInfo = ({ id }: { id: string }) => {
   );
 
   function handleNavigate() {
-    navigate(`/dashboard/properties/manage?id=${id}`);
+    navigate(`/dashboard/properties/edit/${id}`);
   }
 
   return (

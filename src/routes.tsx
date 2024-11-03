@@ -2,8 +2,9 @@ import { createBrowserRouter, RouteObject } from "react-router-dom";
 import DashboardLayout from "./layouts/dashboard/DashboardLayout";
 import AuthLayout from "./layouts/auth/AuthLayout";
 import {
+  AddProperty,
+  EditProperty,
   Properties,
-  ManageProperty,
   PropertyDetails,
   Home,
   PageNotFound,
@@ -53,9 +54,14 @@ const routes: RouteObject[] = [
         element: <Properties />,
       },
       {
-        path: "properties/manage",
-        element: <ManageProperty />,
+        path: "properties/add",
+        element: <AddProperty />,
       },
+      {
+        path: "properties/edit/:id",
+        element: <EditProperty />,
+      },
+
       {
         path: "properties/:id",
         element: <PropertyDetails />,

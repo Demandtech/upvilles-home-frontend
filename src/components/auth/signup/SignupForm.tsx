@@ -9,7 +9,7 @@ import { EyeFilledIcon, EyeSlashFilledIcon } from "../../svgs";
 import { SignupFormState } from "../../../types/forms";
 import { updateForm, resetForm } from "../../../redux/slices/forms/signup";
 import { useSelector, useDispatch } from "react-redux";
-import { persistor, RootState } from "../../../redux/store";
+import { RootState } from "../../../redux/store";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import Cookies from "js-cookie";
@@ -56,7 +56,6 @@ const SignupForm: FC = () => {
           refresh_token: data.data.refresh_token,
         })
       );
-      persistor.purge();
       reset();
       dispatch(resetForm());
       dispatch(setUser({ user: data.data.user, stats: data.data.stats }));

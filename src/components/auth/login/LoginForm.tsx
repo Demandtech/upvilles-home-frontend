@@ -10,7 +10,7 @@ import {
   resetLoginForm,
 } from "../../../redux/slices/forms/login";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, persistor } from "../../../redux/store";
+import { RootState} from "../../../redux/store";
 import { LoginFormState } from "../../../types/forms";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
@@ -51,7 +51,6 @@ const LoginForm: FC = () => {
       dispatch(setUser(data.data));
       dispatch(resetLoginForm());
       reset();
-      persistor.purge();
       dispatch(openToast({ message: "Login successfully" }));
       navigate("/dashboard/properties");
     },
