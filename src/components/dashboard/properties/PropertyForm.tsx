@@ -21,9 +21,9 @@ const PropertyForm = ({
   isLoading,
 }: {
   id?: string;
-  schema: ObjectSchema<ManagePropertyFormState>;
+  schema: Partial<ObjectSchema<ManagePropertyFormState>>;
   onFormSubmit: (data: ManagePropertyFormState) => void;
-  formDefaultValue?: Partial<ManagePropertyFormState>;
+  formDefaultValue?: ManagePropertyFormState;
   isLoading: boolean;
 }) => {
   const {

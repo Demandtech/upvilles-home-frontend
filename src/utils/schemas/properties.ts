@@ -38,4 +38,5 @@ export const editPropertySchema = yup.object().shape({
   unit_number: yup.number().required("Number of unit is required"),
   attraction: yup.string().optional(),
   images: yup.mixed<File[]>(),
+  images_url: yup.array(),
 });

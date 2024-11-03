@@ -63,13 +63,25 @@ const EditProperty = () => {
     dispatch(setTitle({ showIcon: true, title: "Edit Property" }));
   }, []);
 
+  console.log(singleProperty?.data)
+
   return (
     <div className="rounded-md shadow-lg shadow-dark py-5 px-5 lg:px-10 h-[calc(100vh-116px)]  md:h-[calc(100vh-126px)]">
       <PropertyForm
         id={id}
         schema={editPropertySchema}
         onFormSubmit={handleEditProperty}
-        formDefaultValue={singleProperty?.data}
+        formDefaultValue={{
+          title: singleProperty?.data.title as string,
+          street: singleProperty?.data.street as string,
+          unit_number: singleProperty?.data.unit_number as number,
+          description: singleProperty?.data.description as string,
+          property_type: singleProperty?.data.property_type as
+            | "Residential"
+            | "Commercial",
+          location: singleProperty?.data.location,
+          images_url: singleProperty?.data.images_url,
+        }}
         isLoading={mutation.isPending}
       />
 

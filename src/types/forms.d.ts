@@ -23,4 +23,5 @@ export interface ManagePropertyFormState {
   description: string;
   property_type: string;
   unit_number: number;
+  images_url?: string[];
 }
