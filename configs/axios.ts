@@ -13,8 +13,6 @@ export default function customAxios(
 		},
 	});
 
-	console.log(BASE_URL);
-
 	instance.interceptors.request.use(
 		(config: InternalAxiosRequestConfig) => {
 			if (token) {
