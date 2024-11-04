@@ -16,6 +16,7 @@ import ManagementModal from "../../../components/dashboard/properties/ManageProp
 import { CustomModal } from "../../../components/ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { EditPropertyFormState } from "../../../types/forms";
+import { Helmet } from "react-helmet-async";
 
 const EditProperty = () => {
 	const { id } = useParams();
@@ -67,33 +68,43 @@ const EditProperty = () => {
 		dispatch(setTitle({ showIcon: true, title: "Edit Property" }));
 	}, []);
 
-	return (
-		<div className="rounded-md shadow-lg shadow-dark py-5 px-5 lg:px-10 h-[calc(100vh-116px)]  md:h-[calc(100vh-126px)]">
-			<PropertyForm
-				id={id}
-				schema={editPropertySchema}
-				onFormSubmit={handleEditProperty}
-				formDefaultValue={{
-					title: singleProperty?.data.title as string,
-					street: singleProperty?.data.street as string,
-					unit_number: singleProperty?.data.unit_number as number,
-					description: singleProperty?.data.description as string,
-					property_type: singleProperty?.data.property_type as
-						| "Residential"
-						| "Commercial",
-					location: singleProperty?.data.location,
-					images_url: singleProperty?.data.images_url,
-				}}
-				isLoading={mutation.isPending}
-			/>
+	if (!singleProperty) return;
 
-			<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
-				<ManagementModal
-					message="Property info updated successfully"
-					onClose={onClose}
-				/>
-			</CustomModal>
-		</div>
+	return (
+		<>
+			<Helmet>
+				<title>Upvillehomes | Edit Property - Dashboard</title>
+			</Helmet>
+			<div className="px-5 pt-5">
+				<div className="rounded-md shadow-lg shadow-dark py-5 px-5 lg:px-10 h-[calc(100vh-116px)]  md:h-[calc(100vh-126px)]">
+					<PropertyForm
+						id={id}
+						schema={editPropertySchema}
+						onFormSubmit={handleEditProperty}
+						formDefaultValue={{
+							title: singleProperty?.data.title as string,
+							street: singleProperty?.data.street as string,
+							unit_number: singleProperty?.data.unit_number as number,
+							description: singleProperty?.data.description as string,
+							property_type: singleProperty?.data.property_type as
+								| "Residential"
+								| "Commercial",
+							location: singleProperty?.data.location,
+							images_url: singleProperty?.data.images_url,
+							attraction: singleProperty?.data.attraction,
+						}}
+						isLoading={mutation.isPending}
+					/>
+
+					<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
+						<ManagementModal
+							message="Property info updated successfully"
+							onClose={onClose}
+						/>
+					</CustomModal>
+				</div>
+			</div>
+		</>
 	);
 };
 

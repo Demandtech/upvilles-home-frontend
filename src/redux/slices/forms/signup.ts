@@ -23,21 +23,17 @@ const signupSlice = createSlice({
 	name: "signup",
 	initialState: loadFormState(),
 	reducers: {
-		updateForm: (
-			state,
+		updateForm: <K extends keyof SignupFormState>(
+			state: SignupFormState,
 			{
 				payload,
 			}: PayloadAction<{
-				field: keyof SignupFormState;
-				value: string | boolean;
+				field: K;
+				value: SignupFormState[K];
 			}>
 		) => {
 			const { field, value } = payload;
-			if (typeof value === "boolean" && field === "termCondition") {
-				state[field] = value;
-			} else if (typeof value === "string" && field !== "termCondition") {
-				state[field] = value;
-			}
+			state[field] = value;
 			localStorage.setItem("signupFormState", JSON.stringify(state));
 		},
 		resetForm: () => {

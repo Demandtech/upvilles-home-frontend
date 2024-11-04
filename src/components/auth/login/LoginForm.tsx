@@ -50,6 +50,7 @@ const LoginForm: FC = () => {
 			dispatch(resetLoginForm());
 			dispatch(openToast({ message: "Login successfully" }));
 			navigate("/dashboard/properties");
+			window.scrollTo(0, 0);
 		},
 		onError: (error) => {
 			console.log("Error: ", error);

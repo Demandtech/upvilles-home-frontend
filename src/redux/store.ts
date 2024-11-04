@@ -4,7 +4,7 @@ import dashboardReducer from "./slices/dashboard";
 import stateReducer from "./slices/app";
 import loginReducer from "./slices/forms/login";
 import signupReducer from "./slices/forms/signup";
-
+import propertyReducer from "./slices/forms/property";
 
 const store = configureStore({
 	reducer: {
@@ -12,6 +12,7 @@ const store = configureStore({
 		dashboard: dashboardReducer,
 		login: loginReducer,
 		signup: signupReducer,
+		property: propertyReducer,
 	},
 });
 
