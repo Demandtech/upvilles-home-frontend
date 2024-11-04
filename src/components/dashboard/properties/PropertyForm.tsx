@@ -10,6 +10,9 @@ import {
 	ManagePropertyFormState,
 	EditPropertyFormState,
 } from "../../../types/forms";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { updatePropertyForm } from "../../../redux/slices/forms/property";
 
 const typesData = [
 	{ key: "Residential", label: "Residential" },
@@ -26,17 +29,34 @@ const PropertyForm = ({
 	id?: string;
 	schema: ObjectSchema<ManagePropertyFormState | EditPropertyFormState>;
 	onFormSubmit: (data: ManagePropertyFormState | EditPropertyFormState) => void;
-	formDefaultValue?: EditPropertyFormState;
+	formDefaultValue?: EditPropertyFormState | ManagePropertyFormState;
 	isLoading: boolean;
 }) => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		watch,
 	} = useForm<EditPropertyFormState | ManagePropertyFormState>({
 		resolver: yupResolver(schema),
 		defaultValues: formDefaultValue,
 	});
+	const dispatch = useDispatch();
+
+	const watchFields = watch();
+
+	useEffect(() => {
+		if (!id) {
+			Object.entries(watchFields).forEach(([key, val]) => {
+				dispatch(
+					updatePropertyForm({
+						field: key as keyof typeof formDefaultValue,
+						value: val as keyof ManagePropertyFormState,
+					})
+				);
+			});
+		}
+	}, [watchFields, id]);
 
 	return (
 		<section className="flex flex-col lg:flex-row h-full overflow-auto scrollbar-hide">

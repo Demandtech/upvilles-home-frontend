@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -7,11 +6,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import routes from "./routes";
 import store from "./redux/store";
 import "./index.css";
+import { HelmetProvider } from "react-helmet-async";
 
 const client = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
-	<StrictMode>
+	<HelmetProvider>
 		<NextUIProvider>
 			<QueryClientProvider client={client}>
 				<Provider store={store}>
@@ -19,5 +19,5 @@ createRoot(document.getElementById("root")!).render(
 				</Provider>
 			</QueryClientProvider>
 		</NextUIProvider>
-	</StrictMode>
+	</HelmetProvider>
 );
