@@ -23,7 +23,7 @@ const AddTenant = ({
 			<Dropdown>
 				<DropdownTrigger>
 					<Button variant="flat" isIconOnly>
-						<VerticalDotsIcon />
+						<VerticalDotsIcon className="text-[#344054] rotate-90" />
 					</Button>
 				</DropdownTrigger>
 				<DropdownMenu color="primary">
