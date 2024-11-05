@@ -36,7 +36,7 @@ const PropertyDetials: FC = () => {
 	}, []);
 
 	return (
-		<div className="px-3 flex flex-col py-3 gap-3  sm:px-5">
+		<div className="px-3 flex flex-col py-3 gap-10  sm:px-5">
 			<Helmet>
 				<title>Upvillehomes | Property Details</title>
 			</Helmet>

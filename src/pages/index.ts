@@ -13,4 +13,4 @@ export { default as Support } from "./dashboard/Support";
 export { default as Report } from "./dashboard/Report";
 export { default as Maintenance } from "./dashboard/maintenance/Maintenance";
 export { default as ManageMaintenance } from "./dashboard/maintenance/ManageMaintenance";
-
+export { default as AddTenant } from "./dashboard/tenant/AddTenant";
