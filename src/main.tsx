@@ -7,6 +7,8 @@ import routes from "./routes";
 import store from "./redux/store";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
+import "react-toastify/dist/ReactToastify.css";
+import { Bounce, ToastContainer } from "react-toastify";
 
 const client = new QueryClient();
 
@@ -16,6 +18,11 @@ createRoot(document.getElementById("root")!).render(
 			<QueryClientProvider client={client}>
 				<Provider store={store}>
 					<RouterProvider router={routes} />
+					<ToastContainer
+						transition={Bounce}
+						autoClose={3000}
+						hideProgressBar={true}
+					/>
 				</Provider>
 			</QueryClientProvider>
 		</NextUIProvider>

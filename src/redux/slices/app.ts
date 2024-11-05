@@ -28,5 +28,5 @@ const accountSlice = createSlice({
 	},
 });
 
-export const { setTitle, closeToast, openToast } = accountSlice.actions;
+export const { setTitle} = accountSlice.actions;
 export default accountSlice.reducer;

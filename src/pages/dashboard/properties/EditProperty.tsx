@@ -11,12 +11,13 @@ import {
 	UseQueryOptions,
 } from "@tanstack/react-query";
 import useProperty from "../../../hooks/useProperty";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import ManagementModal from "../../../components/dashboard/properties/ManagePropertySuccessModal";
 import { CustomModal } from "../../../components/ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { EditPropertyFormState } from "../../../types/forms";
 import { Helmet } from "react-helmet-async";
+import { toast } from "../../../../configs/services";
 
 const EditProperty = () => {
 	const { id } = useParams();
@@ -32,8 +33,11 @@ const EditProperty = () => {
 			queryClient.invalidateQueries({ queryKey: ["properties"] });
 			onOpen();
 		},
-		onError: (error) => {
-			console.log("Error: ", error);
+		onError: (error: AxiosError) => {
+			if (error.response?.data) {
+				toast.error((error.response.data as { message: string }).message);
+			}
+			toast.error("An error occured, please try again later!");
 		},
 	});
 

@@ -12,7 +12,8 @@ import { ManagePropertyFormState } from "../../../types/forms";
 import { RootState } from "../../../redux/store";
 import { resetPropertyForm } from "../../../redux/slices/forms/property";
 import { Helmet } from "react-helmet-async";
-
+import { AxiosError } from "axios";
+import { toast } from "../../../../configs/services";
 function AddProperty() {
 	const dispatch = useDispatch();
 	const { addProperty } = useProperty();
@@ -30,8 +31,11 @@ function AddProperty() {
 			onOpen();
 			dispatch(resetPropertyForm());
 		},
-		onError: (error) => {
-			console.log("Error: ", error);
+		onError: (error: AxiosError) => {
+			if (error.response?.data) {
+				toast.error((error.response.data as { message: string }).message);
+			}
+			toast.error("An error occured, please try again!");
 		},
 	});
 

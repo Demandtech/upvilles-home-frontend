@@ -3,7 +3,7 @@ import { FC, useState, useEffect } from "react";
 import Input from "../../ui/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "../../../utils/schemas/auth";
-import { useForm, yupResolver } from "../../../../configs/services";
+import { useForm, yupResolver, toast } from "../../../../configs/services";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "../../svgs";
 import {
 	updateLoginForm,
@@ -16,7 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import Cookies from "js-cookie";
 import { setUser } from "../../../redux/slices/dashboard";
-import { openToast } from "../../../redux/slices/app";
+import { AxiosError } from "axios";
 
 const LoginForm: FC = () => {
 	const navigate = useNavigate();
@@ -48,12 +48,15 @@ const LoginForm: FC = () => {
 			);
 			dispatch(setUser(data.data));
 			dispatch(resetLoginForm());
-			dispatch(openToast({ message: "Login successfully" }));
 			navigate("/dashboard/properties");
-			window.scrollTo(0, 0);
+			toast.success("Login successfully");
 		},
-		onError: (error) => {
-			console.log("Error: ", error);
+		onError: (error: AxiosError) => {
+			if (error.response?.data) {
+				toast.error((error.response?.data as { message: string }).message);
+				return;
+			}
+			toast.error("An error occured, please try again!");
 		},
 	});
 

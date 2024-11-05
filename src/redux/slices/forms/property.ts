@@ -39,6 +39,7 @@ const propertyFormSlice = createSlice({
 		},
 		resetPropertyForm: () => {
 			localStorage.removeItem("propertyFormState");
+			console.log(initialState);
 			return initialState;
 		},
 	},

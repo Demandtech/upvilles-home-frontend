@@ -4,7 +4,7 @@ import Input from "../../ui/Input";
 import { Checkbox } from "@nextui-org/checkbox";
 import { Link, useNavigate } from "react-router-dom";
 import { signupSchema } from "../../../utils/schemas/auth";
-import { useForm, yupResolver } from "../../../../configs/services";
+import { toast, useForm, yupResolver } from "../../../../configs/services";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "../../svgs";
 import { SignupFormState } from "../../../types/forms";
 import { updateForm, resetForm } from "../../../redux/slices/forms/signup";
@@ -18,6 +18,7 @@ import { UserType, StatsType } from "../../../types/dashboard";
 import SuccessModal from "../../common/SuccessModal";
 import { CustomModal } from "../../ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
+import { AxiosError } from "axios";
 
 const SignupForm: FC = () => {
 	const navigate = useNavigate();
@@ -68,8 +69,12 @@ const SignupForm: FC = () => {
 	const mutation = useMutation({
 		mutationFn: handleSignup,
 		onSuccess: handleMutationSuccess,
-		onError: (error) => {
-			console.log("Error: ", error);
+		onError: (error: AxiosError) => {
+			if (error.response?.data) {
+				toast.error((error.response.data as { message: string }).message);
+				return;
+			}
+			toast.error("An error occured, try again later");
 		},
 	});
 
