@@ -1,28 +1,63 @@
-import { FC } from "react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState, FC } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { setTitle } from "../../../redux/slices/app";
 import { useParams, Params } from "react-router-dom";
 import {
 	TopWrapper,
 	BottomWrapper,
-} from "../../../components/dashboard/propertyDetails";
+} from "../../../components/dashboard/property/propertyDetails";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import useProperty from "../../../hooks/useProperty";
-import { setPropertyDetails } from "../../../redux/slices/dashboard";
+import { setPropertyDetails } from "../../../redux/slices/property";
 import { Helmet } from "react-helmet-async";
+import useTenant from "../../../hooks/useTenant";
+import { setTenants } from "../../../redux/slices/tenant";
+import { RootState } from "../../../redux/store";
 
 const PropertyDetials: FC = () => {
+	const [page, setPage] = useState(1);
+	const [sortBy, setSortBy] = useState({ column: "", direction: "descending" });
 	const dispatch = useDispatch();
 	const { id }: Readonly<Params<string>> = useParams();
 	const { getSingleProperty } = useProperty();
+	const { allTenantsHandler } = useTenant();
+	const { tenants, meta } = useSelector((state: RootState) => state.tenant);
 
 	const { data: singleProperty, isSuccess } = useQuery<AxiosResponse, Error>({
 		queryKey: ["single_property", id],
 		queryFn: () => getSingleProperty(id as string),
 		enabled: !!id,
 	} as UseQueryOptions<AxiosResponse, Error>);
+
+	const {
+		data: propertyTenants,
+		isSuccess: isTenantSuccess,
+		isLoading,
+	} = useQuery<AxiosResponse, Error>({
+		queryKey: [
+			"tenants",
+			singleProperty?.data._id,
+			page,
+			sortBy.column,
+			sortBy.direction,
+		],
+		queryFn: () =>
+			allTenantsHandler(
+				singleProperty?.data._id as string,
+				page,
+				sortBy.column,
+				sortBy.direction
+			),
+		enabled: !!singleProperty?.data._id,
+	} as UseQueryOptions<AxiosResponse, Error>);
+
+	useEffect(() => {
+		if (isTenantSuccess) {
+			console.log(propertyTenants);
+			dispatch(setTenants(propertyTenants.data));
+		}
+	}, [propertyTenants, isTenantSuccess]);
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -44,7 +79,14 @@ const PropertyDetials: FC = () => {
 				thumbnails={singleProperty?.data.images_url || []}
 				id={id || ""}
 			/>
-			<BottomWrapper />
+			<BottomWrapper
+				page={page}
+				setPage={setPage}
+				tenants={tenants}
+				isLoading={isLoading}
+				totalPage={meta?.total_page}
+				setSortBy={setSortBy}
+			/>
 		</div>
 	);
 };

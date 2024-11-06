@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Table from "../../common/Table";
 import { PlusIcon } from "../../svgs";
 import Button from "../../ui/Button";
+import { MaintenanceType } from "../../../types/maintenance";
 
 const columns = [
 	{ name: "NAME", uid: "name", sortable: true },
@@ -12,84 +13,31 @@ const columns = [
 	{ name: "Actions", uid: "actions" },
 ];
 
-const tenants = [
-	{
-		_id: "1",
-		name: "Completed",
-		last_men_date: "October 12, 2024",
-		upcoming_date: "December 15, 2024",
-		assigned_techs: "Benjamin Spencer",
-		status: "Completed" as "completed" | "schedule" | "overdue",
-	},
-	{
-		_id: "2",
-		name: "Elevator",
-		last_men_date: "October 12, 2024",
-		upcoming_date: "December 15, 2024",
-		assigned_techs: "Benjamin Spencer",
-		status: "Overdue" as "completed" | "schedule" | "overdue",
-	},
-	{
-		_id: "3",
-		name: "Air Condition",
-		last_men_date: "June 15, 2024",
-		upcoming_date: "December 15, 2024",
-		assigned_techs: "Benjamin Spencer",
-		status: "Scheduled" as "completed" | "schedule" | "overdue",
-	},
-	{
-		_id: "4",
-		name: "Elevator",
-		last_men_date: "October 12, 2024",
-		upcoming_date: "December 15, 2024",
-		assigned_techs: "Benjamin Spencer",
-		status: "Scheduled" as "completed" | "schedule" | "overdue",
-	},
-	{
-		_id: "5",
-		name: "Elevator",
-		last_men_date: "October 12, 2024",
-		upcoming_date: "December 15, 2024",
-		assigned_techs: "Benjamin Spencer",
-		status: "Completed" as "completed" | "schedule" | "overdue",
-	},
-	{
-		_id: "6",
-		name: "Elevator",
-		last_men_date: "October 12, 2024",
-		upcoming_date: "December 15, 2024",
-		assigned_techs: "Benjamin Spencer",
-		status: "Completed" as "completed" | "schedule" | "overdue",
-	},
-	{
-		_id: "7",
-		name: "Elevator",
-		last_men_date: "October 12, 2024",
-		upcoming_date: "December 15, 2024",
-		assigned_techs: "Benjamin Spencer",
-		status: "Scheduled" as "completed" | "schedule" | "overdue",
-	},
-	{
-		_id: "8",
-		name: "Elevator",
-		last_men_date: "October 12, 2024",
-		upcoming_date: "December 15, 2024",
-		assigned_techs: "Benjamin Spencer",
-		status: "Completed" as "completed" | "schedule" | "overdue",
-	},
-];
-
-function Schedule() {
+function Schedule({
+	maintenance,
+	totalPage,
+	page,
+	setSortBy,
+	setPage,
+}: {
+	maintenance: MaintenanceType[];
+	page: number;
+	setPage: (arg: number) => void;
+	totalPage: number;
+	setSortBy: (args: { column: string; direction: string }) => void;
+}) {
 	const navigate = useNavigate();
-	const viewTenant = (id: string) => {
+
+	const viewMaintenance = (id: string) => {
 		console.log("View Tenant", id);
 	};
-	const deleteTenant = (id: string) => {
+	const deleteMaintenance = (id: string) => {
 		console.log("Deleting Tenant", id);
 	};
-	const editTenant = (id: string) => {
+	const editMaintenance = (id: string) => {
 		console.log("Editing Tenant", id);
 	};
+
 	return (
 		<div className="w-full  py-10 px-6 rounded-xl" id="tenant-section">
 			<div className="bg-lightBg p-5 rounded-lg">
@@ -113,11 +61,15 @@ function Schedule() {
 					</div>
 				</div>
 				<Table
-					onDelete={deleteTenant}
-					onEdit={editTenant}
-					onView={viewTenant}
+					onDelete={deleteMaintenance}
+					onEdit={editMaintenance}
+					onView={viewMaintenance}
 					columns={columns}
-					rows={tenants}
+					rows={maintenance}
+					page={page}
+					setPage={setPage}
+					setSortBy={setSortBy}
+					totalPage={totalPage}
 				/>
 			</div>
 		</div>

@@ -4,7 +4,7 @@ import Input from "../../ui/Input";
 import { Checkbox } from "@nextui-org/checkbox";
 import { Link, useNavigate } from "react-router-dom";
 import { signupSchema } from "../../../utils/schemas/auth";
-import { useForm, yupResolver } from "../../../../configs/services";
+import { toast, useForm, yupResolver } from "../../../../configs/services";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "../../svgs";
 import { SignupFormState } from "../../../types/forms";
 import { updateForm, resetForm } from "../../../redux/slices/forms/signup";
@@ -13,11 +13,12 @@ import { RootState } from "../../../redux/store";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import Cookies from "js-cookie";
-import { setUser } from "../../../redux/slices/dashboard";
-import { UserType, StatsType } from "../../../types/dashboard";
+import { setUser } from "../../../redux/slices/user";
+import { User, Stats } from "../../../types/user";
 import SuccessModal from "../../common/SuccessModal";
 import { CustomModal } from "../../ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
+import { AxiosError } from "axios";
 
 const SignupForm: FC = () => {
 	const navigate = useNavigate();
@@ -47,8 +48,8 @@ const SignupForm: FC = () => {
 			data: {
 				access_token: string;
 				refresh_token: string;
-				user: UserType;
-				stats: StatsType;
+				user: User;
+				stats: Stats;
 			};
 		}) => {
 			Cookies.set(
@@ -68,8 +69,12 @@ const SignupForm: FC = () => {
 	const mutation = useMutation({
 		mutationFn: handleSignup,
 		onSuccess: handleMutationSuccess,
-		onError: (error) => {
-			console.log("Error: ", error);
+		onError: (error: AxiosError) => {
+			if (error.response?.data) {
+				toast.error((error.response.data as { message: string }).message);
+				return;
+			}
+			toast.error("An error occured, try again later");
 		},
 	});
 
@@ -230,7 +235,9 @@ const SignupForm: FC = () => {
 			<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
 				<SuccessModal
 					onClose={onSuccessModalClose}
+					title="Successful!"
 					message="User Registration is successful"
+					buttonLabel="Go to Dashboard"
 				/>
 			</CustomModal>
 		</>

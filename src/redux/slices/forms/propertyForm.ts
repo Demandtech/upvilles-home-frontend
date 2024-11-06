@@ -21,7 +21,7 @@ const loadFormState = (): ManagePropertyFormState => {
 };
 
 const propertyFormSlice = createSlice({
-	name: "property",
+	name: "propertyForm",
 	initialState: loadFormState(),
 	reducers: {
 		updatePropertyForm: <K extends keyof ManagePropertyFormState>(

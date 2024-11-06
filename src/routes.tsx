@@ -18,6 +18,8 @@ import {
 	Notification,
 	ManageMaintenance,
 	AddTenant,
+	EditTenant,
+	TenantDetail,
 } from "./pages";
 
 const routes: RouteObject[] = [
@@ -68,10 +70,17 @@ const routes: RouteObject[] = [
 				element: <PropertyDetails />,
 			},
 			{
+				path: "tenants/:id",
+				element: <TenantDetail />,
+			},
+			{
 				path: "tenants/add",
 				element: <AddTenant />,
 			},
-
+			{
+				path: "tenants/edit/:id",
+				element: <EditTenant />,
+			},
 			{
 				path: "maintenance",
 				element: <Maintenance />,

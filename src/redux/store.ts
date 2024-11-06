@@ -1,18 +1,26 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import dashboardReducer from "./slices/dashboard";
+import userReducer from "./slices/user";
+import propertyReducer from "./slices/property";
 import stateReducer from "./slices/app";
+import tenantReducer from "./slices/tenant";
+
+//Form
 import loginReducer from "./slices/forms/login";
 import signupReducer from "./slices/forms/signup";
-import propertyReducer from "./slices/forms/property";
+import propertyFormReducer from "./slices/forms/propertyForm";
+import tenantFormReducer from "./slices/forms/tenantForm";
 
 const store = configureStore({
 	reducer: {
+		user: userReducer,
 		app: stateReducer,
-		dashboard: dashboardReducer,
+		property: propertyReducer,
+		tenant: tenantReducer,
 		login: loginReducer,
 		signup: signupReducer,
-		property: propertyReducer,
+		propertyForm: propertyFormReducer,
+		tenantForm: tenantFormReducer,
 	},
 });
 

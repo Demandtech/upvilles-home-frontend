@@ -12,7 +12,7 @@ import {
 } from "../../../types/forms";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { updatePropertyForm } from "../../../redux/slices/forms/property";
+import { updatePropertyForm } from "../../../redux/slices/forms/propertyForm";
 
 const typesData = [
 	{ key: "Residential", label: "Residential" },
@@ -67,7 +67,7 @@ const PropertyForm = ({
 			</div>
 			<div className="lg:w-3/5 lg:pl-10  lg:overflow-y-auto scrollbar-hide py-5">
 				<div className="text-center mb-5">
-					<h3 className="text-center  text-lg md:text-xl mb-1.5">
+					<h3 className="text-center  text-lg md:text-xl mb-1.5 font-semibold">
 						{id ? "Edit" : "Add"} Your Property Information
 					</h3>
 					<p className="text-darkGrey text-sm">

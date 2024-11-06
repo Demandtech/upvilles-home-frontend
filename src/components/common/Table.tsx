@@ -6,9 +6,27 @@ import {
 	TableBody,
 	TableRow,
 	TableCell,
+	SortDescriptor,
 } from "@nextui-org/table";
-import { TableColumnType, Tenant, TableRowsType } from "../../types/common";
+import { TableColumnType } from "../../types/common";
 import Dropdown from "../ui/Dropdown";
+import { Tenant } from "../../types/tenant";
+import { Spinner } from "@nextui-org/spinner";
+import { Pagination } from "@nextui-org/pagination";
+import moment from "moment";
+
+interface TableProps {
+	columns: Partial<TableColumnType>[];
+	rows: Partial<Tenant>[];
+	onEdit: (id: string) => void;
+	onDelete: (id: string) => void;
+	onView: (id: string) => void;
+	isLoading?: boolean;
+	page: number;
+	setPage: (arg: number) => void;
+	totalPage: number;
+	setSortBy: (args: { column: string; direction: string }) => void;
+}
 
 export default function MyTable({
 	columns,
@@ -16,16 +34,15 @@ export default function MyTable({
 	onEdit,
 	onDelete,
 	onView,
-}: {
-	columns: Partial<TableColumnType>[];
-	rows: Partial<TableRowsType>[];
-	onEdit: (id: string) => void;
-	onDelete: (id: string) => void;
-	onView: (id: string) => void;
-}) {
+	isLoading,
+	page,
+	setPage,
+	totalPage,
+	setSortBy,
+}: TableProps) {
 	const renderCell = React.useCallback(
-		(user: (typeof rows)[0], columnKey: React.Key, id: string) => {
-			const cellValue = user[columnKey as keyof Tenant];
+		(item: (typeof rows)[0], columnKey: React.Key, id: string) => {
+			const cellValue = item[columnKey as keyof Tenant];
 
 			switch (columnKey) {
 				case "actions":
@@ -53,9 +70,13 @@ export default function MyTable({
 										: ""
 								}`}
 							></div>
-							{cellValue}
+							{cellValue?.toString()}
 						</div>
 					);
+				case "start_date":
+					return moment(cellValue).format("MMMM DD, YYYY");
+				case "end_date":
+					return moment(cellValue).format();
 				default:
 					return cellValue;
 			}
@@ -65,11 +86,34 @@ export default function MyTable({
 
 	return (
 		<Table
+			selectionMode="single"
 			aria-label="Data table"
 			isHeaderSticky
+			bottomContent={
+				totalPage > 0 && (
+					<div className="flex w-full py-4 justify-center left-0 sticky bottom-0 bg-white">
+						<Pagination
+							isCompact
+							showControls
+							showShadow
+							color="primary"
+							page={page}
+							total={totalPage}
+							onChange={(page) => setPage(page)}
+							size="sm"
+						/>
+					</div>
+				)
+			}
+			onSortChange={(val: SortDescriptor) =>
+				setSortBy({
+					column: val.column as string,
+					direction: val.direction as string,
+				})
+			}
 			classNames={{
 				wrapper:
-					"overflow-auto max-h-[335px] p-0 rounded-md shadow-none scrollbar-hide",
+					"overflow-auto h-full maxh-[500px]  p-0 rounded-md shadow-none scrollbar-hide",
 				thead: "[&>tr]:first:shadow-none",
 			}}
 		>
@@ -78,7 +122,7 @@ export default function MyTable({
 					<TableColumn
 						key={column.uid}
 						align={
-							column.uid === "actions" || column.uid === "unit_number"
+							column.uid === "actions" || column.uid === "assigned_unit"
 								? "center"
 								: "start"
 						}
@@ -89,10 +133,15 @@ export default function MyTable({
 					</TableColumn>
 				)}
 			</TableHeader>
-			<TableBody emptyContent={"No tenant found"} items={rows}>
+			<TableBody
+				isLoading={isLoading}
+				emptyContent="data is empty"
+				loadingContent={<Spinner label="Loading.." />}
+				items={rows}
+			>
 				{(item) => (
 					<TableRow
-						className={` border-b-2 border-[#F0F2F5] bg-[#FBFEFF] hover:bg-primary-50 transition-all duration-300 ease-linear`}
+						className={` border-b-2 border-[#F0F2F5] bg-[#FBFEFF]`}
 						key={item._id}
 					>
 						{(columnKey) => (

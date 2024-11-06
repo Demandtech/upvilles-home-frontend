@@ -1,19 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { CheckIconSvg, LocationIconSvg, DescriptionIconSvg } from "../../svgs";
-import Button from "../../ui/Button";
-import DeleteModal from "../properties/DeleteModal";
-import { CustomModal } from "../../ui/Modal";
+import { CheckIconSvg, LocationIconSvg, DescriptionIconSvg } from "../../../svgs";
+import Button from "../../../ui/Button";
+import DeleteModal from "../DeleteModal";
+import { CustomModal } from "../../../ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { RootState } from "../../../../redux/store";
 
 const PropertyInfo = ({ id }: { id: string }) => {
 	const navigate = useNavigate();
 	const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
 
-	const { propertyDetails } = useSelector(
-		(state: RootState) => state.dashboard
-	);
+	const { propertyDetails } = useSelector((state: RootState) => state.property);
 
 	function handleNavigate() {
 		navigate(`/dashboard/properties/edit/${id}`);

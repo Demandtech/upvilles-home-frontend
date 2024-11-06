@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import PropertyForm from "../../../components/dashboard/properties/PropertyForm";
+import { useNavigate, useParams } from "react-router-dom";
+import PropertyForm from "../../../components/dashboard/property/PropertyForm";
 import { useEffect } from "react";
 import { setTitle } from "../../../redux/slices/app";
 import { useDispatch } from "react-redux";
@@ -11,16 +11,18 @@ import {
 	UseQueryOptions,
 } from "@tanstack/react-query";
 import useProperty from "../../../hooks/useProperty";
-import { AxiosResponse } from "axios";
-import ManagementModal from "../../../components/dashboard/properties/ManagePropertySuccessModal";
+import { AxiosError, AxiosResponse } from "axios";
 import { CustomModal } from "../../../components/ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { EditPropertyFormState } from "../../../types/forms";
 import { Helmet } from "react-helmet-async";
+import { toast } from "../../../../configs/services";
+import { resetPropertyForm } from "../../../redux/slices/forms/propertyForm";
+import SuccessModal from "../../../components/common/SuccessModal";
 
 const EditProperty = () => {
 	const { id } = useParams();
-
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const queryClient = useQueryClient();
 	const { editProperty, getSingleProperty } = useProperty();
@@ -32,8 +34,11 @@ const EditProperty = () => {
 			queryClient.invalidateQueries({ queryKey: ["properties"] });
 			onOpen();
 		},
-		onError: (error) => {
-			console.log("Error: ", error);
+		onError: (error: AxiosError) => {
+			if (error.response?.data) {
+				toast.error((error.response.data as { message: string }).message);
+			}
+			toast.error("An error occured, please try again later!");
 		},
 	});
 
@@ -63,6 +68,12 @@ const EditProperty = () => {
 		queryKey: ["single_property", id],
 		queryFn: () => getSingleProperty(id as string),
 	} as UseQueryOptions<AxiosResponse, Error>);
+
+	const handleModalClose = () => {
+		dispatch(resetPropertyForm());
+		onClose();
+		navigate(-1);
+	};
 
 	useEffect(() => {
 		dispatch(setTitle({ showIcon: true, title: "Edit Property" }));
@@ -95,15 +106,16 @@ const EditProperty = () => {
 						}}
 						isLoading={mutation.isPending}
 					/>
-
-					<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
-						<ManagementModal
-							message="Property info updated successfully"
-							onClose={onClose}
-						/>
-					</CustomModal>
 				</div>
 			</div>
+			<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
+				<SuccessModal
+					title="Successful!"
+					onClose={handleModalClose}
+					message=" Property information has been successfully updated"
+					buttonLabel="Done"
+				/>
+			</CustomModal>
 		</>
 	);
 };

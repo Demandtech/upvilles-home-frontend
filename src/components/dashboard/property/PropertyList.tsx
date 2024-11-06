@@ -1,5 +1,5 @@
 import PropertyItem from "./PropertyItem";
-import { PropertyListType, PropertyType } from "../../../types/dashboard";
+import { PropertyListType, PropertyType } from "../../../types/property";
 
 export default function PropertyList({ data }: { data: PropertyListType }) {
 	return (

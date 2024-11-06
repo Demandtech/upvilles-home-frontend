@@ -12,8 +12,8 @@ export default function useAuth() {
 		return newUser;
 	};
 
-	const getAuthUser = async (access_token: string) => {
-		const authUser = await customAxios(false, access_token).get("user");
+	const getAuthUser = async () => {
+		const authUser = await customAxios(false).get("user");
 		return authUser;
 	};
 
