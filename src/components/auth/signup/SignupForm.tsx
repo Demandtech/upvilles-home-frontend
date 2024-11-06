@@ -13,8 +13,8 @@ import { RootState } from "../../../redux/store";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import Cookies from "js-cookie";
-import { setUser } from "../../../redux/slices/dashboard";
-import { UserType, StatsType } from "../../../types/dashboard";
+import { setUser } from "../../../redux/slices/user";
+import { User, Stats } from "../../../types/user";
 import SuccessModal from "../../common/SuccessModal";
 import { CustomModal } from "../../ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
@@ -48,8 +48,8 @@ const SignupForm: FC = () => {
 			data: {
 				access_token: string;
 				refresh_token: string;
-				user: UserType;
-				stats: StatsType;
+				user: User;
+				stats: Stats;
 			};
 		}) => {
 			Cookies.set(
@@ -235,7 +235,9 @@ const SignupForm: FC = () => {
 			<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
 				<SuccessModal
 					onClose={onSuccessModalClose}
+					title="Successful!"
 					message="User Registration is successful"
+					buttonLabel="Go to Dashboard"
 				/>
 			</CustomModal>
 		</>

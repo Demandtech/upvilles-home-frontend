@@ -1,11 +1,9 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
+import Cookies from "js-cookie";
 
 const BASE_URL = `${import.meta.env.VITE_BASE_URL}/api/v1`;
 
-export default function customAxios(
-	isForm: boolean = false,
-	token?: string
-): AxiosInstance {
+export default function customAxios(isForm: boolean = false): AxiosInstance {
 	const instance = axios.create({
 		baseURL: BASE_URL,
 		headers: {
@@ -13,10 +11,15 @@ export default function customAxios(
 		},
 	});
 
+	const tokenStr: string | undefined = Cookies.get("auth_token");
+
+	const token: { access_token: string; refresh_token: string } | undefined =
+		tokenStr ? JSON.parse(tokenStr) : undefined;
+
 	instance.interceptors.request.use(
 		(config: InternalAxiosRequestConfig) => {
 			if (token) {
-				config.headers.Authorization = `Bearer ${token}`;
+				config.headers.Authorization = `Bearer ${token.access_token}`;
 			}
 			return config;
 		},

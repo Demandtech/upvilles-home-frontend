@@ -37,3 +37,4 @@ export interface EditPropertyFormState {
 	images_url?: string[];
 	property_type: string;
 }
+

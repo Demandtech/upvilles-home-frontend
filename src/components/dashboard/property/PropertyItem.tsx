@@ -1,5 +1,5 @@
 import { Card, CardBody } from "@nextui-org/card";
-import { PropertyType } from "../../../types/dashboard";
+import { PropertyType } from "../../../types/property";
 import Button from "../../ui/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowTopSvg } from "../../svgs";

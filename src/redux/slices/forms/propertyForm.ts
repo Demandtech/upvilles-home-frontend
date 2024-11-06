@@ -21,7 +21,7 @@ const loadFormState = (): ManagePropertyFormState => {
 };
 
 const propertyFormSlice = createSlice({
-	name: "property",
+	name: "propertyForm",
 	initialState: loadFormState(),
 	reducers: {
 		updatePropertyForm: <K extends keyof ManagePropertyFormState>(
@@ -39,7 +39,6 @@ const propertyFormSlice = createSlice({
 		},
 		resetPropertyForm: () => {
 			localStorage.removeItem("propertyFormState");
-			console.log(initialState);
 			return initialState;
 		},
 	},

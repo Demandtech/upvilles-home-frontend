@@ -15,7 +15,7 @@ import { LoginFormState } from "../../../types/forms";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import Cookies from "js-cookie";
-import { setUser } from "../../../redux/slices/dashboard";
+import { setUser } from "../../../redux/slices/user";
 import { AxiosError } from "axios";
 
 const LoginForm: FC = () => {
