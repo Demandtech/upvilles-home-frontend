@@ -23,6 +23,7 @@ const BottomWrapper = ({
 	setPage,
 	totalPage,
 	setSortBy,
+	currentPropertyId,
 }: {
 	tenants: Tenant[];
 	isLoading?: boolean;
@@ -30,6 +31,7 @@ const BottomWrapper = ({
 	setPage: (arg: number) => void;
 	totalPage: number;
 	setSortBy: (args: { column: string; direction: string }) => void;
+	currentPropertyId: string;
 }) => {
 	const navigate = useNavigate();
 	const { onClose, onOpenChange, isOpen, onOpen } = useDisclosure();
@@ -61,7 +63,7 @@ const BottomWrapper = ({
 						color="primary"
 						size="md"
 						className="rounded-sm ml-auto"
-						onClick={() => navigate("/dashboard/tenants/add")}
+						onClick={() => navigate(`/dashboard/tenants/add/${currentPropertyId}`)}
 					>
 						Add Tenant
 					</Button>

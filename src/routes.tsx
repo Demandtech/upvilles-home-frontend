@@ -74,7 +74,7 @@ const routes: RouteObject[] = [
 				element: <TenantDetail />,
 			},
 			{
-				path: "tenants/add",
+				path: "tenants/add/:current_property",
 				element: <AddTenant />,
 			},
 			{
