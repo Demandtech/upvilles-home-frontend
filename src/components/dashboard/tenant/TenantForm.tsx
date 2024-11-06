@@ -73,7 +73,6 @@ const TenantForm = ({
 		);
 	}, [watchFields.assigned_property, properties]);
 
-
 	return (
 		<div className="max-w-[600px] mx-auto overflow-auto">
 			<div className="text-center pt-10 mb-10">

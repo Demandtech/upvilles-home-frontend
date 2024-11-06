@@ -14,13 +14,16 @@ import { AxiosError, AxiosResponse } from "axios";
 import { toast } from "../../../../configs/services";
 import useTenant from "../../../hooks/useTenant";
 import TenantForm from "../../../components/dashboard/tenant/TenantForm";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddTenant = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const formData = useSelector((state: RootState) => state.tenantForm);
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 	const [formKey, setFormKey] = useState(Date.now());
 	const { addTenantHandler } = useTenant();
+	const { current_property } = useParams();
 
 	const queryClient = useQueryClient();
 
@@ -54,6 +57,7 @@ const AddTenant = () => {
 		dispatch(resetTenantForm());
 		setFormKey(Date.now());
 		onClose();
+		navigate(`/dashboard/properties/${mutation.data?.data.assigned_property}`);
 	};
 
 	useEffect(() => {
@@ -68,7 +72,10 @@ const AddTenant = () => {
 			<div className="bg-white rounded-md shadow-lg shadow-dark p-3 lg:p-5 h-full w-full overflow-auto scrollbar-thin scrollbar-rounded">
 				<TenantForm
 					key={formKey}
-					formDefaultValue={formData}
+					formDefaultValue={{
+						...formData,
+						assigned_property: current_property as string,
+					}}
 					schema={tenantSchema}
 					onSubmit={handleAddTenant}
 					isLoading={mutation.isPending}

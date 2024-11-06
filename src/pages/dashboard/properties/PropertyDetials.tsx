@@ -86,6 +86,7 @@ const PropertyDetials: FC = () => {
 				isLoading={isLoading}
 				totalPage={meta?.total_page}
 				setSortBy={setSortBy}
+				currentPropertyId={id as string}
 			/>
 		</div>
 	);
