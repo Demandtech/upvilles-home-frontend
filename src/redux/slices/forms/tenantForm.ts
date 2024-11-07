@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { TenantFormProps } from "../../../types/tenant";
+import { TenantFormState } from "../../../types/forms";
 
-const initialState: TenantFormProps = {
+const initialState: TenantFormState = {
 	name: "",
 	start_date: "",
 	end_date: "",
@@ -10,7 +10,7 @@ const initialState: TenantFormProps = {
 	phone: "",
 };
 
-function loadState(): TenantFormProps {
+function loadState(): TenantFormState {
 	const state = localStorage.getItem("tenantForm");
 	if (state) {
 		return JSON.parse(state);
@@ -21,9 +21,9 @@ const tenantFormSlice = createSlice({
 	name: "tenantForm",
 	initialState: loadState(),
 	reducers: {
-		updateTenantForm: <K extends keyof TenantFormProps>(
-			state: TenantFormProps,
-			{ payload }: PayloadAction<{ field: K; value: TenantFormProps[K] }>
+		updateTenantForm: <K extends keyof TenantFormState>(
+			state: TenantFormState,
+			{ payload }: PayloadAction<{ field: K; value: TenantFormState[K] }>
 		) => {
 			const { field, value } = payload;
 			state[field] = value;

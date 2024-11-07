@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useProperty from "../../../hooks/useProperty";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { CustomModal } from "../../../components/ui/Modal";
-import { ManagePropertyFormState } from "../../../types/forms";
+import { AddPropertyFormState } from "../../../types/forms";
 import { RootState } from "../../../redux/store";
 import { resetPropertyForm } from "../../../redux/slices/forms/propertyForm";
 import { Helmet } from "react-helmet-async";
@@ -44,7 +44,7 @@ function AddProperty() {
 		},
 	});
 
-	const handleAddProperty = (data: ManagePropertyFormState) => {
+	const handleAddProperty = (data: AddPropertyFormState) => {
 		const formData = new FormData();
 
 		Object.entries(data).forEach(([key, val]) => {

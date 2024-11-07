@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { tenantSchema } from "../../../utils/schemas/tenant";
 import { RootState } from "../../../redux/store";
-import { TenantFormProps } from "../../../types/tenant";
+import { TenantFormState } from "../../../types/forms";
 import { resetTenantForm } from "../../../redux/slices/forms/tenantForm";
 import { CustomModal } from "../../../components/ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
@@ -28,7 +28,7 @@ const AddTenant = () => {
 	const queryClient = useQueryClient();
 
 	const mutation = useMutation({
-		mutationFn: async (variables: TenantFormProps) => {
+		mutationFn: async (variables: TenantFormState) => {
 			return await addTenantHandler(variables);
 		},
 		onSuccess: (data: AxiosResponse) => {
@@ -49,7 +49,7 @@ const AddTenant = () => {
 		},
 	});
 
-	const handleAddTenant = (data: TenantFormProps) => {
+	const handleAddTenant = (data: TenantFormState) => {
 		mutation.mutate(data);
 	};
 

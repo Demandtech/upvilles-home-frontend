@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ManagePropertyFormState } from "../../../types/forms";
+import { AddPropertyFormState } from "../../../types/forms";
 
-const initialState: ManagePropertyFormState = {
+const initialState: AddPropertyFormState = {
 	street: "",
 	description: "",
 	images: undefined,
@@ -12,7 +12,7 @@ const initialState: ManagePropertyFormState = {
 	property_type: "",
 };
 
-const loadFormState = (): ManagePropertyFormState => {
+const loadFormState = (): AddPropertyFormState => {
 	const state = localStorage.getItem("propertyFormState");
 	if (!state) {
 		return initialState;
@@ -24,13 +24,13 @@ const propertyFormSlice = createSlice({
 	name: "propertyForm",
 	initialState: loadFormState(),
 	reducers: {
-		updatePropertyForm: <K extends keyof ManagePropertyFormState>(
-			state: ManagePropertyFormState,
+		updatePropertyForm: <K extends keyof AddPropertyFormState>(
+			state: AddPropertyFormState,
 			{
 				payload,
 			}: PayloadAction<{
 				field: K;
-				value: ManagePropertyFormState[K];
+				value: AddPropertyFormState[K];
 			}>
 		) => {
 			const { field, value } = payload;

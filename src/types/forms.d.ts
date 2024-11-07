@@ -13,7 +13,7 @@ export interface SignupFormState {
 	termCondition?: boolean;
 }
 
-export interface ManagePropertyFormState {
+export interface AddPropertyFormState {
 	street: string;
 	description: string;
 	attraction?: string;
@@ -36,6 +36,15 @@ export interface EditPropertyFormState {
 	unit_number: number;
 	images_url?: string[];
 	property_type: string;
+}
+
+export interface TenantFormState {
+	name: string;
+	assigned_unit: string;
+	assigned_property: string;
+	phone: string;
+	start_date: Date | string;
+	end_date: Date | string;
 }
 
 export interface MaintenanceFormState {
