@@ -13,7 +13,7 @@ export interface SignupFormState {
 	termCondition?: boolean;
 }
 
-export interface ManagePropertyFormState {
+export interface AddPropertyFormState {
 	street: string;
 	description: string;
 	attraction?: string;
@@ -38,3 +38,19 @@ export interface EditPropertyFormState {
 	property_type: string;
 }
 
+export interface TenantFormState {
+	name: string;
+	assigned_unit: string;
+	assigned_property: string;
+	phone: string;
+	start_date: Date | string;
+	end_date: Date | string;
+}
+
+export interface MaintenanceFormState {
+	facility: string;
+	maintenance_fee: number;
+	technician: string;
+	schedule_date: Date;
+	status: "completed" | "overdue" | "schedule";
+}

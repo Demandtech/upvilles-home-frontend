@@ -1,12 +1,11 @@
 import { AxiosResponse } from "axios";
 import customAxios from "../../configs/axios";
-import { TenantFormProps } from "../types/tenant";
+import { TenantFormState } from "../types/forms";
 
 export default function useTenant() {
 	const addTenantHandler = async (
-		newTenantData: TenantFormProps
+		newTenantData: TenantFormState
 	): Promise<AxiosResponse> => {
-		console.log(newTenantData);
 		const result = await customAxios(false).post("/tenants", newTenantData);
 
 		return result;
@@ -24,23 +23,22 @@ export default function useTenant() {
 		return tenants;
 	};
 
-	const singleTenantHandler = async (tenant_id: string) => {
-		if (!tenant_id) return;
+	const singleTenantHandler = async (tenantId: string) => {
+		if (!tenantId) return;
 
-		const tenant = await customAxios(false).get(`/tenants/${tenant_id}`);
+		const tenant = await customAxios(false).get(`/tenants/${tenantId}`);
 
 		return tenant;
 	};
 
 	const updateTenantHandler = async (
-		tenant_id: string,
-		updatedTenantData: TenantFormProps
+		tenantId: string,
+		updatedTenantData: TenantFormState
 	) => {
-		console.log(updatedTenantData);
-		if (!tenant_id || !updatedTenantData) return;
+		if (!tenantId || !updatedTenantData) return;
 
 		const updatedTenant = await customAxios(false).put(
-			`/tenants/${tenant_id}`,
+			`/tenants/${tenantId}`,
 			updatedTenantData
 		);
 

@@ -24,13 +24,15 @@ const Header = ({ title, showIcon }: { title: string; showIcon: boolean }) => {
 		handleSearch(event.target.value);
 	}
 
-	console.log(location.pathname);
-
 	return (
 		<div
 			id="dashboard-header"
 			className={`${
-				location.pathname.includes("tenants") ? "bg-white" : "bg-lightBg"
+				location.pathname.includes("tenants") ||
+				location.pathname.includes("maintenance/add") ||
+				location.pathname.includes("maintenance/update")
+					? "bg-white"
+					: "bg-lightBg"
 			} px-3 py-3 sm:py-5 sm:px-5 sticky top-0 z-40`}
 		>
 			<div className="flex gap-3 justify-between items-center">

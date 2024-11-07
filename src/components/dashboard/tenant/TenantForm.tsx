@@ -3,7 +3,7 @@ import Select from "../../ui/Select";
 import { useForm, yupResolver } from "../../../../configs/services";
 import Button from "../../ui/Button";
 import { ObjectSchema } from "yup";
-import { TenantFormProps } from "../../../types/tenant";
+import { TenantFormState } from "../../../types/forms";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTenantForm } from "../../../redux/slices/forms/tenantForm";
@@ -16,9 +16,9 @@ const TenantForm = ({
 	isLoading,
 	id,
 }: {
-	onSubmit: (data: TenantFormProps) => void;
-	schema: ObjectSchema<TenantFormProps>;
-	formDefaultValue: TenantFormProps;
+	onSubmit: (data: TenantFormState) => void;
+	schema: ObjectSchema<TenantFormState>;
+	formDefaultValue: TenantFormState;
 	isLoading: boolean;
 	id: string;
 }) => {
@@ -47,7 +47,7 @@ const TenantForm = ({
 				dispatch(
 					updateTenantForm({
 						field: key as keyof typeof formDefaultValue,
-						value: val as keyof TenantFormProps,
+						value: val as keyof TenantFormState,
 					})
 				);
 			});

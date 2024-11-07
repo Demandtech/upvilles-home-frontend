@@ -7,7 +7,7 @@ import Button from "../../ui/Button";
 import { useForm, yupResolver } from "../../../../configs/services";
 import { ObjectSchema } from "yup";
 import {
-	ManagePropertyFormState,
+	AddPropertyFormState,
 	EditPropertyFormState,
 } from "../../../types/forms";
 import { useEffect } from "react";
@@ -27,9 +27,9 @@ const PropertyForm = ({
 	isLoading,
 }: {
 	id?: string;
-	schema: ObjectSchema<ManagePropertyFormState | EditPropertyFormState>;
-	onFormSubmit: (data: ManagePropertyFormState | EditPropertyFormState) => void;
-	formDefaultValue?: EditPropertyFormState | ManagePropertyFormState;
+	schema: ObjectSchema<AddPropertyFormState | EditPropertyFormState>;
+	onFormSubmit: (data: AddPropertyFormState | EditPropertyFormState) => void;
+	formDefaultValue?: EditPropertyFormState | AddPropertyFormState;
 	isLoading: boolean;
 }) => {
 	const {
@@ -37,7 +37,7 @@ const PropertyForm = ({
 		handleSubmit,
 		formState: { errors },
 		watch,
-	} = useForm<EditPropertyFormState | ManagePropertyFormState>({
+	} = useForm<EditPropertyFormState | AddPropertyFormState>({
 		resolver: yupResolver(schema),
 		defaultValues: formDefaultValue,
 	});
@@ -51,7 +51,7 @@ const PropertyForm = ({
 				dispatch(
 					updatePropertyForm({
 						field: key as keyof typeof formDefaultValue,
-						value: val as keyof ManagePropertyFormState,
+						value: val as keyof AddPropertyFormState,
 					})
 				);
 			});

@@ -2,7 +2,10 @@ import { yup } from "../../../configs/services";
 
 export const tenantSchema = yup.object().shape({
 	name: yup.string().required("Tenant name is required!"),
-	phone: yup.string().required("Tenant phone number is required!"),
+	phone: yup
+		.string()
+		.matches(/^\d{11}$/, "Enter a valid phone number")
+		.required("Tenant phone number is required!"),
 	assigned_unit: yup.string().required("Assigned unit is required!"),
 	assigned_property: yup.string().required("Assigned Property is required!"),
 	start_date: yup

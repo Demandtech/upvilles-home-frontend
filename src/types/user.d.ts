@@ -16,4 +16,8 @@ export interface Stats {
 	total_tenants: number;
 	empty_units: number;
 	occupied_units: number;
+	completed_maintenance: number;
+	overdue_maintenance: number;
+	schedule_maintenance: number;
+	total_maintenance: number;
 }

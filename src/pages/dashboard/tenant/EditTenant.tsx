@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { useDispatch } from "react-redux";
 import TenantForm from "../../../components/dashboard/tenant/TenantForm";
 import { tenantSchema } from "../../../utils/schemas/tenant";
-import { TenantFormProps } from "../../../types/tenant";
+import { TenantFormState } from "../../../types/forms";
 import { CustomModal } from "../../../components/ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import SuccessModal from "../../../components/common/SuccessModal";
@@ -32,7 +32,7 @@ export default function EditTenant() {
 		dispatch(setTitle({ showIcon: true, title: "Edit Tenant" }));
 	}, []);
 
-	const handleEditTenant = (data: TenantFormProps) => {
+	const handleEditTenant = (data: TenantFormState) => {
 		mutation.mutate(data);
 	};
 
@@ -49,7 +49,7 @@ export default function EditTenant() {
 	} as UseQueryOptions<AxiosResponse, Error>);
 
 	const mutation = useMutation({
-		mutationFn: async (data: TenantFormProps) =>
+		mutationFn: async (data: TenantFormState) =>
 			updateTenantHandler(id as string, data),
 		onSuccess: () => {
 			onOpen();
@@ -78,7 +78,7 @@ export default function EditTenant() {
 						name: editTenant?.data.name as string,
 						assigned_property: editTenant?.data.assigned_property as string,
 						assigned_unit: editTenant?.data.assigned_unit,
-						phone: editTenant?.data.phone as string,
+						phone: editTenant?.data.phone,
 						start_date: moment(editTenant.data.start_date).format("YYYY-MM-DD"),
 						end_date: moment(editTenant?.data.end_date).format("YYYY-MM-DD"),
 					}}
