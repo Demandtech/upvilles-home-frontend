@@ -30,12 +30,14 @@ function Schedule({
 
 	const viewMaintenance = (id: string) => {
 		console.log("View Tenant", id);
+		navigate(`/dashboard/maintenance/${id}`);
 	};
 	const deleteMaintenance = (id: string) => {
 		console.log("Deleting Tenant", id);
 	};
 	const editMaintenance = (id: string) => {
 		console.log("Editing Tenant", id);
+		navigate(`/dashboard/maintenance/update/${id}`);
 	};
 
 	return (
@@ -54,7 +56,7 @@ function Schedule({
 							color="primary"
 							size="md"
 							className="rounded-sm ml-auto"
-							onClick={() => navigate("/dashboard/maintenance/manage")}
+							onClick={() => navigate("/dashboard/maintenance/add")}
 						>
 							Create <span className="hidden sm:block"> Maintenance Task</span>
 						</Button>

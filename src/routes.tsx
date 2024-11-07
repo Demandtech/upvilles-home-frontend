@@ -16,10 +16,12 @@ import {
 	Report,
 	Support,
 	Notification,
-	ManageMaintenance,
+	CreateMaintenance,
+	UpdateMaintenance,
 	AddTenant,
 	EditTenant,
 	TenantDetail,
+	MaintenanceDetails,
 } from "./pages";
 
 const routes: RouteObject[] = [
@@ -86,8 +88,16 @@ const routes: RouteObject[] = [
 				element: <Maintenance />,
 			},
 			{
-				path: "maintenance/manage",
-				element: <ManageMaintenance />,
+				path: "maintenance/add",
+				element: <CreateMaintenance />,
+			},
+			{
+				path: "maintenance/:id",
+				element: <MaintenanceDetails />,
+			},
+			{
+				path: "maintenance/update/:id",
+				element: <UpdateMaintenance />,
 			},
 			{
 				path: "notification",

@@ -38,3 +38,10 @@ export interface EditPropertyFormState {
 	property_type: string;
 }
 
+export interface MaintenanceFormState {
+	facility: string;
+	maintenance_fee: number;
+	technician: string;
+	schedule_date: Date;
+	status: "completed" | "overdue" | "schedule";
+}
