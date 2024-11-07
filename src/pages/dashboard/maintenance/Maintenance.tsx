@@ -4,6 +4,8 @@ import { setTitle } from "../../../redux/slices/app";
 import { Schedule, Metrics } from "../../../components/dashboard/maintenance";
 import { RootState } from "../../../redux/store";
 import { MaintenanceType } from "../../../types/maintenance";
+import { Stats } from "../../../types/user";
+import { useQueryClient } from "@tanstack/react-query";
 
 const maintenances: MaintenanceType[] = [
 	{
@@ -77,16 +79,20 @@ const Maintenance = () => {
 	const { meta } = useSelector((state: RootState) => state.tenant);
 	const [page, setPage] = useState(1);
 	const [sortBy, setSortBy] = useState({ column: "", direction: "descending" });
+	const { stats } = useSelector((state: RootState) => state.user);
+
+	const queryClient = useQueryClient();
 
 	console.log(sortBy);
 
 	useEffect(() => {
 		dispatch(setTitle({ title: "Maintenance", showIcon: false }));
+		queryClient.invalidateQueries({ queryKey: ["authUser"] });
 	}, []);
 
 	return (
 		<div>
-			<Metrics />
+			<Metrics stats={stats as Stats} />
 			<Schedule
 				page={page}
 				setPage={setPage}
