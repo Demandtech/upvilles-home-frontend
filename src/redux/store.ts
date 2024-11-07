@@ -4,6 +4,7 @@ import userReducer from "./slices/user";
 import propertyReducer from "./slices/property";
 import stateReducer from "./slices/app";
 import tenantReducer from "./slices/tenant";
+import maintenanceReducer from "./slices/maintenance";
 
 //Form
 import loginReducer from "./slices/forms/login";
@@ -21,6 +22,7 @@ const store = configureStore({
 		signup: signupReducer,
 		propertyForm: propertyFormReducer,
 		tenantForm: tenantFormReducer,
+		maintenance: maintenanceReducer,
 	},
 });
 

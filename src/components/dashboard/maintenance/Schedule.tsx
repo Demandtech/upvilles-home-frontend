@@ -19,12 +19,14 @@ function Schedule({
 	page,
 	setSortBy,
 	setPage,
+	isLoading,
 }: {
 	maintenance: MaintenanceType[];
 	page: number;
 	setPage: (arg: number) => void;
 	totalPage: number;
 	setSortBy: (args: { column: string; direction: string }) => void;
+	isLoading: boolean;
 }) {
 	const navigate = useNavigate();
 
@@ -72,6 +74,7 @@ function Schedule({
 					setPage={setPage}
 					setSortBy={setSortBy}
 					totalPage={totalPage}
+					isLoading={isLoading}
 				/>
 			</div>
 		</div>
