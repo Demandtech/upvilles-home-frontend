@@ -3,9 +3,11 @@ import { MaintenanceType } from "../../types/maintenance";
 
 const initialState: {
 	maintenances: MaintenanceType[];
+	maintenanceDetails: MaintenanceType | null;
 	meta: { total_page: number; current_page: number };
 } = {
 	maintenances: [],
+	maintenanceDetails: null,
 	meta: {
 		total_page: 0,
 		current_page: 1,
@@ -16,7 +18,7 @@ const maintenanceSlice = createSlice({
 	name: "maintenance",
 	initialState,
 	reducers: {
-		setMaintenance: (
+		setMaintenances: (
 			state,
 			{
 				payload,
@@ -28,9 +30,17 @@ const maintenanceSlice = createSlice({
 			state.maintenances = payload.maintenances;
 			state.meta = payload.meta;
 		},
+
+		setMaintenanceDetails: (
+			state,
+			{ payload }: PayloadAction<MaintenanceType>
+		) => {
+			state.maintenanceDetails = payload;
+		},
 	},
 });
 
-export const { setMaintenance } = maintenanceSlice.actions;
+export const { setMaintenances, setMaintenanceDetails } =
+	maintenanceSlice.actions;
 
 export default maintenanceSlice.reducer;

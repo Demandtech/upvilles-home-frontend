@@ -4,8 +4,10 @@ import { Tenant } from "../../types/tenant";
 const initialState: {
 	tenants: Tenant[];
 	meta: { total_page: number; current_page: number };
+	tenantDetails: Tenant | null;
 } = {
 	tenants: [],
+	tenantDetails: null,
 	meta: {
 		total_page: 0,
 		current_page: 1,
@@ -28,9 +30,12 @@ const tenantSlice = createSlice({
 			state.tenants = payload.tenants;
 			state.meta = payload.meta;
 		},
+		setTenantDetails: (state, { payload }) => {
+			state.tenantDetails = payload;
+		},
 	},
 });
 
-export const { setTenants } = tenantSlice.actions;
+export const { setTenants, setTenantDetails } = tenantSlice.actions;
 
 export default tenantSlice.reducer;

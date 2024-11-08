@@ -60,23 +60,27 @@ export default function MyTable({
 					return (
 						<div className="flex items-center gap-2">
 							<div
-								className={`border-2 h-4 w-4 rounded-full ${
-									typeof cellValue === "string" && cellValue === "Completed"
+								className={`border-2 h-5 w-5 shadow-sm rounded-full ${
+									typeof cellValue === "string" && cellValue === "completed"
 										? "bg-[#00D285] border-[#e2f7e4]"
-										: cellValue === "Overdue"
+										: cellValue === "overdue"
 										? "bg-[#ff3b30] border-[#f7e8e2]"
-										: cellValue === "Scheduled"
+										: cellValue === "schedule"
 										? "bg-[#007AFF] border-[#E3F4FD]"
 										: ""
 								}`}
 							></div>
-							{cellValue?.toString()}
+							{(cellValue as string) === "schedule"
+								? "Upcoming"
+								: cellValue.toString()}
 						</div>
 					);
 				case "start_date":
 					return moment(cellValue).format("MMMM DD, YYYY");
 				case "end_date":
 					return moment(cellValue).format();
+				case "schedule_date":
+					return moment(cellValue).format("MMMM DD, YYYY");
 				default:
 					return cellValue;
 			}
@@ -145,7 +149,7 @@ export default function MyTable({
 						key={item._id}
 					>
 						{(columnKey) => (
-							<TableCell className="text-nowrap">
+							<TableCell className="text-nowrap capitalize">
 								{renderCell(item, columnKey, item._id as string)}
 							</TableCell>
 						)}

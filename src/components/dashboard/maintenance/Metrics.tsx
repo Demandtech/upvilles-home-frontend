@@ -9,8 +9,8 @@ import {
 
 export default function Metric({ stats }: { stats: Stats }) {
 	return (
-		<div className="py-5 sm:py-8 px-3 sm:px-5">
-			<div className="bg-lightBg p-5">
+		<div className="py-5 sm:py-8 px-3 sm:px-5" id="metric">
+			<div className="bg-lightBg p-5 rounded-lg shadow-sm">
 				<h4 className="font-bold sm:font-lg mb-5">Maintenance Metrics</h4>
 				<div className="flex flex-wrap gap-3">
 					<div className="flex-1 w-full space-y-3 bg-white p-4 rounded-xl shadow-sm">

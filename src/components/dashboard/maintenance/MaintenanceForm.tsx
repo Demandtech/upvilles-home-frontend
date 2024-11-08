@@ -4,6 +4,9 @@ import { useForm, yupResolver } from "../../../../configs/services";
 import { maintenanceSchema } from "../../../utils/schemas/maintenance";
 import Button from "../../ui/Button";
 import { MaintenanceFormState } from "../../../types/forms";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { updateMaintenanceForm } from "../../../redux/slices/forms/maintenanceForm";
 
 const data = [
 	{ key: "overdue", label: "Overdue" },
@@ -15,19 +18,38 @@ function MaintenanceForm({
 	onFormSubmit,
 	formDefaultValue,
 	isLoading,
+	editedId,
 }: {
 	onFormSubmit: (data: MaintenanceFormState) => void;
 	formDefaultValue?: MaintenanceFormState;
 	isLoading: boolean;
+	editedId?: string;
 }) {
+	const dispatch = useDispatch();
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		watch,
 	} = useForm({
 		resolver: yupResolver(maintenanceSchema),
 		defaultValues: formDefaultValue,
 	});
+
+	const watchFields = watch();
+
+	useEffect(() => {
+		if (!editedId) {
+			Object.entries(watchFields).forEach(([key, val]) => {
+				dispatch(
+					updateMaintenanceForm({
+						field: key as keyof typeof formDefaultValue,
+						value: val as keyof MaintenanceFormState,
+					})
+				);
+			});
+		}
+	}, [editedId, watchFields, formDefaultValue]);
 
 	return (
 		<div className="max-w-[600px] mx-auto w-full py-10 overflow-auto scrollbar-hide">
@@ -78,7 +100,7 @@ function MaintenanceForm({
 						error={errors.status?.message}
 						label="Task Status:"
 						size="lg"
-						defaultValue=""
+						defaultValue={formDefaultValue?.status as string}
 					/>
 					<div className="md:col-span-2">
 						<Input

@@ -6,74 +6,7 @@ import { RootState } from "../../../redux/store";
 import { Stats } from "../../../types/user";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import useMaintenance from "../../../hooks/useMaintenance";
-import { setMaintenance } from "../../../redux/slices/maintenance";
-
-// const maintenances: MaintenanceType[] = [
-// 	{
-// 		_id: "1",
-// 		name: "Completed",
-// 		last_men_date: "October 12, 2024",
-// 		upcoming_date: "December 15, 2024",
-// 		assigned_techs: "Benjamin Spencer",
-// 		status: "Completed" as "completed" | "schedule" | "overdue",
-// 	},
-// 	{
-// 		_id: "2",
-// 		name: "Elevator",
-// 		last_men_date: "October 12, 2024",
-// 		upcoming_date: "December 15, 2024",
-// 		assigned_techs: "Benjamin Spencer",
-// 		status: "Overdue" as "completed" | "schedule" | "overdue",
-// 	},
-// 	{
-// 		_id: "3",
-// 		name: "Air Condition",
-// 		last_men_date: "June 15, 2024",
-// 		upcoming_date: "December 15, 2024",
-// 		assigned_techs: "Benjamin Spencer",
-// 		status: "Scheduled" as "completed" | "schedule" | "overdue",
-// 	},
-// 	{
-// 		_id: "4",
-// 		name: "Elevator",
-// 		last_men_date: "October 12, 2024",
-// 		upcoming_date: "December 15, 2024",
-// 		assigned_techs: "Benjamin Spencer",
-// 		status: "Scheduled" as "completed" | "schedule" | "overdue",
-// 	},
-// 	{
-// 		_id: "5",
-// 		name: "Elevator",
-// 		last_men_date: "October 12, 2024",
-// 		upcoming_date: "December 15, 2024",
-// 		assigned_techs: "Benjamin Spencer",
-// 		status: "Completed" as "completed" | "schedule" | "overdue",
-// 	},
-// 	{
-// 		_id: "6",
-// 		name: "Elevator",
-// 		last_men_date: "October 12, 2024",
-// 		upcoming_date: "December 15, 2024",
-// 		assigned_techs: "Benjamin Spencer",
-// 		status: "Completed" as "completed" | "schedule" | "overdue",
-// 	},
-// 	{
-// 		_id: "7",
-// 		name: "Elevator",
-// 		last_men_date: "October 12, 2024",
-// 		upcoming_date: "December 15, 2024",
-// 		assigned_techs: "Benjamin Spencer",
-// 		status: "Scheduled" as "completed" | "schedule" | "overdue",
-// 	},
-// 	{
-// 		_id: "8",
-// 		name: "Elevator",
-// 		last_men_date: "October 12, 2024",
-// 		upcoming_date: "December 15, 2024",
-// 		assigned_techs: "Benjamin Spencer",
-// 		status: "Completed" as "completed" | "schedule" | "overdue",
-// 	},
-// ];
+import { setMaintenances } from "../../../redux/slices/maintenance";
 
 const Maintenance = () => {
 	const dispatch = useDispatch();
@@ -99,7 +32,7 @@ const Maintenance = () => {
 	useEffect(() => {
 		if (isSuccess && data) {
 			dispatch(
-				setMaintenance({
+				setMaintenances({
 					meta: data.data.meta,
 					maintenances: data.data.maintenances,
 				})

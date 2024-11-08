@@ -11,19 +11,25 @@ import loginReducer from "./slices/forms/login";
 import signupReducer from "./slices/forms/signup";
 import propertyFormReducer from "./slices/forms/propertyForm";
 import tenantFormReducer from "./slices/forms/tenantForm";
+import maintenanceFormReducer from "./slices/forms/maintenanceForm";
 
 const store = configureStore({
 	reducer: {
-		user: userReducer,
 		app: stateReducer,
+		user: userReducer,
 		property: propertyReducer,
+		maintenance: maintenanceReducer,
 		tenant: tenantReducer,
 		login: loginReducer,
 		signup: signupReducer,
 		propertyForm: propertyFormReducer,
 		tenantForm: tenantFormReducer,
-		maintenance: maintenanceReducer,
+		maintenanceForm: maintenanceFormReducer,
 	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: false,
+		}),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

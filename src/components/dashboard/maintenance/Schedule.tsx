@@ -3,12 +3,16 @@ import Table from "../../common/Table";
 import { PlusIcon } from "../../svgs";
 import Button from "../../ui/Button";
 import { MaintenanceType } from "../../../types/maintenance";
+import { CustomModal } from "../../ui/Modal";
+import DeleteMaintenanceModal from "./DeleteMaintenanceModal";
+import { useDisclosure } from "@nextui-org/use-disclosure";
+import { useState } from "react";
 
 const columns = [
-	{ name: "NAME", uid: "name", sortable: true },
-	{ name: "Last Maintenance Date", uid: "last_men_date", sortable: true },
-	{ name: "Upcoming Maintenance Dates", uid: "upcoming_date", sortable: true },
-	{ name: "Assigned Technicians", uid: "assigned_techs", sortable: true },
+	{ name: "NAME", uid: "facility", sortable: true },
+	// { name: "Last Maintenance Date", uid: "last_men_date", sortable: true },
+	{ name: "Upcoming Maintenance Dates", uid: "schedule_date", sortable: true },
+	{ name: "Assigned Technicians", uid: "technician", sortable: true },
 	{ name: "Status", uid: "status" },
 	{ name: "Actions", uid: "actions" },
 ];
@@ -29,22 +33,23 @@ function Schedule({
 	isLoading: boolean;
 }) {
 	const navigate = useNavigate();
+	const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
+	const [currentId, setCurrentId] = useState("");
 
-	const viewMaintenance = (id: string) => {
-		console.log("View Tenant", id);
+	const viewMaintenance = (id: string) =>
 		navigate(`/dashboard/maintenance/${id}`);
-	};
+
 	const deleteMaintenance = (id: string) => {
-		console.log("Deleting Tenant", id);
+		setCurrentId(id);
+		onOpen();
 	};
-	const editMaintenance = (id: string) => {
-		console.log("Editing Tenant", id);
+
+	const editMaintenance = (id: string) =>
 		navigate(`/dashboard/maintenance/update/${id}`);
-	};
 
 	return (
-		<div className="w-full  py-10 px-6 rounded-xl" id="tenant-section">
-			<div className="bg-lightBg p-5 rounded-lg">
+		<div className="w-full px-3 md:px-5" id="tenant-section">
+			<div className="bg-lightBg p-5 rounded-lg shadow-sm">
 				<div className="flex items-center justify-between mb-5">
 					<div>
 						<p className="font-bold sm:font-lg text-nowrap">
@@ -77,6 +82,9 @@ function Schedule({
 					isLoading={isLoading}
 				/>
 			</div>
+			<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
+				<DeleteMaintenanceModal id={currentId} onClose={onClose} />
+			</CustomModal>
 		</div>
 	);
 }
