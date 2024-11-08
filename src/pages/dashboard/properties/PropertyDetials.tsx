@@ -24,7 +24,11 @@ const PropertyDetials: FC = () => {
 	const { allTenantsHandler } = useTenant();
 	const { tenants, meta } = useSelector((state: RootState) => state.tenant);
 
-	const { data: singleProperty, isSuccess } = useQuery<AxiosResponse, Error>({
+	const {
+		data: singleProperty,
+		isSuccess,
+		isLoading: isPropertyLoading,
+	} = useQuery<AxiosResponse, Error>({
 		queryKey: ["single_property", id],
 		queryFn: () => getSingleProperty(id as string),
 		enabled: !!id,
@@ -33,7 +37,7 @@ const PropertyDetials: FC = () => {
 	const {
 		data: propertyTenants,
 		isSuccess: isTenantSuccess,
-		isLoading,
+		isLoading: isTenantsLoading,
 	} = useQuery<AxiosResponse, Error>({
 		queryKey: [
 			"tenants",
@@ -54,7 +58,6 @@ const PropertyDetials: FC = () => {
 
 	useEffect(() => {
 		if (isTenantSuccess) {
-			console.log(propertyTenants);
 			dispatch(setTenants(propertyTenants.data));
 		}
 	}, [propertyTenants, isTenantSuccess]);
@@ -78,12 +81,13 @@ const PropertyDetials: FC = () => {
 			<TopWrapper
 				thumbnails={singleProperty?.data.images_url || []}
 				id={id || ""}
+				isLoading={isPropertyLoading}
 			/>
 			<BottomWrapper
 				page={page}
 				setPage={setPage}
 				tenants={tenants}
-				isLoading={isLoading}
+				isLoading={isTenantsLoading}
 				totalPage={meta?.total_page}
 				setSortBy={setSortBy}
 				currentPropertyId={id as string}

@@ -3,7 +3,7 @@ import customAxios from "../../configs/axios";
 import { MaintenanceFormState } from "../types/forms";
 
 export default function useMaintenance() {
-	const addMaintenanceHandler = async (
+	const createMaintenanceHandler = async (
 		newMaintenanceData: MaintenanceFormState
 	): Promise<AxiosResponse> => {
 		console.log(newMaintenanceData);
@@ -32,6 +32,8 @@ export default function useMaintenance() {
 		const maintenance = await customAxios(false).get(
 			`/maintenances/${maintenanceId}`
 		);
+
+		console.log(maintenance);
 
 		return maintenance;
 	};
@@ -62,7 +64,7 @@ export default function useMaintenance() {
 	};
 
 	return {
-		addMaintenanceHandler,
+		createMaintenanceHandler,
 		allMaintenancesHandler,
 		singleMaintenanceHandler,
 		updateMaintenanceHandler,

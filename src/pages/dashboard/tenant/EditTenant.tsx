@@ -32,13 +32,10 @@ export default function EditTenant() {
 		dispatch(setTitle({ showIcon: true, title: "Edit Tenant" }));
 	}, []);
 
-	const handleEditTenant = (data: TenantFormState) => {
-		mutation.mutate(data);
-	};
+	const handleEditTenant = (data: TenantFormState) => mutation.mutate(data);
 
 	const successModalHandler = () => {
 		setFormKey(Date.now());
-
 		onClose();
 	};
 
@@ -64,29 +61,31 @@ export default function EditTenant() {
 		},
 	});
 
-	if (!editTenant) return;
-
 	return (
 		<div className="bg-lightBg p-3 lg:p-5 h-[calc(100dvh-70px)] lg:h-[calc(100dvh-86px)]">
 			<Helmet>
 				<title>Upvillehomes | Add Tenant</title>
 			</Helmet>
 			<div className="bg-white rounded-md shadow-lg shadow-dark p-3 lg:p-5 h-full w-full overflow-auto scrollbar-thin scrollbar-rounded">
-				<TenantForm
-					key={formKey}
-					formDefaultValue={{
-						name: editTenant?.data.name as string,
-						assigned_property: editTenant?.data.assigned_property as string,
-						assigned_unit: editTenant?.data.assigned_unit,
-						phone: editTenant?.data.phone,
-						start_date: moment(editTenant.data.start_date).format("YYYY-MM-DD"),
-						end_date: moment(editTenant?.data.end_date).format("YYYY-MM-DD"),
-					}}
-					schema={tenantSchema}
-					onSubmit={handleEditTenant}
-					isLoading={mutation.isPending}
-					id={id as string}
-				/>
+				{editTenant && (
+					<TenantForm
+						key={formKey}
+						formDefaultValue={{
+							name: editTenant?.data.name as string,
+							assigned_property: editTenant?.data.assigned_property as string,
+							assigned_unit: editTenant?.data.assigned_unit,
+							phone: editTenant?.data.phone,
+							start_date: moment(editTenant.data.start_date).format(
+								"YYYY-MM-DD"
+							),
+							end_date: moment(editTenant?.data.end_date).format("YYYY-MM-DD"),
+						}}
+						schema={tenantSchema}
+						onSubmit={handleEditTenant}
+						isLoading={mutation.isPending}
+						id={id as string}
+					/>
+				)}
 			</div>
 			<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
 				<SuccessModal
