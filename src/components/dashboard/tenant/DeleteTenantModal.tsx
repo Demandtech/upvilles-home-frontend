@@ -54,26 +54,27 @@ export default function DeleteTenantModal({
 					</ModalFooter>
 				</div>
 			) : (
-				<div className="flex flex-col items-center gap-5">
+				<div className="flex flex-col items-center gap-5 sm:px-12">
 					<DeletePropertyIcon />
 					<div className="flex flex-col items-center gap-5">
-						<div className="text-center">
+						<div className="text-center px-3 sm:px-0">
 							<p className="font-bold text-xl mb-2">
 								Are You Sure you want to delete this tenant?
 							</p>
-							<p>
-								This action will permanently remove all associated data,
-								including:
+							<p className="text-darkGrey">
+								You are about to delete ‘Mrs Taiwo Aderibigbe’ from your tenant
+								list. all information related to this tenant will be
+								automatically deleted from your tenant record.
 							</p>
-							<ul className="text-center list-disc list-inside space-y-1 text-darkGrey">
-								<li>Tenant information</li>
-								<li>Tenant payment history</li>
-							</ul>
 						</div>
 					</div>
 					<div className="border-t py-6 px-4 w-full gap-5 flex">
 						<div className="flex-1">
-							<Button onPress={() => onClose()} className="px-10 w-full">
+							<Button
+								size="lg"
+								onPress={() => onClose()}
+								className="px-10 w-full"
+							>
 								No
 							</Button>
 						</div>
@@ -82,6 +83,7 @@ export default function DeleteTenantModal({
 								color="danger"
 								className="px-10 w-full"
 								onPress={handleDelete}
+								size="lg"
 							>
 								Yes, Delete Tenant
 							</Button>

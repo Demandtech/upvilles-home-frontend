@@ -3,9 +3,10 @@ import { setTitle } from "../../../redux/slices/app";
 import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { Spinner } from "@nextui-org/spinner";
 import useTenant from "../../../hooks/useTenant";
 import { setTenantDetails } from "../../../redux/slices/tenant";
+import TenantInformation from "../../../components/dashboard/tenant/tenantDetails/TenantInformation";
+import TenantHistory from "../../../components/dashboard/tenant/tenantDetails/TenantHistory";
 
 export default function TenantDetails() {
 	const { id } = useParams();
@@ -29,18 +30,15 @@ export default function TenantDetails() {
 	}, [isSuccess, singleTenant]);
 
 	useEffect(() => {
-		dispatch(setTitle({ showIcon: true, title: "Tenant Details" }));
+		dispatch(setTitle({ showIcon: true, title: "Tenant Profile" }));
 	}, [id]);
 
 	return (
 		<div>
-			{isLoading ? (
-				<div className="w-full h-full flex flex-col items-center justify-center gap-5 pt-20">
-					<Spinner label="Loading..." color="primary" size="lg" />
-				</div>
-			) : (
-				<p>Tenant Details</p>
-			)}
+			<div className="bg-lightBg space-y-7 py-8 px-3 md:px-5">
+				<TenantInformation isLoading={isLoading} tenant={singleTenant?.data} />
+				<TenantHistory isLoading={isLoading} tenant={singleTenant?.data} />
+			</div>
 		</div>
 	);
 }
