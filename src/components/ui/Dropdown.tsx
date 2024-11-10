@@ -13,9 +13,9 @@ const AddTenant = ({
 	onDeleteClick,
 	rowId,
 }: {
-	onViewClick: (id: string) => void;
-	onEditClick: (id: string) => void;
-	onDeleteClick: (id: string) => void;
+	onViewClick?: (id: string) => void;
+	onEditClick?: (id: string) => void;
+	onDeleteClick?: (id: string) => void;
 	rowId: string;
 }) => {
 	return (
@@ -27,9 +27,13 @@ const AddTenant = ({
 					</Button>
 				</DropdownTrigger>
 				<DropdownMenu color="primary">
-					<DropdownItem onPress={() => onViewClick(rowId)}>View</DropdownItem>
-					<DropdownItem onPress={() => onEditClick(rowId)}>Edit</DropdownItem>
-					<DropdownItem onPress={() => onDeleteClick(rowId)}>
+					<DropdownItem onPress={() => !!onViewClick && onViewClick(rowId)}>
+						View
+					</DropdownItem>
+					<DropdownItem onPress={() => !!onEditClick && onEditClick(rowId)}>
+						Edit
+					</DropdownItem>
+					<DropdownItem onPress={() => !!onDeleteClick && onDeleteClick(rowId)}>
 						Delete
 					</DropdownItem>
 				</DropdownMenu>

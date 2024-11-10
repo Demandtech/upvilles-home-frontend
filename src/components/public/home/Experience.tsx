@@ -1,10 +1,11 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import img1 from "../../../assets/images/exp-img1.png";
 import img2 from "../../../assets/images/exp-img2.png";
 import img3 from "../../../assets/images/exp-img3.png";
 import ListItem from "../../common/ListItem";
 import Button from "../../ui/Button";
 import { useNavigate } from "react-router-dom";
+import { motion, useInView } from "framer-motion";
 
 const experiences: string[] = [
 	"Keep your assets in optimal condition with efficient scheduling and real-time monitoring.",
@@ -15,6 +16,9 @@ const experiences: string[] = [
 
 const Experience: FC = () => {
 	const navigate = useNavigate();
+	const ref = useRef(null);
+
+	const isInView = useInView(ref, { once: false });
 
 	return (
 		<div className="py-16">
@@ -45,13 +49,54 @@ const Experience: FC = () => {
 					/>
 				</div>
 
-				<div className="w-full lg:w-2/6 space-y-5">
-					<h2 className="text-xl md:text-4xl font-medium">
-						Experience the Benefits of a Smarter Property Management Solution
-					</h2>
+				<div ref={ref} className="w-full lg:w-2/6 space-y-5">
+					<div>
+						<motion.h2
+							initial={{ opacity: 0, x: -20 }}
+							animate={isInView ? { opacity: 1, x: 0 } : ""}
+							transition={{
+								type: "spring",
+								damping: 10,
+								duration: 0.3,
+								stiffness: 100,
+								delay: 0.1,
+							}}
+							className="text-2xl md:text-4xl font-semibold"
+						>
+							Experience the Benefits
+						</motion.h2>
+						<motion.h2
+							initial={{ opacity: 0, x: 20 }}
+							animate={isInView ? { opacity: 1, x: 0 } : ""}
+							transition={{
+								type: "spring",
+								damping: 20,
+								duration: 0.3,
+								stiffness: 200,
+								delay: 0.2,
+							}}
+							className="text-2xl md:text-4xl font-semibold"
+						>
+							of a Smarter Property
+						</motion.h2>
+						<motion.h2
+							initial={{ opacity: 0, x: -20 }}
+							animate={isInView ? { opacity: 1, x: 0 } : ""}
+							transition={{
+								type: "spring",
+								damping: 30,
+								duration: 0.3,
+								stiffness: 300,
+								delay: 0.3,
+							}}
+							className="text-2xl md:text-4xl font-semibold"
+						>
+							Management Solution
+						</motion.h2>
+					</div>
 					<ul className="space-y-3">
-						{experiences.map((text) => (
-							<ListItem text={text} key={text} />
+						{experiences.map((text, index) => (
+							<ListItem index={index} text={text} key={text} />
 						))}
 					</ul>
 					<Button

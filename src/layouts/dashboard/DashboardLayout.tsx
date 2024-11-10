@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,21 +8,26 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useQuery, useMutation, UseQueryOptions } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
-import useProperty from "../../hooks/useProperty";
 import { AxiosResponse } from "axios";
-import { setProperties } from "../../redux/slices/property";
 import { setUser } from "../../redux/slices/user";
+import { motion } from "framer-motion";
 
 const DashboardLayout: FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 	const { dashboardPageTitle } = useSelector((state: RootState) => state.app);
 	const { user } = useSelector((state: RootState) => state.user);
 	const { handleRefreshToken, getAuthUser } = useAuth();
-	const { allProperties } = useProperty();
 
 	const tokens = Cookies.get("auth_token");
+
+	const toggleSidebar = useCallback(() => {
+		if (windowWidth < 768) {
+			setIsSidebarOpen((prev) => !prev);
+		}
+	}, [windowWidth]);
 
 	const isTokenExpired = (token: string): boolean => {
 		try {
@@ -35,9 +40,9 @@ const DashboardLayout: FC = () => {
 	};
 
 	const mutation = useMutation({
+		mutationKey: ["refresh_token"],
 		mutationFn: handleRefreshToken,
 		onSuccess: (data) => {
-			console.log("Success", data);
 			Cookies.set(
 				"auth_token",
 				JSON.stringify({
@@ -59,11 +64,6 @@ const DashboardLayout: FC = () => {
 		enabled: tokens ? !isTokenExpired(JSON.parse(tokens).access_token) : false,
 	} as UseQueryOptions<AxiosResponse, Error>);
 
-	const { data: propertiesData } = useQuery<AxiosResponse, Error>({
-		queryKey: ["properties"],
-		queryFn: allProperties,
-	} as UseQueryOptions<AxiosResponse, Error>);
-
 	const authenticateUser = async () => {
 		if (!tokens) {
 			navigate("/auth/login");
@@ -80,13 +80,6 @@ const DashboardLayout: FC = () => {
 			console.log(error);
 		}
 	};
-
-	useEffect(() => {
-		if (!propertiesData) return;
-		if (propertiesData?.data.length > 0) {
-			dispatch(setProperties(propertiesData.data));
-		}
-	}, [propertiesData, dispatch]);
 
 	useEffect(() => {
 		authenticateUser();
@@ -108,13 +101,29 @@ const DashboardLayout: FC = () => {
 		navigate("/auth/login");
 	}, [error, navigate]);
 
+	useEffect(() => {
+		const handleResize = () => setWindowWidth(window.innerWidth);
+
+		window.addEventListener("resize", handleResize);
+
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
+
+	useEffect(() => {
+		if (windowWidth > 768) {
+			setIsSidebarOpen(true);
+		} else {
+			setIsSidebarOpen(false);
+		}
+	}, [windowWidth]);
+
 	return (
 		<main
 			id="dashboard-layout"
 			className="w-full h-screen max-w-[1440px] mx-auto"
 		>
 			<div className="flex h-full">
-				<div
+				<motion.div
 					className={`fixed md:static z-50 bg-black/20  left-0 top-0  ${
 						isSidebarOpen
 							? "w-screen md:max-w-[250px]"
@@ -124,8 +133,16 @@ const DashboardLayout: FC = () => {
 					aria-hidden={!isSidebarOpen}
 					aria-expanded={isSidebarOpen}
 					aria-controls="sidebar"
+					initial={{ opacity: 0 }}
+					animate={{ opacity: isSidebarOpen ? 1 : 0 }}
+					transition={{ type: "spring", stiffness: 300, damping: 30 }}
 				>
-					<div
+					<motion.div
+						initial={{ width: windowWidth > 768 ? 250 : 0 }}
+						animate={{
+							width: isSidebarOpen ? (windowWidth > 768 ? "100%" : "80%") : "0",
+						}}
+						transition={{ type: "spring", stiffness: 300, damping: 30 }}
 						className={`${
 							isSidebarOpen
 								? "w-full max-w-[80%] md:max-w-[250px]"
@@ -134,15 +151,18 @@ const DashboardLayout: FC = () => {
 						onClick={(event) => event.stopPropagation()}
 					>
 						<Sidebar
+							isSidebarOpen={isSidebarOpen}
 							name={user?.name}
 							image_uri={user?.image_url as string | undefined}
+							onSidebarClose={toggleSidebar}
 						/>
-					</div>
-				</div>
+					</motion.div>
+				</motion.div>
 				<div className="flex-1 relative h-screen overflow-auto">
 					<Header
 						title={dashboardPageTitle.title}
 						showIcon={dashboardPageTitle.showIcon}
+						setSidebar={toggleSidebar}
 					/>
 					<Outlet />
 				</div>

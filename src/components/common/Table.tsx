@@ -18,14 +18,14 @@ import moment from "moment";
 interface TableProps {
 	columns: Partial<TableColumnType>[];
 	rows: Partial<Tenant>[];
-	onEdit: (id: string) => void;
-	onDelete: (id: string) => void;
-	onView: (id: string) => void;
+	onEdit?: (id: string) => void;
+	onDelete?: (id: string) => void;
+	onView?: (id: string) => void;
 	isLoading?: boolean;
-	page: number;
-	setPage: (arg: number) => void;
-	totalPage: number;
-	setSortBy: (args: { column: string; direction: string }) => void;
+	page?: number;
+	setPage?: (arg: number) => void;
+	totalPage?: number;
+	setSortBy?: (args: { column: string; direction: string }) => void;
 }
 
 export default function MyTable({
@@ -94,6 +94,7 @@ export default function MyTable({
 			aria-label="Data table"
 			isHeaderSticky
 			bottomContent={
+				totalPage &&
 				totalPage > 0 && (
 					<div className="flex w-full py-4 justify-center left-0 sticky bottom-0 bg-white">
 						<Pagination
@@ -103,13 +104,14 @@ export default function MyTable({
 							color="primary"
 							page={page}
 							total={totalPage}
-							onChange={(page) => setPage(page)}
+							onChange={(page) => setPage && setPage(page)}
 							size="sm"
 						/>
 					</div>
 				)
 			}
 			onSortChange={(val: SortDescriptor) =>
+				setSortBy &&
 				setSortBy({
 					column: val.column as string,
 					direction: val.direction as string,
@@ -131,7 +133,7 @@ export default function MyTable({
 								: "start"
 						}
 						allowsSorting={column.sortable}
-						className="bg-[#F3FBFF] rounded-none text-default shadow-none"
+						className="bg-[#F3FBFF] !rounded-r-none !rounded-l-none text-default shadow-none"
 					>
 						{column.name}
 					</TableColumn>

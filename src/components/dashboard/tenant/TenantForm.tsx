@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTenantForm } from "../../../redux/slices/forms/tenantForm";
 import { RootState } from "../../../redux/store";
+import { useNavigate } from "react-router-dom";
 
 const TenantForm = ({
 	onSubmit,
@@ -23,7 +24,7 @@ const TenantForm = ({
 	id: string;
 }) => {
 	const dispatch = useDispatch();
-
+	const navigate = useNavigate();
 	const { properties } = useSelector((state: RootState) => state.property);
 	const [assignUnits, setAssignedUnits] = useState<
 		{ key: string; label: string }[]
@@ -147,9 +148,21 @@ const TenantForm = ({
 						error={errors.assigned_unit?.message as string}
 					/>
 				</div>
-				<Button isLoading={isLoading} type="submit" className="w-full">
-					Save Tenant Information
-				</Button>
+				<div className="space-y-3">
+					<Button isLoading={isLoading} type="submit" className="w-full">
+						{id ? "Save Changes" : "Save Tenant Information"}
+					</Button>
+					{id && (
+						<Button
+							onClick={() => navigate(-1)}
+							className="w-full"
+							color="default"
+							variant="bordered"
+						>
+							Cancel
+						</Button>
+					)}
+				</div>
 			</form>
 		</div>
 	);

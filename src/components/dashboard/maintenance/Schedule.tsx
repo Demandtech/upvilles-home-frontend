@@ -48,8 +48,8 @@ function Schedule({
 		navigate(`/dashboard/maintenance/update/${id}`);
 
 	return (
-		<div className="w-full px-3 md:px-5" id="tenant-section">
-			<div className="bg-lightBg p-5 rounded-lg shadow-sm">
+		<div className="w-full pb-10 px-3 md:px-5" id="tenant-section">
+			<div className="bg-lightBg p-5 rounded-lg shadow-lg shadow-default-100">
 				<div className="flex items-center justify-between mb-5">
 					<div>
 						<p className="font-bold sm:font-lg text-nowrap">

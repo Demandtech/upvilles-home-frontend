@@ -1,13 +1,39 @@
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Button from "../../ui/Button";
 import PropertyList from "./PropertyList";
-import { RootState } from "../../../redux/store";
 import { PlusIcon } from "../../svgs";
 import { useNavigate } from "react-router-dom";
+import PropertyCardSkeleton from "../../ui/skeletons/PropertyCardSkeleton";
+import { useEffect } from "react";
+import { AxiosResponse } from "axios";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import useProperty from "../../../hooks/useProperty";
+import { setProperties } from "../../../redux/slices/property";
 
 const Properties = () => {
-	const { properties } = useSelector((state: RootState) => state.property);
 	const navigate = useNavigate();
+	const { allProperties } = useProperty();
+	const dispatch = useDispatch();
+
+	const {
+		data: propertiesData,
+		isLoading,
+		isSuccess,
+	} = useQuery<AxiosResponse, Error>({
+		queryKey: ["properties"],
+		queryFn: allProperties,
+	} as UseQueryOptions<AxiosResponse, Error>);
+
+	useEffect(() => {
+		if (!isSuccess || !propertiesData.data) return;
+
+		dispatch(
+			setProperties({
+				properties: propertiesData.data.properties,
+				meta: propertiesData.data.meta,
+			})
+		);
+	}, [isSuccess, dispatch]);
 
 	return (
 		<div className="bg-[#fafafa] px-3 py-5 sm:px-5 h-full">
@@ -25,7 +51,15 @@ const Properties = () => {
 				</Button>
 			</div>
 			<div>
-				<PropertyList data={properties} />
+				{isLoading ? (
+					<div className="grid lg:grid-cols-4 gap-4">
+						{["", "", "", ""].map((_, index) => (
+							<PropertyCardSkeleton isLoaded={!isLoading} key={index} />
+						))}
+					</div>
+				) : (
+					<PropertyList data={propertiesData?.data.properties} />
+				)}
 			</div>
 		</div>
 	);

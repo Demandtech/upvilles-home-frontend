@@ -8,8 +8,17 @@ import {
 } from "../../components/svgs";
 import { debounce } from "../../utils/debounce";
 import { useNavigate, useLocation } from "react-router-dom";
+import { HamburgerIcon } from "../../components/svgs";
 
-const Header = ({ title, showIcon }: { title: string; showIcon: boolean }) => {
+const Header = ({
+	title,
+	showIcon,
+	setSidebar,
+}: {
+	title: string;
+	showIcon: boolean;
+	setSidebar: () => void;
+}) => {
 	const [searchValue, setSearchValue] = useState("");
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -30,7 +39,10 @@ const Header = ({ title, showIcon }: { title: string; showIcon: boolean }) => {
 			className={`${
 				location.pathname.includes("tenants") ||
 				location.pathname.includes("maintenance/add") ||
-				location.pathname.includes("maintenance/update")
+				location.pathname.includes("maintenance/update") ||
+				location.pathname.includes("notification") ||
+				location.pathname.includes("setting") ||
+				location.pathname.includes("support")
 					? "bg-white"
 					: "bg-lightBg"
 			} px-3 py-3 sm:py-5 sm:px-5 sticky top-0 z-40`}
@@ -42,16 +54,24 @@ const Header = ({ title, showIcon }: { title: string; showIcon: boolean }) => {
 							type="button"
 							variant="light"
 							size="sm"
-							className="bg-transparent text-default justify-start px-0 min-w-[30px] pr-5"
+							className="bg-transparent text-default justify-start px-0 min-w-[30px] pr-5 hidden md:block"
 							onPress={() => navigate(-1)}
 						>
 							<ArrowBack />
 						</Button>
 					)}
+					<Button
+						variant="flat"
+						color="default"
+						className="md:hidden rounded-full"
+						type="button"
+						isIconOnly
+						onPress={setSidebar}
+					>
+						<HamburgerIcon />
+					</Button>
 					<p
-						className={`font-semibold  md:text-lg lg:min-w-28 text-nowrap ${
-							showIcon ? "hidden sm:block" : "block"
-						}`}
+						className={`font-semibold hidden md:block  md:text-lg lg:min-w-28 text-nowrap`}
 					>
 						{title}
 					</p>
@@ -86,6 +106,7 @@ const Header = ({ title, showIcon }: { title: string; showIcon: boolean }) => {
 						size="md"
 						type="button"
 						isIconOnly
+						onClick={() => navigate("/dashboard/notifications")}
 					>
 						<NotificationIconSvg />
 					</Button>

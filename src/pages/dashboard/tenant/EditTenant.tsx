@@ -72,7 +72,7 @@ export default function EditTenant() {
 						key={formKey}
 						formDefaultValue={{
 							name: editTenant?.data.name as string,
-							assigned_property: editTenant?.data.assigned_property as string,
+							assigned_property: editTenant?.data.assigned_property._id,
 							assigned_unit: editTenant?.data.assigned_unit,
 							phone: editTenant?.data.phone,
 							start_date: moment(editTenant.data.start_date).format(
