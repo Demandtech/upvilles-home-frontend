@@ -1,8 +1,25 @@
+import { motion, useInView } from "framer-motion";
 import { ListItemIconSvg } from "../svgs";
+import { useRef } from "react";
 
-const ListItem = ({ text }: { text: string }) => {
+const ListItem = ({ text, index }: { text: string; index: number }) => {
+	const ref = useRef(null);
+
+	const isInView = useInView(ref, { once: true });
+
 	return (
-		<li>
+		<motion.li
+			ref={ref}
+			transition={{
+				delay: index * 0.1,
+				duration: 30000,
+				type: "spring",
+				damping: 30,
+				stiffness: 300,
+			}}
+			initial={{ opacity: 0, y: -20, x: -20 }}
+			animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
+		>
 			<div className="flex gap-3">
 				<div>
 					<ListItemIconSvg />
@@ -11,7 +28,7 @@ const ListItem = ({ text }: { text: string }) => {
 					<p className="text-accent text-sm">{text}</p>
 				</div>
 			</div>
-		</li>
+		</motion.li>
 	);
 };
 

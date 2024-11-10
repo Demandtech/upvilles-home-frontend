@@ -22,9 +22,9 @@ const SettingWrapper = () => {
 	};
 
 	return (
-		<div className="bg-white py-10 px-8 h-full scrollbar-hide rounded-md shadow-lg shadow-default-100 overflow-auto">
+		<div className="bg-white py-10 px-3 sm:px-8 h-full scrollbar-hide rounded-md shadow-lg shadow-default-100 overflow-auto">
 			<div className="text-center max-w-lg mx-auto mb-10">
-				<h3 className="text-3xl font-bold mb-3">
+				<h3 className="text-2xl sm:text-3xl font-bold mb-3">
 					Optimize Your Settings for a Better Upville Homes Experience!
 				</h3>
 				<p className="text-sm text-darkGrey">
@@ -39,8 +39,7 @@ const SettingWrapper = () => {
 						wrapper: "shadow-none rounded-none",
 						tr: "rounded-none",
 					}}
-					className="shadow-none"
-					// isStriped
+					className="shadow-none overflow-auto"
 					aria-label="Settings table"
 					removeWrapper
 				>

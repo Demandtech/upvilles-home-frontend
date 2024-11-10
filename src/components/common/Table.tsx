@@ -133,7 +133,7 @@ export default function MyTable({
 								: "start"
 						}
 						allowsSorting={column.sortable}
-						className="bg-[#F3FBFF] rounded-none text-default shadow-none"
+						className="bg-[#F3FBFF] !rounded-r-none !rounded-l-none text-default shadow-none"
 					>
 						{column.name}
 					</TableColumn>

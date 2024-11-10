@@ -100,7 +100,7 @@ const routes: RouteObject[] = [
 				element: <UpdateMaintenance />,
 			},
 			{
-				path: "notification",
+				path: "notifications",
 				element: <Notification />,
 			},
 			{
