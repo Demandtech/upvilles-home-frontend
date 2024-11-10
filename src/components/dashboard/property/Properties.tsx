@@ -38,7 +38,7 @@ const Properties = () => {
 	return (
 		<div className="bg-[#fafafa] px-3 py-5 sm:px-5 h-full">
 			<div className="flex items-center mb-5 justify-between">
-				<p className="font-bold sm:font-lg">All Properties</p>
+				<h4 className="font-bold text-lg md:text-xl">All Properties</h4>
 				<Button
 					startContent={<PlusIcon size={20} />}
 					type="button"

@@ -60,7 +60,7 @@ export default function MyTable({
 					return (
 						<div className="flex items-center gap-2">
 							<div
-								className={`border-2 h-5 w-5 shadow-sm rounded-full ${
+								className={`border-3 h-4 w-4 shadow-sm rounded-full ${
 									typeof cellValue === "string" && cellValue === "completed"
 										? "bg-[#00D285] border-[#e2f7e4]"
 										: cellValue === "overdue"

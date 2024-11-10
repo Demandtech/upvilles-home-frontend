@@ -9,7 +9,7 @@ import { useDisclosure } from "@nextui-org/use-disclosure";
 import { useState } from "react";
 
 const columns = [
-	{ name: "NAME", uid: "facility", sortable: true },
+	{ name: "Name", uid: "facility", sortable: true },
 	// { name: "Last Maintenance Date", uid: "last_men_date", sortable: true },
 	{ name: "Upcoming Maintenance Dates", uid: "schedule_date", sortable: true },
 	{ name: "Assigned Technicians", uid: "technician", sortable: true },
@@ -50,9 +50,9 @@ function Schedule({
 	return (
 		<div className="w-full pb-10 px-3 md:px-5" id="tenant-section">
 			<div className="bg-lightBg p-5 rounded-lg shadow-lg shadow-default-100">
-				<div className="flex items-center justify-between mb-5">
+				<div className="flex items-center gap-2 justify-between mb-5">
 					<div>
-						<p className="font-bold sm:font-lg text-nowrap">
+						<p className="font-semibold text-lg md:text-xl text-nowrap">
 							Maintenance Schedule
 						</p>
 					</div>

@@ -8,7 +8,9 @@ const Report = () => {
 	useEffect(() => {
 		dispatch(setTitle({ title: "Report", showIcon: false }));
 	}, []);
-	return <div>Report</div>;
+	return (
+		<div className="bg-lightBg min-h-screen px-3 md:px-5 py-5">Report</div>
+	);
 };
 
 export default Report;
