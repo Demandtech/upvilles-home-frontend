@@ -98,6 +98,7 @@ const Sidebar = ({
 						icon: <SettingNavSvg />,
 						label: "Settings",
 					},
+
 					{
 						to: "/dashboard/support",
 						icon: <SupportNavSvg />,
@@ -110,7 +111,7 @@ const Sidebar = ({
 						initial="hidden"
 						animate={isSidebarOpen ? "visible" : ""}
 						transition={{ duration: 0.4, delay: index * 0.1 }}
-						className="w-full"
+						className={`w-full ${link.label === "Support" && "mt-10"}`}
 					>
 						<NavLink
 							className="w-full text-sm p-3 flex gap-2 rounded-sm hover:bg-white/10 transition-all ease-linear"

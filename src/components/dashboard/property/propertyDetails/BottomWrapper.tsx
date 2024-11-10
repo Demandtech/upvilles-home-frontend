@@ -54,7 +54,7 @@ const BottomWrapper = ({
 		<div className="w-full bg-lightBg py-8 px-4 rounded-xl" id="tenant-section">
 			<div className="flex items-center justify-between mb-5">
 				<div>
-					<p className="font-bold sm:font-lg">Tenant Information</p>
+					<h4 className="font-bold text-lg md:text-xl">Tenant Information</h4>
 				</div>
 				<div>
 					<Button
@@ -63,7 +63,9 @@ const BottomWrapper = ({
 						color="primary"
 						size="md"
 						className="rounded-sm ml-auto"
-						onClick={() => navigate(`/dashboard/tenants/add/${currentPropertyId}`)}
+						onClick={() =>
+							navigate(`/dashboard/tenants/add/${currentPropertyId}`)
+						}
 					>
 						Add Tenant
 					</Button>

@@ -24,10 +24,10 @@ const SettingWrapper = () => {
 	return (
 		<div className="bg-white py-10 px-3 sm:px-8 h-full scrollbar-hide rounded-md shadow-lg shadow-default-100 overflow-auto">
 			<div className="text-center max-w-lg mx-auto mb-10">
-				<h3 className="text-2xl sm:text-3xl font-bold mb-3">
+				<h3 className="text-xl sm:text-3xl font-bold mb-3">
 					Optimize Your Settings for a Better Upville Homes Experience!
 				</h3>
-				<p className="text-sm text-darkGrey">
+				<p className="text-xs sm:text-sm text-darkGrey">
 					To make the most out of your Upville Homes account, you can easily
 					customize your experience by turning settings on or off whenever
 					needed.
@@ -59,7 +59,7 @@ const SettingWrapper = () => {
 							<TableCell className="font-medium text-nowrap md:pl-10 rounded-tl-xl">
 								Notifications
 							</TableCell>
-							<TableCell className="font-normal text-darkGrey">
+							<TableCell className="font-normal text-darkGrey text-xs sm:text-sm">
 								Turn on notifications for important updates like rent reminders
 								or maintenance alerts to keep your management flow smooth.
 							</TableCell>
@@ -76,7 +76,7 @@ const SettingWrapper = () => {
 							<TableCell className="text-nowrap font-medium sm:pl-10 rounded-tl-xl">
 								Security Options
 							</TableCell>
-							<TableCell className="text-darkGrey font-normal">
+							<TableCell className="text-darkGrey font-normal text-xs sm:text-sm">
 								Enable Two-Factor Authentication (2FA) by turning it on to add
 								an extra layer of security to your account. If you don’t require
 								this for now, you can keep it off.
@@ -92,10 +92,10 @@ const SettingWrapper = () => {
 							</TableCell>
 						</TableRow>
 						<TableRow key="3" className="bg-[#FFFDFD] border-b-4 border-white">
-							<TableCell className="text-nowrap sm:pl-10 rounded-tl-xl">
+							<TableCell className="sm:pl-10 rounded-tl-xl">
 								Property Management Preferences
 							</TableCell>
-							<TableCell className="text-darkGrey font-normal">
+							<TableCell className="text-darkGrey font-normal text-xs sm:text-sm">
 								Prefer a specific layout for your property dashboard? Toggle
 								Card View on to see all properties in card format. Toggle it off
 								if you prefer a more compact list view.
@@ -114,7 +114,7 @@ const SettingWrapper = () => {
 							<TableCell className="sm:pl-10 text-nowrap rounded-tl-xl">
 								Data Management
 							</TableCell>
-							<TableCell className="text-darkGrey font-normal">
+							<TableCell className="text-darkGrey font-normal text-xs sm:text-sm">
 								Turn on Auto-Sync to keep your data up-to-date across devices
 								without manual refreshes. If you’re working offline, simply
 								switch it off until needed.
@@ -130,10 +130,10 @@ const SettingWrapper = () => {
 							</TableCell>
 						</TableRow>
 						<TableRow key="5" className="bg-[#fffdfd]">
-							<TableCell className="sm:pl-10 text-nowrap rounded-tl-xl">
+							<TableCell className="sm:pl-10 rounded-tl-xl">
 								Product Updates & Support
 							</TableCell>
-							<TableCell className="text-darkGrey font-normal">
+							<TableCell className="text-darkGrey font-normal text-xs sm:text-sm">
 								Toggle Product Updates on to get notified about new features and
 								enhancements, or turn it off if you’d rather explore updates at
 								your own pace.

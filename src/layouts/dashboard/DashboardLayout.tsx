@@ -11,6 +11,7 @@ import useAuth from "../../hooks/useAuth";
 import { AxiosResponse } from "axios";
 import { setUser } from "../../redux/slices/user";
 import { motion } from "framer-motion";
+import ScrollToTop from "./ScrollToTop";
 
 const DashboardLayout: FC = () => {
 	const navigate = useNavigate();
@@ -122,6 +123,7 @@ const DashboardLayout: FC = () => {
 			id="dashboard-layout"
 			className="w-full h-screen max-w-[1440px] mx-auto"
 		>
+			<ScrollToTop />
 			<div className="flex h-full">
 				<motion.div
 					className={`fixed md:static z-50 bg-black/20  left-0 top-0  ${

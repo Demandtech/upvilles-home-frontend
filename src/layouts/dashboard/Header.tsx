@@ -42,7 +42,8 @@ const Header = ({
 				location.pathname.includes("maintenance/update") ||
 				location.pathname.includes("notification") ||
 				location.pathname.includes("setting") ||
-				location.pathname.includes("support")
+				location.pathname.includes("support") ||
+				location.pathname.includes("report")
 					? "bg-white"
 					: "bg-lightBg"
 			} px-3 py-3 sm:py-5 sm:px-5 sticky top-0 z-40`}
@@ -66,12 +67,12 @@ const Header = ({
 						className="md:hidden rounded-full"
 						type="button"
 						isIconOnly
-						onPress={setSidebar}
+						onClick={setSidebar}
 					>
 						<HamburgerIcon />
 					</Button>
 					<p
-						className={`font-semibold hidden md:block  md:text-lg lg:min-w-28 text-nowrap`}
+						className={`font-semibold hidden md:block  text-2xl lg:min-w-28 text-nowrap`}
 					>
 						{title}
 					</p>

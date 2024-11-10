@@ -1,0 +1,15 @@
+export interface Notification {
+	_id: string;
+	title: string;
+	content: string;
+	is_read: boolean;
+	createdAt: Date;
+}
+
+export interface NotificationListProps {
+	data: Notification[];
+	meta: { unread: number };
+	setPage: Dispatch<SetStateAction<number>>;
+	setState: Dispatch<SetStateAction<"all" | "unread" | "read">>;
+	state: "all" | "unread" | "read";
+}
