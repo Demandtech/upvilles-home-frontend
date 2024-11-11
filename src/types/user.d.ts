@@ -9,6 +9,7 @@ export interface User {
 	updatedAt: string;
 	createdAt: string;
 	verifiedAt: string | null;
+	unread_notifications: boolean;
 }
 
 export interface Stats {

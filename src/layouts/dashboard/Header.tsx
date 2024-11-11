@@ -14,10 +14,12 @@ const Header = ({
 	title,
 	showIcon,
 	setSidebar,
+	showNotification,
 }: {
 	title: string;
 	showIcon: boolean;
 	setSidebar: () => void;
+	showNotification: boolean;
 }) => {
 	const [searchValue, setSearchValue] = useState("");
 	const navigate = useNavigate();
@@ -109,7 +111,7 @@ const Header = ({
 						isIconOnly
 						onClick={() => navigate("/dashboard/notifications")}
 					>
-						<NotificationIconSvg />
+						<NotificationIconSvg color={showNotification ? "#E62E7B" : ""} />
 					</Button>
 				</div>
 			</div>

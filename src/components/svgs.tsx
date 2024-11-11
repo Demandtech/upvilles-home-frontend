@@ -599,7 +599,7 @@ export const EyeFilledIcon: FC = () => {
 	);
 };
 
-export function NotificationIconSvg() {
+export function NotificationIconSvg(props: IconSvgProps) {
 	return (
 		<svg
 			width="56"
@@ -607,6 +607,7 @@ export function NotificationIconSvg() {
 			viewBox="0 0 56 56"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
+			{...props}
 		>
 			<g filter="url(#filter0_d_131_5818)">
 				<rect x="6" y="8" width="40" height="40" rx="20" stroke="#D0D5DD" />
@@ -626,7 +627,7 @@ export function NotificationIconSvg() {
 				/>
 			</g>
 			<g filter="url(#filter1_d_131_5818)">
-				<rect x="36" y="8" width="10" height="10" rx="5" fill="#E62E7B" />
+				<rect x="36" y="8" width="10" height="10" rx="5" fill={props.color} />
 			</g>
 			<defs>
 				<filter
