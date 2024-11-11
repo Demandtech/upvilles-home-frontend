@@ -36,7 +36,9 @@ export default function CreateMaintenance() {
 		},
 		onError: (error: AxiosError) => {
 			if (error.response?.data) {
-				return (error.response.data as { message: string }).message;
+				return toast.error(
+					(error.response.data as { message: string }).message
+				);
 			}
 			return toast.error("An error occured, please try again!");
 		},

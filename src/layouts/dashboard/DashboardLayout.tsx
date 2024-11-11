@@ -165,6 +165,7 @@ const DashboardLayout: FC = () => {
 						title={dashboardPageTitle.title}
 						showIcon={dashboardPageTitle.showIcon}
 						setSidebar={toggleSidebar}
+						showNotification={user ? user?.unread_notifications : false}
 					/>
 					<Outlet />
 				</div>
