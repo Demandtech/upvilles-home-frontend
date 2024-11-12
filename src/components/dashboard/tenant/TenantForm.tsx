@@ -5,10 +5,11 @@ import Button from "../../ui/Button";
 import { ObjectSchema } from "yup";
 import { TenantFormState } from "../../../types/forms";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateTenantForm } from "../../../redux/slices/forms/tenantForm";
-import { RootState } from "../../../redux/store";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import useProperty from "../../../hooks/useProperty";
 
 const TenantForm = ({
 	onSubmit,
@@ -25,10 +26,14 @@ const TenantForm = ({
 }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { properties } = useSelector((state: RootState) => state.property);
-	const [assignUnits, setAssignedUnits] = useState<
-		{ key: string; label: string }[]
-	>([]);
+	const { allProperties } = useProperty();
+
+	const { data: properties, isLoading: isPropertiesLoading } = useQuery({
+		queryKey: ["properties"],
+		queryFn: allProperties,
+	});
+
+	const [available_units, setAvailableUnits] = useState<number[]>([]);
 
 	const {
 		register,
@@ -56,23 +61,35 @@ const TenantForm = ({
 	}, [watchFields, id]);
 
 	useEffect(() => {
-		const selectedProperty = watchFields.assigned_property;
+		if (!properties?.data) return;
 
-		const availableUnits: string | undefined = properties?.find(
-			(prop) => prop._id === selectedProperty
-		)?.unit_number;
+		const selectedProperty =
+			watchFields.assigned_property || formDefaultValue.assigned_property;
 
-		const availablePropertyUnits = Array.from({
-			length: Number(availableUnits) || 0,
-		});
-
-		setAssignedUnits(
-			availablePropertyUnits.map((_, index) => ({
-				key: (index + 1).toString() as string,
-				label: `Unit ${index + 1}` as string,
-			}))
+		const property = properties?.data?.properties.find(
+			(property: { _id: string }) => {
+				return property._id === selectedProperty;
+			}
 		);
-	}, [watchFields.assigned_property, properties]);
+
+		if (
+			formDefaultValue.assigned_unit &&
+			typeof formDefaultValue.assigned_unit === "number"
+		) {
+			const avail = [
+				formDefaultValue.assigned_unit,
+				...(property?.available_units as number[]),
+			];
+			setAvailableUnits(avail);
+			return;
+		}
+
+		setAvailableUnits(property?.available_units as number[]);
+	}, [
+		watchFields.assigned_property,
+		properties,
+		formDefaultValue.assigned_property,
+	]);
 
 	return (
 		<div className="max-w-[600px] mx-auto overflow-auto">
@@ -91,7 +108,7 @@ const TenantForm = ({
 						name="name"
 						type="text"
 						size="md"
-						placeholder="E.g Generator"
+						placeholder="Enter tenant name"
 						label="Tenant Name"
 						register={register}
 						error={errors.name?.message as string}
@@ -130,10 +147,15 @@ const TenantForm = ({
 						size="md"
 						name="assigned_property"
 						label="Assigned Property:"
-						data={properties?.map((prop) => ({
-							key: prop._id,
-							label: prop.title,
-						}))}
+						data={
+							properties?.data?.properties.map(
+								(prop: { _id: string; title: string }) => ({
+									key: prop._id,
+									label: prop.title,
+								})
+							) || []
+						}
+						isLoading={isPropertiesLoading}
 						register={register}
 						defaultValue={formDefaultValue.assigned_property as string}
 						error={errors.assigned_property?.message as string}
@@ -143,7 +165,12 @@ const TenantForm = ({
 						name="assigned_unit"
 						label="Assigned Unit:"
 						register={register}
-						data={assignUnits}
+						data={
+							available_units?.map((unit): { key: string; label: string } => ({
+								key: unit.toString(),
+								label: `Unit ${unit}`,
+							})) || []
+						}
 						defaultValue={String(formDefaultValue?.assigned_unit)}
 						error={errors.assigned_unit?.message as string}
 					/>

@@ -9,5 +9,19 @@ export default function useNotification() {
 		return notifications;
 	};
 
-	return { allNotificationsHadler };
+	const readNotification = async (notificationId: string) => {
+		const response = await customAxios().get(
+			`/notifications/${notificationId}`
+		);
+
+		return response;
+	};
+
+	const readAllNotification = async (user_id: string) => {
+		const response = await customAxios().get(`/notifications/${user_id}/read`);
+
+		return response;
+	};
+
+	return { allNotificationsHadler, readNotification, readAllNotification };
 }

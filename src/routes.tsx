@@ -84,19 +84,19 @@ const routes: RouteObject[] = [
 				element: <EditTenant />,
 			},
 			{
-				path: "maintenance",
+				path: "maintenances",
 				element: <Maintenance />,
 			},
 			{
-				path: "maintenance/add",
+				path: "maintenances/add",
 				element: <CreateMaintenance />,
 			},
 			{
-				path: "maintenance/:id",
+				path: "maintenances/:id",
 				element: <MaintenanceDetails />,
 			},
 			{
-				path: "maintenance/update/:id",
+				path: "maintenances/update/:id",
 				element: <UpdateMaintenance />,
 			},
 			{

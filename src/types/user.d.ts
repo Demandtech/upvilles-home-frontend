@@ -1,5 +1,5 @@
 export interface User {
-	_id: number;
+	_id: string;
 	name: string;
 	email: string;
 	company: string;
@@ -21,4 +21,6 @@ export interface Stats {
 	overdue_maintenance: number;
 	schedule_maintenance: number;
 	total_maintenance: number;
+	total_maintenance_cost: number;
+	occupancy_rate: string;
 }

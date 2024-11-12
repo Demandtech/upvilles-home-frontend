@@ -9,17 +9,20 @@ interface AppProps<T extends FieldValues> {
 	error?: string;
 	size?: "sm" | "md" | "lg";
 	defaultValue: string;
+	isLoading?: boolean;
 }
 
 export default function App<T extends FieldValues>({
 	register,
-	data,
+	data=[],
 	label,
 	name,
 	error,
 	size = "md",
 	defaultValue,
+	isLoading = false,
 }: AppProps<T>) {
+
 	return (
 		<div className="w-full">
 			{label && (
@@ -38,6 +41,7 @@ export default function App<T extends FieldValues>({
 				errorMessage={error}
 				isInvalid={!!error}
 				defaultSelectedKeys={[defaultValue]}
+				isLoading={isLoading}
 			>
 				{data.map((item: { key: string; label: string }) => {
 					return (

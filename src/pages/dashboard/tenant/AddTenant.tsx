@@ -21,7 +21,7 @@ const AddTenant = () => {
 	const navigate = useNavigate();
 	const formData = useSelector((state: RootState) => state.tenantForm);
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-	const [formKey, setFormKey] = useState(Date.now());
+	const [formKey, setFormKey] = useState(new Date().toISOString());
 	const { addTenantHandler } = useTenant();
 	const { current_property } = useParams();
 
@@ -50,14 +50,17 @@ const AddTenant = () => {
 	});
 
 	const handleAddTenant = (data: TenantFormState) => {
+		console.log(data);
 		mutation.mutate(data);
 	};
 
 	const successModalHandler = () => {
 		dispatch(resetTenantForm());
-		setFormKey(Date.now());
+		setFormKey(new Date().toISOString());
 		onClose();
-		navigate(`/dashboard/properties/${mutation.data?.data.assigned_property}`);
+		navigate(
+			`/dashboard/properties/${mutation.data?.data.assigned_property._id}`
+		);
 	};
 
 	useEffect(() => {

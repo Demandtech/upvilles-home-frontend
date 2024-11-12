@@ -95,7 +95,7 @@ const EditProperty = () => {
 						formDefaultValue={{
 							title: singleProperty?.data.title as string,
 							street: singleProperty?.data.street as string,
-							unit_number: singleProperty?.data.unit_number as number,
+							unit_number: singleProperty?.data.unit_number as string,
 							description: singleProperty?.data.description as string,
 							property_type: singleProperty?.data.property_type as
 								| "Residential"

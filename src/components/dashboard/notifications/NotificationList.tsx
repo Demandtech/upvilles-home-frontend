@@ -57,6 +57,9 @@ function NotificationList({
 	setState,
 	state,
 	setPage,
+	onReadNotification,
+	onReadAllNotifications,
+	user,
 }: NotificationListProps) {
 	console.log(setPage);
 	return (
@@ -85,6 +88,7 @@ function NotificationList({
 					variant="light"
 					onPress={() => setState("unread")}
 					aria-label="Show unread notifications"
+					disabled={!user?.unread_notifications}
 				>
 					Unread({meta?.unread || 0})
 				</Button>
@@ -96,6 +100,8 @@ function NotificationList({
 						color="primary"
 						variant="flat"
 						ariaLabel="Mark all notification as read"
+						onPress={onReadAllNotifications}
+						disabled={!user?.unread_notifications}
 					>
 						Mark all as read
 					</Button>
@@ -103,9 +109,15 @@ function NotificationList({
 			</div>
 			<div className="overflow-x-auto">
 				{data?.length > 0 ? (
-					data.map((item) => <NotificationItem key={item._id} item={item} />)
+					data.map((item) => (
+						<NotificationItem
+							onReadNotification={onReadNotification}
+							key={item._id}
+							item={item}
+						/>
+					))
 				) : (
-					<p className="p-4 text-center text-gray-500">
+					<p className="p-4 text-center text-darkGrey">
 						No notifications available.
 					</p>
 				)}

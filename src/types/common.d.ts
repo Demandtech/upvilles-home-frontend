@@ -1,4 +1,4 @@
-import { SVGProps } from "react";
+import { SVGProps, ChangeEvent } from "react";
 import { UseFormRegister } from "react-hook-form";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
@@ -47,6 +47,8 @@ export interface InputProps<TFieldValues extends FieldValues = FieldValues> {
 	endContent?: ReactNode;
 	type?: string;
 	optionalColor?: string;
+	value?: string;
+	onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface TableColumnType {

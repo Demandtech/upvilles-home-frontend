@@ -1,5 +1,5 @@
 import PropertyForm from "../../../components/dashboard/property/PropertyForm";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setTitle } from "../../../redux/slices/app";
 import { useDispatch, useSelector } from "react-redux";
 import { addPropertySchema } from "../../../utils/schemas/properties";
@@ -23,6 +23,7 @@ function AddProperty() {
 	const queryClient = useQueryClient();
 	const initialState = useSelector((state: RootState) => state.propertyForm);
 	const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
+	const [formKey, setFormKey] = useState(new Date().toISOString());
 
 	const mutation = useMutation({
 		mutationFn: async (variables: FormData) => {
@@ -64,6 +65,7 @@ function AddProperty() {
 
 	const handleModalClose = () => {
 		dispatch(resetPropertyForm());
+		setFormKey(new Date().toISOString());
 		onClose();
 		navigate(-1);
 	};
@@ -79,6 +81,7 @@ function AddProperty() {
 			</Helmet>
 			<div className="rounded-md shadow-lg shadow-dark py-5 px-5 lg:px-10 h-full w-full">
 				<PropertyForm
+					key={formKey}
 					schema={addPropertySchema}
 					onFormSubmit={handleAddProperty}
 					isLoading={mutation.isPending}
