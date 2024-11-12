@@ -6,7 +6,9 @@ const initialState: MaintenanceFormState = {
 	schedule_date: new Date(),
 	technician: "",
 	status: "schedule",
-	maintenance_fee: 0,
+	maintenance_fee: "",
+	unit: "",
+	property: "",
 };
 
 function loadState(): MaintenanceFormState {

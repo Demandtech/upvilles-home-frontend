@@ -54,7 +54,7 @@ export default function CreateMaintenance() {
 
 	const successModalHandler = () => {
 		onClose();
-		navigate("/dashboard/maintenance");
+		navigate("/dashboard/maintenances");
 		dispatch(resetMaintenanceForm());
 	};
 

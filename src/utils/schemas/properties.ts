@@ -6,7 +6,7 @@ export const managePropertySchema = yup.object().shape({
 	description: yup.string().required("Description is required!"),
 	street: yup.string().required("Street / Road / Estate is required!"),
 	property_type: yup.string().required("Property type is required"),
-	unit_number: yup.number().required("Number of unit is required"),
+	unit_number: yup.string().required("Number of unit is required"),
 	attraction: yup.string().optional(),
 	images: yup.mixed<File[]>(),
 });
@@ -17,7 +17,7 @@ export const addPropertySchema = yup.object().shape({
 	description: yup.string().required("Description is required!"),
 	street: yup.string().required("Street / Road / Estate is required!"),
 	property_type: yup.string().required("Property type is required"),
-	unit_number: yup.number().required("Number of unit is required"),
+	unit_number: yup.string().required("Number of unit is required"),
 	attraction: yup.string().optional(),
 	images: yup
 		.mixed<File[]>()
@@ -36,7 +36,7 @@ export const editPropertySchema = yup.object().shape({
 	description: yup.string().required("Description is required!"),
 	street: yup.string().required("Street / Road / Estate is required!"),
 	property_type: yup.string().required("Property type is required"),
-	unit_number: yup.number().required("Number of unit is required"),
+	unit_number: yup.string().required("Number of unit is required"),
 	attraction: yup.string().optional(),
 	images: yup.mixed<File[]>(),
 	images_url: yup.array().min(4).max(12),

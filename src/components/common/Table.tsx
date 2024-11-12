@@ -14,6 +14,7 @@ import { Tenant } from "../../types/tenant";
 import { Spinner } from "@nextui-org/spinner";
 import { Pagination } from "@nextui-org/pagination";
 import moment from "moment";
+import { formatNaira } from "../../utils/formatCurrency";
 
 interface TableProps {
 	columns: Partial<TableColumnType>[];
@@ -81,6 +82,8 @@ export default function MyTable({
 					return moment(cellValue).format();
 				case "schedule_date":
 					return moment(cellValue).format("MMMM DD, YYYY");
+				case "maintenance_fee":
+					return formatNaira(cellValue);
 				default:
 					return cellValue;
 			}
@@ -94,8 +97,7 @@ export default function MyTable({
 			aria-label="Data table"
 			isHeaderSticky
 			bottomContent={
-				totalPage &&
-				totalPage > 0 && (
+				totalPage && totalPage > 0 ? (
 					<div className="flex w-full py-4 justify-center left-0 sticky bottom-0 bg-white">
 						<Pagination
 							isCompact
@@ -108,7 +110,7 @@ export default function MyTable({
 							size="sm"
 						/>
 					</div>
-				)
+				) : null
 			}
 			onSortChange={(val: SortDescriptor) =>
 				setSortBy &&
@@ -141,13 +143,13 @@ export default function MyTable({
 			</TableHeader>
 			<TableBody
 				isLoading={isLoading}
-				emptyContent="data is empty"
+				emptyContent="No data to display!"
 				loadingContent={<Spinner label="Loading.." />}
-				items={rows}
+				items={rows ? rows : []}
 			>
 				{(item) => (
 					<TableRow
-						className={` border-b-2 border-[#F0F2F5] bg-[#FBFEFF]`}
+						className={` bg-[#FBFEFF] border-b-4 border-transparent`}
 						key={item._id}
 					>
 						{(columnKey) => (

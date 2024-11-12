@@ -22,7 +22,7 @@ export interface AddPropertyFormState {
 	location: string;
 	description: string;
 	property_type: string;
-	unit_number: number;
+	unit_number: string;
 }
 
 export interface EditPropertyFormState {
@@ -33,7 +33,7 @@ export interface EditPropertyFormState {
 	title: string;
 	location: string;
 	description: string;
-	unit_number: number;
+	unit_number: string;
 	images_url?: string[];
 	property_type: string;
 }
@@ -49,8 +49,10 @@ export interface TenantFormState {
 
 export interface MaintenanceFormState {
 	facility: string;
-	maintenance_fee: number;
+	maintenance_fee: string;
 	technician: string;
+	property: string;
+	unit: string;
 	schedule_date: Date;
 	status: "completed" | "overdue" | "schedule";
 }

@@ -5,8 +5,12 @@ import { maintenanceSchema } from "../../../utils/schemas/maintenance";
 import Button from "../../ui/Button";
 import { MaintenanceFormState } from "../../../types/forms";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { updateMaintenanceForm } from "../../../redux/slices/forms/maintenanceForm";
+import useProperty from "../../../hooks/useProperty";
+import { useQuery } from "@tanstack/react-query";
+import { Input as MyInput } from "@nextui-org/input";
+import { addCommas } from "../../../utils/addComma";
 
 const data = [
 	{ key: "overdue", label: "Overdue" },
@@ -26,17 +30,44 @@ function MaintenanceForm({
 	editedId?: string;
 }) {
 	const dispatch = useDispatch();
+	const { allProperties } = useProperty();
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 		watch,
+		setValue,
 	} = useForm({
 		resolver: yupResolver(maintenanceSchema),
 		defaultValues: formDefaultValue,
 	});
+	const [available_units, setAvailableUnits] = useState<number[]>([]);
+	const [formattedFee, setFormattedFee] = useState<string>(
+		formDefaultValue?.maintenance_fee as string
+	);
 
 	const watchFields = watch();
+
+	const { data: properties, isLoading: isPropertiesLoading } = useQuery({
+		queryKey: ["properties"],
+		queryFn: allProperties,
+	});
+
+	const handleMaintenanceFeeChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const raw = event.target.value.replace(/,/g, "");
+
+		if (isNaN(Number(raw))) return;
+
+		const formatted = addCommas(Number(raw));
+
+		if (formatted) {
+			setFormattedFee(formatted);
+		} else {
+			setFormattedFee("");
+		}
+
+		setValue("maintenance_fee", formatted);
+	};
 
 	useEffect(() => {
 		if (!editedId) {
@@ -51,11 +82,44 @@ function MaintenanceForm({
 		}
 	}, [editedId, watchFields, formDefaultValue]);
 
+	useEffect(() => {
+		if (!properties?.data) return;
+
+		const selectedPropertyId =
+			formDefaultValue?.property || watchFields.property;
+
+		const property = properties?.data?.properties.find(
+			(prop: { _id: string }) => {
+				return prop._id === selectedPropertyId;
+			}
+		);
+
+		if (formDefaultValue?.unit && typeof formDefaultValue?.unit === "number") {
+			const avail = [
+				formDefaultValue.unit,
+				...(property?.available_units as number[]),
+			];
+			setAvailableUnits(avail);
+			return;
+		}
+
+		setAvailableUnits(property?.available_units as number[]);
+	}, [
+		watchFields.property,
+		properties,
+		watchFields.maintenance_fee,
+		formDefaultValue,
+	]);
+
+	// console.log(available_units);
+
 	return (
-		<div className="max-w-[600px] mx-auto w-full py-10 overflow-auto scrollbar-hide">
+		<div className="max-w-[600px] mx-auto w-full overflow-auto scrollbar-hide">
 			<div className="text-center mb-5">
 				<h4 className="text-xl sm:text-2xl mb-1">
-					Create Maintenance Schedule
+					{editedId
+						? "Update Maintenance Schedule"
+						: "Create Maintenance Schedule"}
 				</h4>
 				<p className="text-darkGrey text-sm sm:text-base">
 					Fill in the details below to add a new Maintenance Schedule
@@ -102,21 +166,56 @@ function MaintenanceForm({
 						size="lg"
 						defaultValue={formDefaultValue?.status as string}
 					/>
+					<Select
+						size="lg"
+						name="property"
+						label="Property:"
+						data={
+							properties?.data?.properties.map(
+								(prop: { _id: string; title: string }) => ({
+									key: prop._id,
+									label: prop.title,
+								})
+							) || []
+						}
+						isLoading={isPropertiesLoading}
+						register={register}
+						defaultValue={formDefaultValue?.property as string}
+						error={errors.property?.message as string}
+					/>
+					<Select
+						size="lg"
+						name="unit"
+						label="Unit:"
+						register={register}
+						data={available_units?.map((unit) => ({
+							key: unit.toString(),
+							label: `Unit ${unit}`,
+						}))}
+						defaultValue={String(formDefaultValue?.unit)}
+						error={errors.unit?.message as string}
+					/>
 					<div className="md:col-span-2">
-						<Input
+						<MyInput
 							type="text"
-							name="maintenance_fee"
 							required={true}
-							label="Maintenance fee"
-							register={register}
-							error={errors.maintenance_fee?.message}
+							label="Maintenance fee:"
+							name="maintenance_fee"
+							labelPlacement="outside"
+							classNames={{
+								inputWrapper: "rounded-md",
+							}}
+							onChange={handleMaintenanceFeeChange}
+							isInvalid={!!errors.maintenance_fee}
+							errorMessage={errors.maintenance_fee?.message}
 							size="lg"
 							placeholder="N 0.00"
+							value={formattedFee}
 						/>
 					</div>
 				</div>
 				<Button isLoading={isLoading} type="submit" className="w-full">
-					Create Maintenance Schedule
+					{editedId ? "Update" : "Create"} Maintenance Schedule
 				</Button>
 			</form>
 		</div>

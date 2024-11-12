@@ -7,7 +7,7 @@ const initialState: AddPropertyFormState = {
 	images: undefined,
 	title: "",
 	location: "",
-	unit_number: 0,
+	unit_number: "",
 	attraction: "",
 	property_type: "",
 };

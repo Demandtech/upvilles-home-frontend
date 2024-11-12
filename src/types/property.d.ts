@@ -9,6 +9,8 @@ export interface PropertyType {
 	description: string;
 	type: string;
 	unit_number: string;
+	available_units: number[];
+	occupied_units: number[];
 }
 
 export type PropertyListType = PropertyType[] | [];

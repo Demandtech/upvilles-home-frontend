@@ -83,7 +83,7 @@ const Sidebar = ({
 						label: "Dashboard",
 					},
 					{
-						to: "/dashboard/maintenance",
+						to: "/dashboard/maintenances",
 						icon: <MaintenanceNavSvg />,
 						label: "Maintenance Schedule",
 					},

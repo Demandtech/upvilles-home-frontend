@@ -11,7 +11,9 @@ export default function PropertyList({ data }: { data: PropertyListType }) {
 					})}
 				</div>
 			) : (
-				<div>Property is empty</div>
+				<div className=" text-center p-5 text-darkGrey bg-white">
+					Property is empty
+				</div>
 			)}
 		</div>
 	);

@@ -14,6 +14,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { AxiosError } from "axios";
 import { setMaintenanceDetails } from "../../../redux/slices/maintenance";
+import { addCommas } from "../../../utils/addComma";
 
 export default function UpdateMaintenance() {
 	const { id } = useParams();
@@ -77,8 +78,12 @@ export default function UpdateMaintenance() {
 						formDefaultValue={{
 							facility: singleMaintenance?.data.facility,
 							status: singleMaintenance?.data.status,
-							maintenance_fee: singleMaintenance?.data.maintenance_fee,
+							maintenance_fee: addCommas(
+								singleMaintenance?.data.maintenance_fee
+							),
 							technician: singleMaintenance?.data.technician,
+							property: singleMaintenance?.data.property,
+							unit: singleMaintenance?.data.unit,
 							schedule_date: moment(
 								singleMaintenance?.data.schedule_date
 							).format("YYYY-MM-DD") as unknown as Date,
