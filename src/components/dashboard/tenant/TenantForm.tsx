@@ -10,6 +10,7 @@ import { updateTenantForm } from "../../../redux/slices/forms/tenantForm";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useProperty from "../../../hooks/useProperty";
+import DateInput from "../../ui/DatePicker";
 
 const TenantForm = ({
 	onSubmit,
@@ -39,6 +40,7 @@ const TenantForm = ({
 		register,
 		handleSubmit,
 		watch,
+		setValue,
 		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(schema),
@@ -91,6 +93,8 @@ const TenantForm = ({
 		formDefaultValue.assigned_property,
 	]);
 
+	console.log(formDefaultValue);
+
 	return (
 		<div className="max-w-[600px] mx-auto overflow-auto">
 			<div className="text-center pt-10 mb-10">
@@ -107,7 +111,7 @@ const TenantForm = ({
 						required
 						name="name"
 						type="text"
-						size="md"
+						size="lg"
 						placeholder="Enter tenant name"
 						label="Tenant Name"
 						register={register}
@@ -117,34 +121,33 @@ const TenantForm = ({
 						required
 						name="phone"
 						type="text"
-						size="md"
+						size="lg"
 						placeholder="Enter phone number"
 						label="Phone Number"
 						register={register}
 						error={errors.phone?.message as string}
 					/>
-					<Input
-						required
-						name="start_date"
-						size="md"
-						type="date"
-						label="Lease Start"
-						placeholder="DD/MM/YYYY"
-						register={register}
+					<DateInput
+						size="lg"
 						error={errors.start_date?.message as string}
-					/>
-					<Input
-						required
-						type="date"
-						placeholder="DD/MM/YYYY"
-						name="end_date"
-						label="End Date"
-						size="md"
+						label="Lease Start"
+						name="start_date"
 						register={register}
+						setValue={setValue}
+						defaultValue={formDefaultValue.start_date}
+					/>
+
+					<DateInput
+						size="lg"
 						error={errors.end_date?.message as string}
+						label="End Date"
+						name="end_date"
+						register={register}
+						setValue={setValue}
+						defaultValue={formDefaultValue.end_date}
 					/>
 					<Select
-						size="md"
+						size="lg"
 						name="assigned_property"
 						label="Assigned Property:"
 						data={
@@ -161,7 +164,7 @@ const TenantForm = ({
 						error={errors.assigned_property?.message as string}
 					/>
 					<Select
-						size="md"
+						size="lg"
 						name="assigned_unit"
 						label="Assigned Unit:"
 						register={register}

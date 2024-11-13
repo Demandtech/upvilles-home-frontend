@@ -17,7 +17,6 @@ import {
 } from "@tanstack/react-query";
 import { AxiosResponse, AxiosError } from "axios";
 import useTenant from "../../../hooks/useTenant";
-import moment from "moment";
 import { toast } from "../../../../configs/services";
 
 export default function EditTenant() {
@@ -75,10 +74,8 @@ export default function EditTenant() {
 							assigned_property: editTenant?.data.assigned_property._id,
 							assigned_unit: editTenant?.data.assigned_unit,
 							phone: editTenant?.data.phone,
-							start_date: moment(editTenant.data.start_date).format(
-								"YYYY-MM-DD"
-							),
-							end_date: moment(editTenant?.data.end_date).format("YYYY-MM-DD"),
+							start_date: editTenant.data.start_date,
+							end_date: editTenant.data.end_date,
 						}}
 						schema={tenantSchema}
 						onSubmit={handleEditTenant}

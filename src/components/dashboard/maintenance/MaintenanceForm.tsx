@@ -11,6 +11,7 @@ import useProperty from "../../../hooks/useProperty";
 import { useQuery } from "@tanstack/react-query";
 import { Input as MyInput } from "@nextui-org/input";
 import { addCommas } from "../../../utils/addComma";
+import DateInput from "../../ui/DatePicker";
 
 const data = [
 	{ key: "overdue", label: "Overdue" },
@@ -94,24 +95,13 @@ function MaintenanceForm({
 			}
 		);
 
-		if (formDefaultValue?.unit && typeof formDefaultValue?.unit === "number") {
-			const avail = [
-				formDefaultValue.unit,
-				...(property?.available_units as number[]),
-			];
-			setAvailableUnits(avail);
-			return;
-		}
-
-		setAvailableUnits(property?.available_units as number[]);
+		setAvailableUnits(property?.all_units as number[]);
 	}, [
 		watchFields.property,
 		properties,
 		watchFields.maintenance_fee,
 		formDefaultValue,
 	]);
-
-	// console.log(available_units);
 
 	return (
 		<div className="max-w-[600px] mx-auto w-full overflow-auto scrollbar-hide">
@@ -147,15 +137,14 @@ function MaintenanceForm({
 						placeholder="Enter name"
 						size="lg"
 					/>
-					<Input
-						type="date"
+					<DateInput
 						name="schedule_date"
-						required={true}
 						label="Schedule Date"
 						register={register}
 						error={errors.schedule_date?.message}
 						size="lg"
-						placeholder="Enter date"
+						setValue={setValue}
+						defaultValue={formDefaultValue?.schedule_date}
 					/>
 					<Select
 						name="status"

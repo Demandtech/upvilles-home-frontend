@@ -21,7 +21,7 @@ import {
 	AddTenant,
 	EditTenant,
 	TenantDetail,
-	MaintenanceDetails,
+	UserProfile,
 } from "./pages";
 
 const routes: RouteObject[] = [
@@ -59,6 +59,10 @@ const routes: RouteObject[] = [
 				element: <Properties />,
 			},
 			{
+				path: "profile",
+				element: <UserProfile />,
+			},
+			{
 				path: "properties/add",
 				element: <AddProperty />,
 			},
@@ -91,10 +95,7 @@ const routes: RouteObject[] = [
 				path: "maintenances/add",
 				element: <CreateMaintenance />,
 			},
-			{
-				path: "maintenances/:id",
-				element: <MaintenanceDetails />,
-			},
+
 			{
 				path: "maintenances/update/:id",
 				element: <UpdateMaintenance />,

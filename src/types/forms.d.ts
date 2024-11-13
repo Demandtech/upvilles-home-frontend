@@ -43,8 +43,8 @@ export interface TenantFormState {
 	assigned_unit: string;
 	assigned_property: string;
 	phone: string;
-	start_date: Date | string;
-	end_date: Date | string;
+	start_date?: Date | undefined;
+	end_date?: Date | undefined;
 }
 
 export interface MaintenanceFormState {

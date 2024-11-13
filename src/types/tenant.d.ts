@@ -6,6 +6,6 @@ export interface Tenant {
 	assigned_unit: string;
 	assigned_property: PropertyType;
 	phone: string;
-	start_date: Date | string;
-	end_date: Date | string;
+	start_date: string | Date;
+	end_date: string | Date;
 }

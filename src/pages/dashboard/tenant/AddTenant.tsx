@@ -49,10 +49,7 @@ const AddTenant = () => {
 		},
 	});
 
-	const handleAddTenant = (data: TenantFormState) => {
-		console.log(data);
-		mutation.mutate(data);
-	};
+	const handleAddTenant = (data: TenantFormState) => mutation.mutate(data);
 
 	const successModalHandler = () => {
 		dispatch(resetTenantForm());
@@ -78,6 +75,8 @@ const AddTenant = () => {
 					formDefaultValue={{
 						...formData,
 						assigned_property: current_property as string,
+						start_date: formData.start_date,
+						end_date: formData.end_date,
 					}}
 					schema={tenantSchema}
 					onSubmit={handleAddTenant}

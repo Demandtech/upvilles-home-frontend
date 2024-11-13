@@ -24,6 +24,7 @@ const BottomWrapper = ({
 	totalPage,
 	setSortBy,
 	currentPropertyId,
+	isVacant,
 }: {
 	tenants: Tenant[];
 	isLoading?: boolean;
@@ -32,6 +33,7 @@ const BottomWrapper = ({
 	totalPage: number;
 	setSortBy: (args: { column: string; direction: string }) => void;
 	currentPropertyId: string;
+	isVacant: boolean;
 }) => {
 	const navigate = useNavigate();
 	const { onClose, onOpenChange, isOpen, onOpen } = useDisclosure();
@@ -66,6 +68,7 @@ const BottomWrapper = ({
 						onClick={() =>
 							navigate(`/dashboard/tenants/add/${currentPropertyId}`)
 						}
+						disabled={!isVacant}
 					>
 						Add Tenant
 					</Button>

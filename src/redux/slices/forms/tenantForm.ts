@@ -3,8 +3,8 @@ import { TenantFormState } from "../../../types/forms";
 
 const initialState: TenantFormState = {
 	name: "",
-	start_date: "",
-	end_date: "",
+	start_date: undefined,
+	end_date: undefined,
 	assigned_unit: "",
 	assigned_property: "",
 	phone: "",
@@ -30,7 +30,6 @@ const tenantFormSlice = createSlice({
 			localStorage.setItem("tenantForm", JSON.stringify(state));
 		},
 		resetTenantForm: () => {
-			// console.log("HERE");
 			localStorage.removeItem("tenanForm");
 			return initialState;
 		},
