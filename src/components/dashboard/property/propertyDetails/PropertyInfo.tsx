@@ -1,5 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { CheckIconSvg, LocationIconSvg, DescriptionIconSvg } from "../../../svgs";
+import {
+	CheckIconSvg,
+	LocationIconSvg,
+	DescriptionIconSvg,
+} from "../../../svgs";
 import Button from "../../../ui/Button";
 import DeleteModal from "../DeleteModal";
 import { CustomModal } from "../../../ui/Modal";
@@ -44,14 +48,22 @@ const PropertyInfo = ({ id }: { id: string }) => {
 			<div>
 				<h4 className="text-darkGrey font-semibold mb-2">Side Attraction</h4>
 				<ul className="grid grid-cols-2 gap-2">
-					{propertyDetails?.attraction.split(",").map((item: string) => {
-						return (
-							<li className="text-sm flex items-center gap-2" key={item}>
-								<CheckIconSvg />
-								<p>{item}</p>
+					{propertyDetails?.attraction ? (
+						propertyDetails?.attraction.split(",").map((item: string) => {
+							return (
+								<li className="text-sm flex items-center gap-2" key={item}>
+									<CheckIconSvg />
+									<p>{item}</p>
+								</li>
+							);
+						})
+					) : (
+						<div className="text-default-50 rounded-md w-full">
+							<li className="text-default list-disc list-inside">
+								No attraction added
 							</li>
-						);
-					})}
+						</div>
+					)}
 				</ul>
 			</div>
 			<div className="flex flex-col gap-3">

@@ -14,7 +14,7 @@ export { default as Report } from "./dashboard/Report";
 export { default as Maintenance } from "./dashboard/maintenance/Maintenance";
 export { default as CreateMaintenance } from "./dashboard/maintenance/CreateMaintenance";
 export { default as UpdateMaintenance } from "./dashboard/maintenance/UpdateMaintenance";
-export { default as MaintenanceDetails } from "./dashboard/maintenance/MaintenanceDetails";
 export { default as AddTenant } from "./dashboard/tenant/AddTenant";
 export { default as EditTenant } from "./dashboard/tenant/EditTenant";
 export { default as TenantDetail } from "./dashboard/tenant/TenantDetails";
+export { default as UserProfile } from "./dashboard/Profile";

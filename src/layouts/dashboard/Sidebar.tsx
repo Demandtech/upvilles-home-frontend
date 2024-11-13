@@ -69,6 +69,7 @@ const Sidebar = ({
 						isIconOnly={true}
 						type="button"
 						size="md"
+						onClick={() => navigate("/dashboard/profile")}
 					>
 						<EditIconSvg />
 					</Button>
@@ -80,7 +81,7 @@ const Sidebar = ({
 					{
 						to: "/dashboard/properties",
 						icon: <DashboardNavSvg />,
-						label: "Dashboard",
+						label: "Property Management",
 					},
 					{
 						to: "/dashboard/maintenances",

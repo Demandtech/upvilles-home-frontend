@@ -75,7 +75,7 @@ function AddProperty() {
 	}, []);
 
 	return (
-		<div className="h-[calc(100dvh-70px)] w-full lg:h-[calc(100dvh-86px)] p-3 lg:p-5">
+		<div className="h-[calc(100dvh-126px)] w-full lg:h-[calc(100dvh-86px)] p-3 lg:p-5">
 			<Helmet>
 				<title>Upvillehomes | Add Property - Dashboard</title>
 			</Helmet>

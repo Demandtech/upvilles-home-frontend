@@ -10,7 +10,7 @@ import { useState } from "react";
 
 const columns = [
 	{ name: "Name", uid: "facility", sortable: true },
-	// { name: "Last Maintenance Date", uid: "last_men_date", sortable: true },
+	{ name: "Last Maintenance Date", uid: "last_men_date", sortable: true },
 	{ name: "Upcoming Maintenance Dates", uid: "schedule_date", sortable: true },
 	{ name: "Assigned Technicians", uid: "technician", sortable: true },
 	{ name: "Status", uid: "status" },
@@ -35,9 +35,6 @@ function Schedule({
 	const navigate = useNavigate();
 	const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
 	const [currentId, setCurrentId] = useState("");
-
-	const viewMaintenance = (id: string) =>
-		navigate(`/dashboard/maintenances/${id}`);
 
 	const deleteMaintenance = (id: string) => {
 		setCurrentId(id);
@@ -72,7 +69,6 @@ function Schedule({
 				<Table
 					onDelete={deleteMaintenance}
 					onEdit={editMaintenance}
-					onView={viewMaintenance}
 					columns={columns}
 					rows={maintenance}
 					page={page}

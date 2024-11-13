@@ -27,9 +27,13 @@ const AddTenant = ({
 					</Button>
 				</DropdownTrigger>
 				<DropdownMenu color="primary">
-					<DropdownItem onPress={() => !!onViewClick && onViewClick(rowId)}>
-						View
-					</DropdownItem>
+					{onViewClick ? (
+						<DropdownItem onPress={() => !!onViewClick && onViewClick(rowId)}>
+							View
+						</DropdownItem>
+					) : (
+						<DropdownItem></DropdownItem>
+					)}
 					<DropdownItem onPress={() => !!onEditClick && onEditClick(rowId)}>
 						Edit
 					</DropdownItem>

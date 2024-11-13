@@ -65,7 +65,7 @@ export default function UpdateMaintenance() {
 	const onFormSubmit = (data: MaintenanceFormState) => mutation.mutate(data);
 
 	return (
-		<div className="bg-lightBg h-[calc(100dvh-70px)] w-full lg:h-[calc(100dvh-86px)] p-3 lg:p-5">
+		<div className="bg-lightBg h-[calc(100dvh-126px)] w-full lg:h-[calc(100dvh-86px)] p-3 lg:p-5">
 			<Helmet>
 				<title>Upvillehomes | Update Maintenance - Dashboard</title>
 			</Helmet>
