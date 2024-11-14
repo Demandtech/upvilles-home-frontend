@@ -1,8 +1,21 @@
 import { AxiosResponse } from "axios";
 import customAxios from "../../configs/axios";
-import { SignupFormState, LoginFormState } from "../types/forms";
+import {
+	SignupFormState,
+	LoginFormState,
+	ChangePasswordFormState,
+} from "../types/forms";
 
-export default function useAuth() {
+export default function useAuth(): {
+	getAuthUser: () => Promise<AxiosResponse>;
+	handleSignup: (args: Partial<SignupFormState>) => Promise<AxiosResponse>;
+	handleLogin: (args: LoginFormState) => Promise<AxiosResponse>;
+	handleRefreshToken: (arg: string) => Promise<AxiosResponse>;
+	handleUpdateUser: (args: FormData) => Promise<AxiosResponse>;
+	handleChangePassword: (
+		args: ChangePasswordFormState
+	) => Promise<AxiosResponse>;
+} {
 	const handleSignup = async (
 		userData: Partial<SignupFormState>
 	): Promise<AxiosResponse> => {
@@ -35,11 +48,24 @@ export default function useAuth() {
 		return updatedUser;
 	};
 
+	const handleChangePassword = async ({
+		current_password,
+		new_password,
+	}: ChangePasswordFormState) => {
+		const response = await customAxios().post("user/change_password", {
+			new_password,
+			current_password,
+		});
+
+		return response;
+	};
+
 	return {
 		handleSignup,
 		getAuthUser,
 		handleRefreshToken,
 		handleLogin,
 		handleUpdateUser,
+		handleChangePassword,
 	};
 }

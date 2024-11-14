@@ -13,6 +13,12 @@ export interface SignupFormState {
 	termCondition?: boolean;
 }
 
+export interface ChangePasswordFormState {
+	current_password: string;
+	new_password: string;
+	confirm_password: string;
+}
+
 export interface AddPropertyFormState {
 	street: string;
 	description: string;

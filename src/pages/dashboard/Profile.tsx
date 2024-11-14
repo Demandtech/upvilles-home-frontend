@@ -201,6 +201,7 @@ function Profile() {
 									variant="bordered"
 									color="default"
 									type="button"
+									onClick={() => navigate(-1)}
 								>
 									Cancel
 								</Button>
