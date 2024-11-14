@@ -17,7 +17,7 @@ export default function Metric({ stats }: { stats: Stats }) {
 				<div className="flex flex-wrap gap-3">
 					<div className="flex-1 w-full space-y-3 bg-white p-4 rounded-xl shadow-lg shadow-default-100">
 						<FacilityIcon />
-						<p className="text-nowrap text-sm text-darkGrey">
+						<p className="text-sm text-darkGrey">
 							Total Facilities Being Maintained
 						</p>
 

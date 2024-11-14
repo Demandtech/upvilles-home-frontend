@@ -1,4 +1,5 @@
 import { formatNaira } from "../../../utils/formatCurrency";
+import Counter from "../../common/Counter";
 import {
 	TotalPropertyManage,
 	AllMaintenanceCost,
@@ -29,7 +30,11 @@ function ReportTopWrapper({
 					<p className="text-nowrap text-darkGrey text-xs leading-5 font-normal">
 						Total Properties Managed
 					</p>
-					<p className="text-xl font-medium">{total_properties}</p>
+					<Counter
+						labelColor="#212121"
+						targetNumber={total_properties ? total_properties : 0}
+					/>
+					{/* <p className="text-xl font-medium">total_properties}</p> */}
 				</div>
 				<div className="flex-1 bg-white gap-2 flex flex-col py-3 px-5 rounded-[10px] border border-[#E4E7EC] shadow-lg shadow-default-100">
 					<UpcomingMaintenanceManage />
@@ -43,7 +48,8 @@ function ReportTopWrapper({
 					<p className="text-nowrap text-darkGrey text-xs leading-5 font-normal">
 						Overdue Maintainance Task
 					</p>
-					<p className="text-xl font-medium">{overdue_maintenance}</p>
+					<Counter labelColor="#212121" targetNumber={overdue_maintenance} />
+					{/* <p className="text-xl font-medium">{overdue_maintenance}</p> */}
 				</div>
 				<div className="flex-1 bg-white gap-2 flex flex-col py-3 px-5 rounded-[10px] border border-[#E4E7EC] shadow-lg shadow-default-100">
 					<AllMaintenanceCost />

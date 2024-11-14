@@ -116,6 +116,7 @@ const TenantForm = ({
 						label="Tenant Name"
 						register={register}
 						error={errors.name?.message as string}
+						defaultValue={formDefaultValue.name}
 					/>
 					<Input
 						required
@@ -126,6 +127,7 @@ const TenantForm = ({
 						label="Phone Number"
 						register={register}
 						error={errors.phone?.message as string}
+						defaultValue={formDefaultValue.phone}
 					/>
 					<DateInput
 						size="lg"

@@ -85,6 +85,7 @@ const LoginForm: FC = () => {
 						register={register}
 						error={errors.email?.message}
 						type="text"
+						defaultValue={formData.email}
 					/>
 
 					<Input
@@ -96,6 +97,7 @@ const LoginForm: FC = () => {
 						register={register}
 						error={errors.password?.message}
 						type={showPassword ? "text" : "password"}
+						defaultValue={formData.password}
 						endContent={
 							<Button
 								className="bg-transparent rounded-full"

@@ -9,7 +9,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { updateMaintenanceForm } from "../../../redux/slices/forms/maintenanceForm";
 import useProperty from "../../../hooks/useProperty";
 import { useQuery } from "@tanstack/react-query";
-import { Input as MyInput } from "@nextui-org/input";
+import { Input as NewInput } from "@nextui-org/input";
 import { addCommas } from "../../../utils/addComma";
 import DateInput from "../../ui/DatePicker";
 
@@ -126,6 +126,7 @@ function MaintenanceForm({
 						register={register}
 						placeholder="E.g Generator"
 						size="lg"
+						defaultValue={formDefaultValue?.facility as string}
 					/>
 					<Input
 						type="text"
@@ -136,6 +137,7 @@ function MaintenanceForm({
 						error={errors.technician?.message}
 						placeholder="Enter name"
 						size="lg"
+						defaultValue={formDefaultValue?.technician as string}
 					/>
 					<DateInput
 						name="schedule_date"
@@ -185,7 +187,7 @@ function MaintenanceForm({
 						error={errors.unit?.message as string}
 					/>
 					<div className="md:col-span-2">
-						<MyInput
+						<NewInput
 							type="text"
 							required={true}
 							label="Maintenance fee:"

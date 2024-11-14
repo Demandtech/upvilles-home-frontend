@@ -50,6 +50,7 @@ const Maintenance = () => {
 				maintenance={data?.data.maintenances || []}
 				totalPage={meta.total_page}
 				isLoading={isLoading}
+				isCreateDisabled={false}
 			/>
 		</div>
 	);

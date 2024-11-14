@@ -89,6 +89,7 @@ const PropertyForm = ({
 							placeholder="Enter property title"
 							register={register}
 							error={errors.title?.message as string | undefined}
+							defaultValue={formDefaultValue?.title as string}
 						/>
 						<Input
 							required={true}
@@ -99,6 +100,7 @@ const PropertyForm = ({
 							placeholder="Enter property location"
 							register={register}
 							error={errors.location?.message as string | undefined}
+							defaultValue={formDefaultValue?.location as string}
 						/>
 						<Input
 							label="Street / Road / Estate"
@@ -109,6 +111,7 @@ const PropertyForm = ({
 							placeholder="Enter property address"
 							register={register}
 							error={errors.street?.message as string | undefined}
+							defaultValue={formDefaultValue?.street as string}
 						/>
 						<Select
 							name="property_type"
@@ -128,6 +131,7 @@ const PropertyForm = ({
 							placeholder="Enter units number"
 							register={register}
 							error={errors.unit_number?.message as string | undefined}
+							defaultValue={formDefaultValue?.unit_number as string}
 						/>
 						<Input
 							label="Side Attraction"
@@ -139,6 +143,7 @@ const PropertyForm = ({
 							register={register}
 							error={errors.attraction?.message as string | undefined}
 							optionalColor="text-darkGrey"
+							defaultValue={formDefaultValue?.attraction as string}
 						/>
 					</div>
 					<div className="space-y-5">

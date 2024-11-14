@@ -29,7 +29,6 @@ function Profile() {
 		register,
 		handleSubmit,
 		watch,
-		setValue,
 		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(updateProfileSchema),

@@ -114,6 +114,7 @@ const SignupForm: FC = () => {
 							register={register}
 							error={errors.name?.message}
 							type="text"
+							defaultValue={formData.name}
 						/>
 						<Input
 							label="Email Address"
@@ -124,6 +125,7 @@ const SignupForm: FC = () => {
 							register={register}
 							error={errors.email?.message}
 							type="text"
+							defaultValue={formData.email}
 						/>
 						<Input
 							label="Phone number"
@@ -133,6 +135,7 @@ const SignupForm: FC = () => {
 							register={register}
 							error={errors.phone?.message}
 							type="text"
+							defaultValue={formData.phone as string}
 						/>
 						<Input
 							label="Company name"
@@ -142,6 +145,7 @@ const SignupForm: FC = () => {
 							register={register}
 							error={errors.company?.message}
 							type="text"
+							defaultValue={formData.company as string}
 						/>
 						<Input
 							name="password"
@@ -152,6 +156,7 @@ const SignupForm: FC = () => {
 							register={register}
 							error={errors.password?.message}
 							type={showPassword.password ? "text" : "password"}
+							defaultValue={formData.password}
 							endContent={
 								<Button
 									className="bg-transparent rounded-full"
@@ -177,6 +182,7 @@ const SignupForm: FC = () => {
 							register={register}
 							error={errors.confirmPassword?.message}
 							type={showPassword.confirmPassword ? "text" : "password"}
+							defaultValue={formData.confirmPassword as string}
 							endContent={
 								<Button
 									className="bg-transparent rounded-full"
