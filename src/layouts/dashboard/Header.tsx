@@ -45,7 +45,8 @@ const Header = ({
 				location.pathname.includes("notification") ||
 				location.pathname.includes("setting") ||
 				location.pathname.includes("support") ||
-				location.pathname.includes("report")
+				location.pathname.includes("report") ||
+				location.pathname.includes("profile")
 					? "bg-white"
 					: "bg-lightBg"
 			} px-3 py-3 sm:py-5 sm:px-5 sticky top-0 z-40`}
