@@ -18,3 +18,4 @@ export { default as AddTenant } from "./dashboard/tenant/AddTenant";
 export { default as EditTenant } from "./dashboard/tenant/EditTenant";
 export { default as TenantDetail } from "./dashboard/tenant/TenantDetails";
 export { default as UserProfile } from "./dashboard/Profile";
+export { default as ChangePassword } from "./dashboard/profile/ChangePassword";

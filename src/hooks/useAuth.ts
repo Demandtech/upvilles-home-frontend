@@ -29,5 +29,17 @@ export default function useAuth() {
 		return newTokens;
 	};
 
-	return { handleSignup, getAuthUser, handleRefreshToken, handleLogin };
+	const handleUpdateUser = async (updatedData: FormData) => {
+		const updatedUser = await customAxios(true).put("user/update", updatedData);
+
+		return updatedUser;
+	};
+
+	return {
+		handleSignup,
+		getAuthUser,
+		handleRefreshToken,
+		handleLogin,
+		handleUpdateUser,
+	};
 }

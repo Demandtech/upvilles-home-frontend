@@ -22,6 +22,7 @@ import {
 	EditTenant,
 	TenantDetail,
 	UserProfile,
+	ChangePassword,
 } from "./pages";
 
 const routes: RouteObject[] = [
@@ -61,6 +62,10 @@ const routes: RouteObject[] = [
 			{
 				path: "profile",
 				element: <UserProfile />,
+			},
+			{
+				path: "profile/change_password",
+				element: <ChangePassword />,
 			},
 			{
 				path: "properties/add",

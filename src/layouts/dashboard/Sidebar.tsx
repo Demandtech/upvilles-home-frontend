@@ -69,7 +69,10 @@ const Sidebar = ({
 						isIconOnly={true}
 						type="button"
 						size="md"
-						onClick={() => navigate("/dashboard/profile")}
+						onClick={() => {
+							onSidebarClose();
+							navigate("/dashboard/profile");
+						}}
 					>
 						<EditIconSvg />
 					</Button>
