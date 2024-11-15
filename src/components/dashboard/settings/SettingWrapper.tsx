@@ -104,7 +104,7 @@ const SettingWrapper = () => {
 									onValueChange={(val) => handleSettings(val, "notification")}
 									isSelected={settings.notification}
 									size="sm"
-									disabled={isPending}
+									isDisabled={isPending}
 								/>
 							</TableCell>
 						</TableRow>
@@ -124,7 +124,7 @@ const SettingWrapper = () => {
 										handleSettings(val, "security_options")
 									}
 									isSelected={settings.security_options}
-									disabled={isPending}
+									isDisabled={isPending}
 								/>
 							</TableCell>
 						</TableRow>
@@ -144,7 +144,7 @@ const SettingWrapper = () => {
 										handleSettings(val, "property_management")
 									}
 									isSelected={settings.property_management}
-									disabled={isPending}
+									isDisabled={isPending}
 								/>
 							</TableCell>
 						</TableRow>
@@ -164,7 +164,7 @@ const SettingWrapper = () => {
 										handleSettings(val, "data_management")
 									}
 									isSelected={settings.data_management}
-									disabled={isPending}
+									isDisabled={isPending}
 								/>
 							</TableCell>
 						</TableRow>
@@ -182,7 +182,7 @@ const SettingWrapper = () => {
 									size="sm"
 									onValueChange={(val) => handleSettings(val, "product_update")}
 									isSelected={settings.product_update}
-									disabled={isPending}
+									isDisabled={isPending}
 								/>
 							</TableCell>
 						</TableRow>
