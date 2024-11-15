@@ -50,6 +50,7 @@ export interface InputProps<TFieldValues extends FieldValues = FieldValues> {
 	optionalColor?: string;
 	value?: string;
 	onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+	defaultValue: string;
 }
 
 export interface DateProps<TFieldValues extends FieldValue = FieldValue> {

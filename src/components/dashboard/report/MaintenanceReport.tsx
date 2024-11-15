@@ -1,13 +1,12 @@
-
 import { MaintenanceType } from "../../../types/maintenance";
 import Table from "../../common/Table";
 
 const columns = [
 	{ name: "Facility Name", uid: "facility", sortable: true },
-	{ name: "Maintenance Type", uid: "type", sortable: true },
+	{ name: "House/Unit", uid: "property", sortable: true },
 	{
-		name: "Upcoming Maintenance Dates",
-		uid: "upcoming_maintenance_date",
+		name: "Schedule Date",
+		uid: "schedule_date",
 		sortable: true,
 	},
 	{ name: "Assigned Technicians", uid: "technician", sortable: true },
@@ -26,9 +25,8 @@ function MaintenanceReport({
 			<h4 className="font-semibold pb-4 text-lg md:text-xl text-nowrap">
 				Maintenance Report{" "}
 			</h4>
-		
+
 			<Table columns={columns} rows={maintenances} isLoading={rowLoading} />
-		
 		</div>
 	);
 }

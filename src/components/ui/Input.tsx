@@ -15,6 +15,7 @@ export default function MyInput({
 	optionalColor = "text-white/80",
 	value,
 	onChange,
+	defaultValue = "",
 }: InputProps) {
 	return (
 		<div>
@@ -49,6 +50,7 @@ export default function MyInput({
 				autoComplete="off"
 				value={value}
 				onChange={onChange}
+				defaultValue={defaultValue}
 			/>
 		</div>
 	);

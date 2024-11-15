@@ -10,8 +10,8 @@ import { useState } from "react";
 
 const columns = [
 	{ name: "Name", uid: "facility", sortable: true },
-	{ name: "Last Maintenance Date", uid: "last_men_date", sortable: true },
-	{ name: "Upcoming Maintenance Dates", uid: "schedule_date", sortable: true },
+	{ name: "Property/Unit", uid: "property", sortable: true },
+	{ name: "Schedule Maintenance Dates", uid: "schedule_date", sortable: true },
 	{ name: "Assigned Technicians", uid: "technician", sortable: true },
 	{ name: "Status", uid: "status" },
 	{ name: "Actions", uid: "actions" },
@@ -24,6 +24,7 @@ function Schedule({
 	setSortBy,
 	setPage,
 	isLoading,
+	isCreateDisabled,
 }: {
 	maintenance: MaintenanceType[];
 	page: number;
@@ -31,6 +32,7 @@ function Schedule({
 	totalPage: number;
 	setSortBy: (args: { column: string; direction: string }) => void;
 	isLoading: boolean;
+	isCreateDisabled: boolean;
 }) {
 	const navigate = useNavigate();
 	const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
@@ -61,6 +63,7 @@ function Schedule({
 							size="md"
 							className="rounded-sm ml-auto"
 							onClick={() => navigate("/dashboard/maintenances/add")}
+							disabled={isCreateDisabled}
 						>
 							Create <span className="hidden sm:block"> Maintenance Task</span>
 						</Button>

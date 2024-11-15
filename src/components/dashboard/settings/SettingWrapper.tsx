@@ -7,19 +7,54 @@ import {
 	TableColumn,
 } from "@nextui-org/table";
 import { Switch } from "@nextui-org/switch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useAuth from "../../../hooks/useAuth";
+import { AxiosError } from "axios";
+import { toast } from "../../../../configs/services";
 const SettingWrapper = () => {
+	const { user } = useSelector((state: RootState) => state.user);
+	const { handleUpdateSettings } = useAuth();
+	const queryClient = useQueryClient();
 	const [settings, setSettings] = useState({
-		notifications: false,
-		security_option: false,
-		property_management: true,
-		data_management: false,
-		product_updates: false,
+		notification: user?.settings.notification,
+		security_options: user?.settings.security_options,
+		property_management: user?.settings.property_management,
+		data_management: user?.settings.data_management,
+		product_update: user?.settings.product_update,
+	});
+
+	const { mutate, isPending } = useMutation({
+		mutationFn: (data: { key: string; value: boolean }) =>
+			handleUpdateSettings(data),
+		onSuccess: (data: any) => {
+			if (data) {
+				toast.success(data?.message);
+			}
+
+			queryClient.invalidateQueries({ queryKey: ["authUser"] });
+		},
+		onError: (error: AxiosError) => {
+			if (error.response?.data) {
+				toast.error((error.response.data as { message: string }).message);
+				return;
+			}
+			toast.error("An error occured, try again later");
+		},
 	});
 
 	const handleSettings = (val: boolean, name: string) => {
 		setSettings((prev) => ({ ...prev, [name]: val }));
+		mutate({ key: name, value: val });
 	};
+
+	useEffect(() => {
+		if (!user) return;
+
+		setSettings(user?.settings);
+	}, [user]);
 
 	return (
 		<div className="bg-white py-10 px-3 sm:px-8 h-full scrollbar-hide rounded-md shadow-lg shadow-default-100 overflow-auto">
@@ -66,9 +101,10 @@ const SettingWrapper = () => {
 							<TableCell className="rounded-tr-xl">
 								<Switch
 									name="notification"
-									onValueChange={(val) => handleSettings(val, "notifications")}
-									isSelected={settings.notifications}
+									onValueChange={(val) => handleSettings(val, "notification")}
+									isSelected={settings.notification}
 									size="sm"
+									isDisabled={isPending}
 								/>
 							</TableCell>
 						</TableRow>
@@ -85,9 +121,10 @@ const SettingWrapper = () => {
 								<Switch
 									size="sm"
 									onValueChange={(val) =>
-										handleSettings(val, "security_option")
+										handleSettings(val, "security_options")
 									}
-									isSelected={settings.security_option}
+									isSelected={settings.security_options}
+									isDisabled={isPending}
 								/>
 							</TableCell>
 						</TableRow>
@@ -107,6 +144,7 @@ const SettingWrapper = () => {
 										handleSettings(val, "property_management")
 									}
 									isSelected={settings.property_management}
+									isDisabled={isPending}
 								/>
 							</TableCell>
 						</TableRow>
@@ -126,6 +164,7 @@ const SettingWrapper = () => {
 										handleSettings(val, "data_management")
 									}
 									isSelected={settings.data_management}
+									isDisabled={isPending}
 								/>
 							</TableCell>
 						</TableRow>
@@ -141,10 +180,9 @@ const SettingWrapper = () => {
 							<TableCell className="rounded-tr-xl">
 								<Switch
 									size="sm"
-									onValueChange={(val) =>
-										handleSettings(val, "product_updates")
-									}
-									isSelected={settings.product_updates}
+									onValueChange={(val) => handleSettings(val, "product_update")}
+									isSelected={settings.product_update}
+									isDisabled={isPending}
 								/>
 							</TableCell>
 						</TableRow>

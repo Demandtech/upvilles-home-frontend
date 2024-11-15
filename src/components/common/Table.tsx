@@ -84,6 +84,8 @@ export default function MyTable({
 					return moment(cellValue).format("MMMM DD, YYYY");
 				case "maintenance_fee":
 					return formatNaira(cellValue);
+				case "property":
+					return cellValue?.title;
 				default:
 					return cellValue;
 			}

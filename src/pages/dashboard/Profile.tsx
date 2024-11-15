@@ -79,6 +79,7 @@ function Profile() {
 		dispatch(setTitle({ title: "Profile", showIcon: false }));
 		queryClient.invalidateQueries({ queryKey: ["authUser"] });
 	}, []);
+
 	const watchImage: FileList = watch("image");
 
 	useEffect(() => {
@@ -90,6 +91,16 @@ function Profile() {
 			setNewImgUrl(imagePreviewUrl);
 		}
 	}, [watchImage]);
+
+	// useEffect(() => {
+	// if (user) {
+	// setValue("name", user?.name as string);
+	// }
+	// });
+
+	if (!user) return;
+
+	console.log(user);
 
 	return (
 		<div className="px-3 md:px-5 py-5 bg-lightBg min-h-[calc(100dvh-70px)] lg:min-h-[calc(100dvh-86px)]">
@@ -150,6 +161,7 @@ function Profile() {
 									isRequired
 									isInvalid={!!errors.email}
 									errorMessage={errors.email?.message}
+									defaultValue={user?.email}
 								/>
 							</div>
 							<div className="flex gap-5">
@@ -161,6 +173,7 @@ function Profile() {
 									{...register("company")}
 									isInvalid={!!errors.company}
 									errorMessage={errors.company?.message}
+									defaultValue={user.company}
 								/>
 								<Input
 									labelPlacement="outside"
@@ -170,6 +183,7 @@ function Profile() {
 									{...register("phone")}
 									isInvalid={!!errors.phone}
 									errorMessage={errors.phone?.message}
+									defaultValue={user.phone as string}
 								/>
 							</div>
 							<Input
@@ -191,7 +205,6 @@ function Profile() {
 								}
 								defaultValue="**************"
 								isReadOnly
-								multiple={false}
 							/>
 						</div>
 						<div className="mt-10 flex w-full gap-5">
@@ -201,6 +214,7 @@ function Profile() {
 									variant="bordered"
 									color="default"
 									type="button"
+									onClick={() => navigate(-1)}
 								>
 									Cancel
 								</Button>
