@@ -13,14 +13,6 @@ export interface User {
 	settings: Settings;
 }
 
-export interface Settings {
-	notification: boolean | undefined;
-	security_options: boolean | undefined;
-	data_management: boolean | undefined;
-	property_management: boolean | undefined;
-	product_update: boolean | undefined;
-}
-
 export interface Stats {
 	total_properties: number;
 	total_tenants: number;
@@ -32,4 +24,12 @@ export interface Stats {
 	total_maintenance: number;
 	total_maintenance_cost: number;
 	occupancy_rate: string;
+}
+
+export interface Settings {
+	notification: boolean;
+	security_options: boolean;
+	data_management: boolean;
+	property_management: boolean;
+	product_update: boolean;
 }
