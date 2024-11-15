@@ -59,6 +59,7 @@ const SignupForm: FC = () => {
 					refresh_token: data.data.refresh_token,
 				})
 			);
+			console.log(data.data.user);
 			dispatch(resetForm());
 			dispatch(setUser({ user: data.data.user, stats: data.data.stats }));
 			onOpen();

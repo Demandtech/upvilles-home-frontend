@@ -10,6 +10,15 @@ export interface User {
 	createdAt: string;
 	verifiedAt: string | null;
 	unread_notifications: boolean;
+	settings: Settings;
+}
+
+export interface Settings {
+	notification: boolean | undefined;
+	security_options: boolean | undefined;
+	data_management: boolean | undefined;
+	property_management: boolean | undefined;
+	product_update: boolean | undefined;
 }
 
 export interface Stats {

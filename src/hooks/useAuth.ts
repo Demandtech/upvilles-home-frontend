@@ -15,6 +15,10 @@ export default function useAuth(): {
 	handleChangePassword: (
 		args: ChangePasswordFormState
 	) => Promise<AxiosResponse>;
+	handleUpdateSettings: (args: {
+		key: string;
+		value: boolean;
+	}) => Promise<AxiosResponse>;
 } {
 	const handleSignup = async (
 		userData: Partial<SignupFormState>
@@ -60,6 +64,21 @@ export default function useAuth(): {
 		return response;
 	};
 
+	const handleUpdateSettings = async ({
+		key,
+		value,
+	}: {
+		key: string;
+		value: boolean;
+	}) => {
+		const response = await customAxios().patch("user/settings", {
+			key,
+			value,
+		});
+
+		return response;
+	};
+
 	return {
 		handleSignup,
 		getAuthUser,
@@ -67,5 +86,6 @@ export default function useAuth(): {
 		handleLogin,
 		handleUpdateUser,
 		handleChangePassword,
+		handleUpdateSettings,
 	};
 }
