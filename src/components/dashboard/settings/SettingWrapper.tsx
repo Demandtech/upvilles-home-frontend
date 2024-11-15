@@ -19,11 +19,11 @@ const SettingWrapper = () => {
 	const { handleUpdateSettings } = useAuth();
 	const queryClient = useQueryClient();
 	const [settings, setSettings] = useState({
-		notification: user?.settings.notification,
-		security_options: user?.settings.security_options,
-		property_management: user?.settings.property_management,
-		data_management: user?.settings.data_management,
-		product_update: user?.settings.product_update,
+		notification: user?.settings?.notification,
+		security_options: user?.settings?.security_options,
+		property_management: user?.settings?.property_management,
+		data_management: user?.settings?.data_management,
+		product_update: user?.settings?.product_update,
 	});
 
 	const { mutate, isPending } = useMutation({
