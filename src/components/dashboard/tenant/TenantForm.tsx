@@ -179,7 +179,7 @@ const TenantForm = ({
 						value={currency.balance}
 						register={register}
 						error={errors.balance?.message as string}
-						defaultValue={formDefaultValue.balance}
+						defaultValue={formDefaultValue.balance as string}
 						onChange={handleCurrencyChange}
 					/>
 
