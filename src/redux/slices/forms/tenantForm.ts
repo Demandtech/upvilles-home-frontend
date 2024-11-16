@@ -8,6 +8,8 @@ const initialState: TenantFormState = {
 	assigned_unit: "",
 	assigned_property: "",
 	phone: "",
+	rent_paid: "",
+	balance: "",
 };
 
 function loadState(): TenantFormState {

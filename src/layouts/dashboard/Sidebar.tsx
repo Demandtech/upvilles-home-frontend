@@ -6,7 +6,6 @@ import {
 	ReportNavSvg,
 	MaintenanceNavSvg,
 	LogoutNavSvg,
-	CameraIcon,
 	EditIconSvg,
 	CloseIcon,
 } from "../../components/svgs";
@@ -62,7 +61,6 @@ const Sidebar = ({
 						showFallback
 						name={name}
 						className=" text-large h-full w-full text-white/80 mb-2"
-						fallback={<CameraIcon />}
 					/>
 					<Button
 						className="absolute shadow-sm bg-[#003566;] -right-4 bottom-2 rounded-full"
@@ -113,8 +111,8 @@ const Sidebar = ({
 						key={link.to}
 						variants={linkVariants}
 						initial="hidden"
-						animate={isSidebarOpen ? "visible" : ""}
-						transition={{ duration: 0.4, delay: index * 0.1 }}
+						animate={isSidebarOpen ? "visible" : "hidden"}
+						transition={{ duration: 0.5, delay: index * 0.1 }}
 						className={`w-full ${link.label === "Support" && "mt-10"}`}
 					>
 						<NavLink

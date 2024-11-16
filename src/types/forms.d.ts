@@ -51,6 +51,8 @@ export interface TenantFormState {
 	phone: string;
 	start_date?: Date | undefined;
 	end_date?: Date | undefined;
+	rent_paid: string;
+	balance: string;
 }
 
 export interface MaintenanceFormState {
@@ -58,7 +60,6 @@ export interface MaintenanceFormState {
 	maintenance_fee: string;
 	technician: string;
 	property: string;
-	unit: string;
 	schedule_date: Date;
 	status: "completed" | "overdue" | "schedule";
 }

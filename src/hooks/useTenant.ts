@@ -6,9 +6,21 @@ export default function useTenant() {
 	const addTenantHandler = async (
 		newTenantData: TenantFormState
 	): Promise<AxiosResponse> => {
-		const result = await customAxios(false).post("/tenants", newTenantData);
+		try {
+			const { balance, rent_paid } = newTenantData;
 
-		return result;
+			const rentPaidNum = rent_paid.replace(/,/g, "");
+			const balanceNum = balance.replace(/,/g, "");
+
+			newTenantData.rent_paid = rentPaidNum;
+			newTenantData.balance = balanceNum;
+
+			const result = await customAxios(false).post("/tenants", newTenantData);
+
+			return result;
+		} catch (error: any) {
+			throw new Error(error);
+		}
 	};
 
 	const allTenantsHandler = async (
@@ -36,6 +48,14 @@ export default function useTenant() {
 		updatedTenantData: TenantFormState
 	) => {
 		if (!tenantId || !updatedTenantData) return;
+
+		const { balance, rent_paid } = updatedTenantData;
+
+		const rentPaidNum = rent_paid.replace(/,/g, "");
+		const balanceNum = balance.replace(/,/g, "");
+
+		updatedTenantData.rent_paid = rentPaidNum;
+		updatedTenantData.balance = balanceNum;
 
 		const updatedTenant = await customAxios(false).put(
 			`/tenants/${tenantId}`,

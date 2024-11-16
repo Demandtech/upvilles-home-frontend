@@ -53,6 +53,17 @@ export interface InputProps<TFieldValues extends FieldValues = FieldValues> {
 	defaultValue: string;
 }
 
+export interface SelectProps<TFieldValues extends FieldValues = FieldValue> {
+	register: UseFormRegister<T>;
+	data: { key: string; label: string }[];
+	label?: string;
+	name: Path<TFieldValues>;
+	error?: string;
+	size?: "sm" | "md" | "lg";
+	defaultValue: string;
+	isLoading?: boolean;
+}
+
 export interface DateProps<TFieldValues extends FieldValue = FieldValue> {
 	size?: "sm" | "md" | "lg";
 	label?: string;

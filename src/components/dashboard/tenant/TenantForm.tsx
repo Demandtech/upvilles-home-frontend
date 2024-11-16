@@ -4,13 +4,14 @@ import { useForm, yupResolver } from "../../../../configs/services";
 import Button from "../../ui/Button";
 import { ObjectSchema } from "yup";
 import { TenantFormState } from "../../../types/forms";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import { updateTenantForm } from "../../../redux/slices/forms/tenantForm";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useProperty from "../../../hooks/useProperty";
 import DateInput from "../../ui/DatePicker";
+import { formatCurrency } from "../../../utils/formatCurrency";
 
 const TenantForm = ({
 	onSubmit,
@@ -28,6 +29,10 @@ const TenantForm = ({
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { allProperties } = useProperty();
+	const [currency, setCurrency] = useState({
+		rent_paid: formDefaultValue.rent_paid,
+		balance: formDefaultValue.balance,
+	});
 
 	const { data: properties, isLoading: isPropertiesLoading } = useQuery({
 		queryKey: ["properties"],
@@ -45,6 +50,7 @@ const TenantForm = ({
 	} = useForm({
 		resolver: yupResolver(schema),
 		defaultValues: formDefaultValue,
+		mode: "onChange",
 	});
 
 	const watchFields = watch();
@@ -93,11 +99,32 @@ const TenantForm = ({
 		formDefaultValue.assigned_property,
 	]);
 
-	console.log(formDefaultValue);
+	const handleCurrencyChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const sanitizedValue = event.target.value.replace(/[^0-9.,]/g, "");
+		const name = event.target.name;
+
+		const parts = sanitizedValue.split(".");
+
+		const raw = parts[0].replace(/,/g, "");
+
+		const intergerPart: string = formatCurrency(Number(raw));
+		const decimalPart = parts[1];
+
+		if (parts.length > 1) {
+			setCurrency((prev) => ({
+				...prev,
+				[name]: intergerPart + "." + decimalPart,
+			}));
+			return;
+		} else {
+			setCurrency((prev) => ({ ...prev, [name]: intergerPart }));
+			return;
+		}
+	};
 
 	return (
-		<div className="max-w-[600px] mx-auto overflow-auto">
-			<div className="text-center pt-10 mb-10">
+		<div className="max-w-[500px] mx-auto h-full">
+			<div className="text-center mb-10">
 				<h3 className="text-xl lg:text-2xl mb-1.5 font-semibold">
 					Tenant Information
 				</h3>
@@ -105,8 +132,8 @@ const TenantForm = ({
 					Enter detailed tenant information and keep property data up-to-date
 				</p>
 			</div>
-			<form onSubmit={handleSubmit(onSubmit)} className="overflow-auto">
-				<div className="grid gap-3 md:grid-cols-2 mb-10">
+			<form className="pb-10" onSubmit={handleSubmit(onSubmit)}>
+				<div className="grid gap-5 sm:grid-cols-2 mb-10">
 					<Input
 						required
 						name="name"
@@ -129,25 +156,33 @@ const TenantForm = ({
 						error={errors.phone?.message as string}
 						defaultValue={formDefaultValue.phone}
 					/>
-					<DateInput
+					<Input
+						required
+						name="rent_paid"
+						type="text"
 						size="lg"
-						error={errors.start_date?.message as string}
-						label="Lease Start"
-						name="start_date"
+						placeholder="N0.00"
+						label="Rent paid"
+						value={currency.rent_paid}
 						register={register}
-						setValue={setValue}
-						defaultValue={formDefaultValue.start_date}
+						error={errors.rent_paid?.message as string}
+						defaultValue={formDefaultValue.rent_paid}
+						onChange={handleCurrencyChange}
+					/>
+					<Input
+						required
+						name="balance"
+						type="text"
+						size="lg"
+						placeholder="N0.00"
+						label="Outstanding Balance"
+						value={currency.balance}
+						register={register}
+						error={errors.balance?.message as string}
+						defaultValue={formDefaultValue.balance}
+						onChange={handleCurrencyChange}
 					/>
 
-					<DateInput
-						size="lg"
-						error={errors.end_date?.message as string}
-						label="End Date"
-						name="end_date"
-						register={register}
-						setValue={setValue}
-						defaultValue={formDefaultValue.end_date}
-					/>
 					<Select
 						size="lg"
 						name="assigned_property"
@@ -178,6 +213,25 @@ const TenantForm = ({
 						}
 						defaultValue={String(formDefaultValue?.assigned_unit)}
 						error={errors.assigned_unit?.message as string}
+					/>
+					<DateInput
+						size="lg"
+						error={errors.start_date?.message as string}
+						label="Move-in date"
+						name="start_date"
+						register={register}
+						setValue={setValue}
+						defaultValue={formDefaultValue.start_date}
+					/>
+
+					<DateInput
+						size="lg"
+						error={errors.end_date?.message as string}
+						label="End Date"
+						name="end_date"
+						register={register}
+						setValue={setValue}
+						defaultValue={formDefaultValue.end_date}
 					/>
 				</div>
 				<div className="space-y-3">

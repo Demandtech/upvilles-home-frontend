@@ -18,6 +18,14 @@ const AddTenant = ({
 	onDeleteClick?: (id: string) => void;
 	rowId: string;
 }) => {
+	const dropdownItems = [
+		{ text: "Edit", method: onEditClick },
+		{ text: "Delete", method: onDeleteClick },
+	];
+
+	if (onViewClick) {
+		dropdownItems.unshift({ text: "View", method: onViewClick });
+	}
 	return (
 		<div className="relative">
 			<Dropdown>
@@ -27,19 +35,16 @@ const AddTenant = ({
 					</Button>
 				</DropdownTrigger>
 				<DropdownMenu color="primary">
-					{onViewClick ? (
-						<DropdownItem onPress={() => !!onViewClick && onViewClick(rowId)}>
-							View
-						</DropdownItem>
-					) : (
-						<DropdownItem></DropdownItem>
-					)}
-					<DropdownItem onPress={() => !!onEditClick && onEditClick(rowId)}>
-						Edit
-					</DropdownItem>
-					<DropdownItem onPress={() => !!onDeleteClick && onDeleteClick(rowId)}>
-						Delete
-					</DropdownItem>
+					{dropdownItems.map((drop, index) => {
+						return (
+							<DropdownItem
+								onPress={() => drop.method && drop.method(rowId)}
+								key={index}
+							>
+								{drop.text}
+							</DropdownItem>
+						);
+					})}
 				</DropdownMenu>
 			</Dropdown>
 		</div>

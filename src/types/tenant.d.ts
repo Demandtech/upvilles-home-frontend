@@ -8,4 +8,6 @@ export interface Tenant {
 	phone: string;
 	start_date: string | Date;
 	end_date: string | Date;
+	rent_paid: string;
+	balance: string;
 }

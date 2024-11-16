@@ -12,12 +12,11 @@ export const maintenanceSchema = yup.object().shape({
 		.typeError("Enter a valid date")
 		.required("Schedule date is required"),
 	property: yup.string().required(),
-	unit: yup.string().required(),
 	maintenance_fee: yup
 		.string()
 		.matches(
-			/^(\d{1,3})(?:,\d{3})*(\.\d+)?$/,
-			"Maintenance fee must be a valid number"
+			/^(\d{1,3})(?:,\d{3})*(\.\d{1,2})?$/,
+			"Maintenance fee must be a valid number, two decimals are allowed"
 		)
 		.required("Maintenance fee is required"),
 });

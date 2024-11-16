@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setTitle } from "../../../redux/slices/app";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import MaintenanceForm from "../../../components/dashboard/maintenance/MaintenanceForm";
 import { Helmet } from "react-helmet-async";
 import { useDisclosure } from "@nextui-org/use-disclosure";
@@ -24,6 +24,7 @@ export default function CreateMaintenance() {
 	);
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 	const { createMaintenanceHandler } = useMaintenance();
+	const [formKey, setFormKey] = useState(new Date().toISOString());
 
 	const mutation = useMutation({
 		mutationKey: ["create_maintenance"],
@@ -33,8 +34,10 @@ export default function CreateMaintenance() {
 			queryClient.invalidateQueries({ queryKey: ["auth_user"] });
 			queryClient.invalidateQueries({ queryKey: ["maintenances"] });
 			onOpen();
+			setFormKey(new Date().toISOString());
 		},
 		onError: (error: AxiosError) => {
+			console.log(error);
 			if (error.response?.data) {
 				return toast.error(
 					(error.response.data as { message: string }).message
@@ -48,9 +51,7 @@ export default function CreateMaintenance() {
 		dispatch(setTitle({ title: "Create Maintenance", showIcon: true }));
 	}, []);
 
-	const onFormSubmit = (data: MaintenanceFormState) => {
-		mutation.mutate(data);
-	};
+	const onFormSubmit = (data: MaintenanceFormState) => mutation.mutate(data);
 
 	const successModalHandler = () => {
 		onClose();
@@ -59,15 +60,16 @@ export default function CreateMaintenance() {
 	};
 
 	return (
-		<div className="bg-lightBg h-[calc(100dvh-126px)] w-full lg:h-[calc(100dvh-86px)] p-3 lg:p-5">
+		<div className="bg-lightBg h-[calc(100dvh-126px)] w-full lg:h-[calc(100dvh-86px)] sm:p-3 lg:p-5">
 			<Helmet>
 				<title>Upvillehomes | Schedule Maintenance - Dashboard</title>
 			</Helmet>
-			<div className="bg-white rounded-md shadow-lg shadow-dark py-5 px-5 lg:px-10 h-full w-full overflow-auto scrollbar-hide">
+			<div className="bg-white rounded-md shadow-lg shadow-dark py-12 px-5 lg:px-10 w-full overflow-auto scrollbar-hide">
 				<MaintenanceForm
 					formDefaultValue={formDefaultValue}
 					isLoading={mutation.isPending}
 					onFormSubmit={onFormSubmit}
+					key={formKey}
 				/>
 			</div>
 			<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>

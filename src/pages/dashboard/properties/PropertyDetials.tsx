@@ -73,8 +73,6 @@ const PropertyDetials: FC = () => {
 		window.scrollTo(0, 0);
 	}, []);
 
-	console.log(singleProperty?.data.available_units);
-
 	return (
 		<div className="px-3 flex flex-col py-3 gap-10  sm:px-5">
 			<Helmet>

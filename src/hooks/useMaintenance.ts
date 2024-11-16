@@ -6,7 +6,12 @@ export default function useMaintenance() {
 	const createMaintenanceHandler = async (
 		newMaintenanceData: MaintenanceFormState
 	): Promise<AxiosResponse> => {
-		console.log(newMaintenanceData);
+		let maintenanceFeeStr: string = newMaintenanceData.maintenance_fee;
+
+		const maintenanceFeeNum = maintenanceFeeStr.replace(/,/g, "");
+
+		newMaintenanceData.maintenance_fee = maintenanceFeeNum;
+
 		const result = await customAxios(false).post(
 			"/maintenances",
 			newMaintenanceData
@@ -42,8 +47,13 @@ export default function useMaintenance() {
 		maintenanceId: string,
 		updatedMaintenanceData: MaintenanceFormState
 	) => {
-		console.log(updatedMaintenanceData);
 		if (!maintenanceId || !updatedMaintenanceData) return;
+
+		let maintenanceFeeStr: string = updatedMaintenanceData.maintenance_fee;
+
+		const maintenanceFeeNum = maintenanceFeeStr.replace(/,/g, "");
+
+		updatedMaintenanceData.maintenance_fee = maintenanceFeeNum;
 
 		const updatedMaintenance = await customAxios(false).put(
 			`/maintenances/${maintenanceId}`,

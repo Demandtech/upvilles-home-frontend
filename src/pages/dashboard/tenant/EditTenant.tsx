@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { setTitle } from "../../../redux/slices/app";
 import { Helmet } from "react-helmet-async";
 import { useDispatch } from "react-redux";
@@ -18,6 +18,7 @@ import {
 import { AxiosResponse, AxiosError } from "axios";
 import useTenant from "../../../hooks/useTenant";
 import { toast } from "../../../../configs/services";
+import { formatCurrency } from "../../../utils/formatCurrency";
 
 export default function EditTenant() {
 	const dispatch = useDispatch();
@@ -53,12 +54,31 @@ export default function EditTenant() {
 			queryClient.invalidateQueries({ queryKey: ["single_tenant"] });
 		},
 		onError: (error: AxiosError) => {
+			console.log(error);
 			if (error.response?.data) {
 				toast.error((error.response.data as { message: string }).message);
+				return;
 			}
 			toast.error("An error occured, please try again later!");
 		},
 	});
+
+	const handleDefaultCurrency = useCallback(
+		(number: number) => {
+			if (!number) return;
+			
+			const str = number?.toString().split(".");
+
+			if (str && str?.length > 1) {
+				return formatCurrency(Number(str[0])) + "." + str[1];
+			} else {
+				if (!isNaN(Number(str[0]))) {
+					return formatCurrency(Number(str[0]));
+				}
+			}
+		},
+		[formatCurrency]
+	);
 
 	return (
 		<div className="bg-lightBg p-3 lg:p-5 h-[calc(100dvh-70px)] lg:h-[calc(100dvh-86px)]">
@@ -76,6 +96,10 @@ export default function EditTenant() {
 							phone: editTenant?.data.phone,
 							start_date: editTenant.data.start_date,
 							end_date: editTenant.data.end_date,
+							rent_paid: handleDefaultCurrency(
+								editTenant.data.rent_paid
+							) as string,
+							balance: handleDefaultCurrency(editTenant.data.balance) as string,
 						}}
 						schema={tenantSchema}
 						onSubmit={handleEditTenant}

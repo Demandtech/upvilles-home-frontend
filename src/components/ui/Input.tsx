@@ -1,7 +1,8 @@
 import { Input } from "@nextui-org/input";
 import { InputProps } from "../../types/common";
+import { memo } from "react";
 
-export default function MyInput({
+function App({
 	placeholder,
 	size,
 	label,
@@ -20,7 +21,10 @@ export default function MyInput({
 	return (
 		<div>
 			{label && (
-				<label className="mb-1 block text-sm" htmlFor={name}>
+				<label
+					className={`mb-1 block text-sm ${error ? "text-danger" : ""}`}
+					htmlFor={name}
+				>
 					{label}
 					{!required && (
 						<span className={`${optionalColor} text-xs font-light`}>
@@ -55,3 +59,5 @@ export default function MyInput({
 		</div>
 	);
 }
+
+export default memo(App);
