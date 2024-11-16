@@ -23,7 +23,7 @@ const TenantInformation = ({
 				<h3 className="text-default font-bold text-xl mb-2">
 					Tenant Information
 				</h3>
-				<p className="text-darkGrey">
+				<p className="text-darkGrey text-xs sm:text-sn lg:text-base">
 					To make the most out of your Upville Homes account, you can easily
 					customize your experience by turning settings on or off whenever
 					needed.

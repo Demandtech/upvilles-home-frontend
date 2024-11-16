@@ -11,7 +11,7 @@ const Dashboard: FC = () => {
 	const { stats } = useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
-		dispatch(setTitle({ title: "Property", showIcon: false }));
+		dispatch(setTitle({ title: "Property Management", showIcon: false }));
 	}, []);
 
 	return (

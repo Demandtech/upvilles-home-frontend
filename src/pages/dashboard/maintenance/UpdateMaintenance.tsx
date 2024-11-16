@@ -14,7 +14,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { AxiosError } from "axios";
 import { setMaintenanceDetails } from "../../../redux/slices/maintenance";
-import { addCommas } from "../../../utils/addComma";
+import { formatCurrency } from "../../../utils/formatCurrency";
 
 export default function UpdateMaintenance() {
 	const { id } = useParams();
@@ -32,7 +32,7 @@ export default function UpdateMaintenance() {
 	const { data: singleMaintenance, isSuccess } = useQuery({
 		queryKey: ["single_maintenance", id],
 		queryFn: () => singleMaintenanceHandler(id as string),
-		// enabled: !!id,
+		enabled: !!id,
 	});
 
 	const mutation = useMutation({
@@ -42,6 +42,7 @@ export default function UpdateMaintenance() {
 		onSuccess: () => {
 			onOpen();
 			queryClient.invalidateQueries({ queryKey: ["maintenances"] });
+			queryClient.invalidateQueries({ queryKey: ["single_maintenance"] });
 		},
 		onError: (error: AxiosError) => {
 			if (error.response?.data) {
@@ -78,12 +79,12 @@ export default function UpdateMaintenance() {
 						formDefaultValue={{
 							facility: singleMaintenance?.data.facility,
 							status: singleMaintenance?.data.status,
-							maintenance_fee: addCommas(
+							maintenance_fee: formatCurrency(
 								singleMaintenance?.data.maintenance_fee
 							),
 							technician: singleMaintenance?.data.technician,
 							property: singleMaintenance?.data.property,
-							unit: singleMaintenance?.data.unit,
+
 							schedule_date: moment(
 								singleMaintenance?.data.schedule_date
 							).format("YYYY-MM-DD") as unknown as Date,

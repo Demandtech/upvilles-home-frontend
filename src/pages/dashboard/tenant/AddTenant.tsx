@@ -65,11 +65,11 @@ const AddTenant = () => {
 	}, []);
 
 	return (
-		<div className="bg-lightBg p-3 lg:p-5 h-[calc(100dvh-70px)] lg:h-[calc(100dvh-86px)]">
+		<div className="bg-lightBg sm:p-3 lg:p-5 h-[calc(100dvh-126px)] lg:h-[calc(100dvh-86px)] scrollbar-hide">
 			<Helmet>
 				<title>Upvillehomes | Add Tenant</title>
 			</Helmet>
-			<div className="bg-white rounded-md shadow-lg shadow-dark p-3 lg:p-5 h-full w-full overflow-auto scrollbar-thin scrollbar-rounded">
+			<div className="bg-white rounded-md pt-10 sm:shadow-lg shadow-dark px-3 lg:px-5 h-full  max-h-[calc(100dvh-126px)] lg:max-h-[calc(dvh-86px)] overflow-auto scrollbar-hide w-full">
 				<TenantForm
 					key={formKey}
 					formDefaultValue={{

@@ -9,9 +9,9 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { updateMaintenanceForm } from "../../../redux/slices/forms/maintenanceForm";
 import useProperty from "../../../hooks/useProperty";
 import { useQuery } from "@tanstack/react-query";
-import { Input as NewInput } from "@nextui-org/input";
-import { addCommas } from "../../../utils/addComma";
+// import { addCommas } from "../../../utils/addComma";
 import DateInput from "../../ui/DatePicker";
+import { formatCurrency } from "../../../utils/formatCurrency";
 
 const data = [
 	{ key: "overdue", label: "Overdue" },
@@ -42,7 +42,6 @@ function MaintenanceForm({
 		resolver: yupResolver(maintenanceSchema),
 		defaultValues: formDefaultValue,
 	});
-	const [available_units, setAvailableUnits] = useState<number[]>([]);
 	const [formattedFee, setFormattedFee] = useState<string>(
 		formDefaultValue?.maintenance_fee as string
 	);
@@ -55,19 +54,20 @@ function MaintenanceForm({
 	});
 
 	const handleMaintenanceFeeChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const raw = event.target.value.replace(/,/g, "");
+		const sanitizedValue = event.target.value.replace(/[^0-9.,]/g, "");
 
-		if (isNaN(Number(raw))) return;
+		const parts = sanitizedValue.split(".");
 
-		const formatted = addCommas(Number(raw));
+		const raw = parts[0].replace(/,/g, "");
 
-		if (formatted) {
-			setFormattedFee(formatted);
+		const intergerPart = formatCurrency(Number(raw));
+		const decimalPart = parts[1];
+
+		if (parts.length > 1) {
+			setFormattedFee(intergerPart + "." + decimalPart);
 		} else {
-			setFormattedFee("");
+			setFormattedFee(intergerPart);
 		}
-
-		setValue("maintenance_fee", formatted);
 	};
 
 	useEffect(() => {
@@ -82,26 +82,6 @@ function MaintenanceForm({
 			});
 		}
 	}, [editedId, watchFields, formDefaultValue]);
-
-	useEffect(() => {
-		if (!properties?.data) return;
-
-		const selectedPropertyId =
-			formDefaultValue?.property || watchFields.property;
-
-		const property = properties?.data?.properties.find(
-			(prop: { _id: string }) => {
-				return prop._id === selectedPropertyId;
-			}
-		);
-
-		setAvailableUnits(property?.all_units as number[]);
-	}, [
-		watchFields.property,
-		properties,
-		watchFields.maintenance_fee,
-		formDefaultValue,
-	]);
 
 	return (
 		<div className="max-w-[600px] mx-auto w-full overflow-auto scrollbar-hide">
@@ -139,24 +119,6 @@ function MaintenanceForm({
 						size="lg"
 						defaultValue={formDefaultValue?.technician as string}
 					/>
-					<DateInput
-						name="schedule_date"
-						label="Schedule Date"
-						register={register}
-						error={errors.schedule_date?.message}
-						size="lg"
-						setValue={setValue}
-						defaultValue={formDefaultValue?.schedule_date}
-					/>
-					<Select
-						name="status"
-						data={data}
-						register={register}
-						error={errors.status?.message}
-						label="Task Status:"
-						size="lg"
-						defaultValue={formDefaultValue?.status as string}
-					/>
 					<Select
 						size="lg"
 						name="property"
@@ -174,36 +136,37 @@ function MaintenanceForm({
 						defaultValue={formDefaultValue?.property as string}
 						error={errors.property?.message as string}
 					/>
-					<Select
+					<Input
+						type="text"
+						required={true}
+						label="Maintenance fee"
+						name="maintenance_fee"
+						onChange={handleMaintenanceFeeChange}
 						size="lg"
-						name="unit"
-						label="Unit:"
+						placeholder="N0.00"
+						value={formattedFee}
 						register={register}
-						data={available_units?.map((unit) => ({
-							key: unit.toString(),
-							label: `Unit ${unit}`,
-						}))}
-						defaultValue={String(formDefaultValue?.unit)}
-						error={errors.unit?.message as string}
+						defaultValue={formDefaultValue?.maintenance_fee as string}
+						error={errors.maintenance_fee?.message}
 					/>
-					<div className="md:col-span-2">
-						<NewInput
-							type="text"
-							required={true}
-							label="Maintenance fee:"
-							name="maintenance_fee"
-							labelPlacement="outside"
-							classNames={{
-								inputWrapper: "rounded-md",
-							}}
-							onChange={handleMaintenanceFeeChange}
-							isInvalid={!!errors.maintenance_fee}
-							errorMessage={errors.maintenance_fee?.message}
-							size="lg"
-							placeholder="N 0.00"
-							value={formattedFee}
-						/>
-					</div>
+					<DateInput
+						name="schedule_date"
+						label="Schedule Date:"
+						register={register}
+						error={errors.schedule_date?.message}
+						size="lg"
+						setValue={setValue}
+						defaultValue={formDefaultValue?.schedule_date}
+					/>
+					<Select
+						name="status"
+						data={data}
+						register={register}
+						error={errors.status?.message}
+						label="Task Status:"
+						size="lg"
+						defaultValue={formDefaultValue?.status as string}
+					/>
 				</div>
 				<Button isLoading={isLoading} type="submit" className="w-full">
 					{editedId ? "Update" : "Create"} Maintenance Schedule

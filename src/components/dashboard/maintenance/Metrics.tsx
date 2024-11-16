@@ -14,43 +14,47 @@ export default function Metric({ stats }: { stats: Stats }) {
 				<h4 className="font-bold text-lg md:text-xl mb-5">
 					Maintenance Metrics
 				</h4>
-				<div className="flex flex-wrap gap-3">
-					<div className="flex-1 w-full space-y-3 bg-white p-4 rounded-xl shadow-lg shadow-default-100">
+				<div className="flex gap-3 flex-wrap">
+					<div className="min-w-28 flex-1 flex flex-col gap-3 bg-white p-4 rounded-xl shadow-lg shadow-default-100">
 						<FacilityIcon />
-						<p className="text-sm text-darkGrey">
-							Total Facilities Being Maintained
-						</p>
-
-						<Counter
-							labelColor="#212121"
-							targetNumber={stats ? stats?.total_maintenance : 0}
-						/>
+						<p className="text-sm text-darkGrey">Total Facilities Maintained</p>
+						<div className="mt-auto">
+							<Counter
+								labelColor="#212121"
+								targetNumber={stats ? stats?.total_maintenance : 0}
+							/>
+						</div>
 					</div>
-					<div className="flex-1 w-full space-y-3 p-4 bg-white rounded-xl shadow-lg shadow-default-100">
+					<div className="min-w-28 flex-1 flex flex-col gap-3  p-4 bg-white rounded-xl shadow-lg shadow-default-100">
 						<UpcomingMaintenance />
-						<p className="text-sm text-darkGrey text-nowrap">
-							Upcoming Maintenance
-						</p>
-						<Counter
-							labelColor="#212121"
-							targetNumber={stats ? stats.schedule_maintenance : 0}
-						/>
+						<p className="text-sm text-darkGrey">Upcoming Maintenance</p>
+						<div className="mt-auto">
+							<Counter
+								labelColor="#212121"
+								targetNumber={stats ? stats.schedule_maintenance : 0}
+							/>
+						</div>
 					</div>
-					<div className="flex-1 w-full space-y-3 p-4 bg-white rounded-xl shadow-lg shadow-default-100">
+					<div className="min-w-28 flex-1 flex flex-col gap-3 p-4 bg-white rounded-xl shadow-lg shadow-default-100">
 						<OverDueIcon />
-						<p className="text-sm text-darkGrey text-nowrap">Overdue Tasks</p>
-						<Counter
-							labelColor="#212121"
-							targetNumber={stats ? stats.overdue_maintenance : 0}
-						/>
+						<p className="text-sm text-darkGrey">Overdue Tasks</p>
+						<div className="mt-auto">
+							<Counter
+								labelColor="#212121"
+								targetNumber={stats ? stats.overdue_maintenance : 0}
+							/>
+						</div>
 					</div>
-					<div className="flex-1 w-full space-y-3 p-4 bg-white rounded-xl shadow-lg shadow-default-100">
+					<div className="min-w-28 flex-1 flex flex-col gap-3 p-4 bg-white rounded-xl shadow-lg shadow-default-100">
 						<CompletedTask />
+
 						<p className="text-sm text-darkGrey">Completed Tasks</p>
-						<Counter
-							labelColor="#212121"
-							targetNumber={stats ? stats.completed_maintenance : 0}
-						/>
+						<div className="mt-auto">
+							<Counter
+								labelColor="#212121"
+								targetNumber={stats ? stats.completed_maintenance : 0}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>

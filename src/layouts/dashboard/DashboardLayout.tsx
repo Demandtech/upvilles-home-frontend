@@ -126,30 +126,38 @@ const DashboardLayout: FC = () => {
 		>
 			<div className="flex h-full">
 				<motion.div
-					className={`fixed md:static z-50 bg-black/20  left-0 top-0  ${
-						isSidebarOpen
-							? "w-screen md:max-w-[250px]"
-							: "w-0 md:w-full md:max-w-[250px]"
-					} h-full`}
+					className={`fixed md:static z-50 bg-black/20  left-0 top-0  h-full`}
 					onClick={() => setIsSidebarOpen(!isSidebarOpen)}
 					aria-hidden={!isSidebarOpen}
 					aria-expanded={isSidebarOpen}
 					aria-controls="sidebar"
-					initial={{ opacity: 0 }}
-					animate={{ opacity: isSidebarOpen ? 1 : 0 }}
-					transition={{ type: "spring", stiffness: 300, damping: 30 }}
+					initial={{
+						width: windowWidth > 768 ? 250 : 0,
+						opacity: 0,
+					}}
+					animate={{
+						opacity: isSidebarOpen ? 1 : 0,
+						width: isSidebarOpen ? (windowWidth > 768 ? 250 : "100%") : "0",
+					}}
+					transition={{
+						type: "spring",
+						stiffness: 300,
+						damping: 30,
+						duration: 1000,
+					}}
 				>
 					<motion.div
 						initial={{ width: windowWidth > 768 ? 250 : 0 }}
 						animate={{
 							width: isSidebarOpen ? (windowWidth > 768 ? "100%" : "80%") : "0",
 						}}
-						transition={{ type: "spring", stiffness: 300, damping: 30 }}
-						className={`${
-							isSidebarOpen
-								? "w-full max-w-[80%] md:max-w-[250px]"
-								: "w-0 md:w-full md:max-w-[250px]"
-						} h-full bg-primary overflow-auto scrollbar-thin scrollbar-rounded`}
+						transition={{
+							type: "spring",
+							stiffness: 300,
+							damping: 30,
+							duration: 500,
+						}}
+						className={`h-full bg-primary overflow-auto scrollbar-thin scrollbar-rounded`}
 						onClick={(event) => event.stopPropagation()}
 					>
 						<Sidebar
@@ -167,20 +175,22 @@ const DashboardLayout: FC = () => {
 						setSidebar={toggleSidebar}
 						showNotification={user ? user?.unread_notifications : false}
 					/>
-					{dashboardPageTitle.showIcon && (
-						<div className="py-3 px-3 bg-lightBg md:hidden">
+					<div className="py-3 px-3 flex items-center gap-3 bg-lightBg md:hidden sticky top-[70px] z-30">
+						{dashboardPageTitle.showIcon && (
 							<Button
 								size="sm"
-								startContent={<ArrowBack />}
-								className="text-lg justify-start font-semibold"
+								isIconOnly
 								variant="flat"
 								color="default"
 								onClick={() => navigate(-1)}
 							>
-								{dashboardPageTitle.title}
+								<ArrowBack />
 							</Button>
-						</div>
-					)}
+						)}
+						<span className="text-lg justify-start font-semibold">
+							{dashboardPageTitle.title}
+						</span>
+					</div>
 					<Outlet />
 				</div>
 			</div>

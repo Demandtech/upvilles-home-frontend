@@ -1,28 +1,18 @@
 import { Select, SelectItem } from "@nextui-org/select";
-import { UseFormRegister, FieldValues, Path } from "react-hook-form";
+import { memo } from "react";
+import { SelectProps } from "../../types/common";
 
-interface AppProps<T extends FieldValues> {
-	register: UseFormRegister<T>;
-	data: { key: string; label: string }[];
-	label?: string;
-	name: Path<T>;
-	error?: string;
-	size?: "sm" | "md" | "lg";
-	defaultValue: string;
-	isLoading?: boolean;
-}
 
-export default function App<T extends FieldValues>({
+function App({
 	register,
-	data=[],
+	data = [],
 	label,
 	name,
 	error,
 	size = "md",
 	defaultValue,
 	isLoading = false,
-}: AppProps<T>) {
-
+}: SelectProps) {
 	return (
 		<div className="w-full">
 			{label && (
@@ -54,3 +44,5 @@ export default function App<T extends FieldValues>({
 		</div>
 	);
 }
+
+export default memo(App);

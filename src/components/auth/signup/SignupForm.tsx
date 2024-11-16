@@ -28,6 +28,7 @@ const SignupForm: FC = () => {
 		password: false,
 		confirmPassword: false,
 	});
+	const [formKey, setFormKey] = useState(new Date().toISOString());
 	const formData = useSelector((state: RootState) => state.signup);
 	const { handleSignup } = useAuth();
 	const {
@@ -59,8 +60,9 @@ const SignupForm: FC = () => {
 					refresh_token: data.data.refresh_token,
 				})
 			);
-			console.log(data.data.user);
+
 			dispatch(resetForm());
+			setFormKey(new Date().toISOString());
 			dispatch(setUser({ user: data.data.user, stats: data.data.stats }));
 			onOpen();
 		},
@@ -79,9 +81,7 @@ const SignupForm: FC = () => {
 		},
 	});
 
-	const submitForm = (data: SignupFormState) => {
-		mutation.mutate(data);
-	};
+	const submitForm = (data: SignupFormState) => mutation.mutate(data);
 
 	const togglePasswordVisibility = (field: "password" | "confirmPassword") => {
 		setShowPassword((prev) => ({
@@ -103,7 +103,11 @@ const SignupForm: FC = () => {
 
 	return (
 		<>
-			<form className="space-y-10 mt-10" onSubmit={handleSubmit(submitForm)}>
+			<form
+				key={formKey}
+				className="space-y-10 mt-10"
+				onSubmit={handleSubmit(submitForm)}
+			>
 				<div>
 					<div className="grid gap-y-5 gap-x-3 sm:grid-cols-2">
 						<Input

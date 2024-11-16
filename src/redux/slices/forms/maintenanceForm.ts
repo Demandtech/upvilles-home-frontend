@@ -7,7 +7,6 @@ const initialState: MaintenanceFormState = {
 	technician: "",
 	status: "schedule",
 	maintenance_fee: "",
-	unit: "",
 	property: "",
 };
 
