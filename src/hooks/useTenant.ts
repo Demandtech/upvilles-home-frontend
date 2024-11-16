@@ -3,83 +3,94 @@ import customAxios from "../../configs/axios";
 import { TenantFormState } from "../types/forms";
 
 export default function useTenant() {
-	const addTenantHandler = async (
-		newTenantData: TenantFormState
-	): Promise<AxiosResponse> => {
-		try {
-			const { balance, rent_paid } = newTenantData;
+  const addTenantHandler = async (
+    newTenantData: TenantFormState
+  ): Promise<AxiosResponse> => {
+    try {
+      const { balance, rent_paid } = newTenantData;
 
-			const rentPaidNum = rent_paid.replace(/,/g, "");
-			const balanceNum = balance.replace(/,/g, "");
+      const rentPaidNum = rent_paid.replace(/,/g, "");
+      const balanceNum = balance?.replace(/,/g, "");
 
-			newTenantData.rent_paid = rentPaidNum;
-			newTenantData.balance = balanceNum;
+      newTenantData.rent_paid = rentPaidNum;
+      newTenantData.balance = balanceNum;
 
-			const result = await customAxios(false).post("/tenants", newTenantData);
+      const result = await customAxios(false).post("/tenants", newTenantData);
 
-			return result;
-		} catch (error: any) {
-			throw new Error(error);
-		}
-	};
+      return result;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
 
-	const allTenantsHandler = async (
-		propertyId: string,
-		page: number,
-		sortBy: string,
-		order: string
-	) => {
-		const tenants = await customAxios(false).get(
-			`/tenants?property_id=${propertyId}&page=${page}&sortBy=${sortBy}&order=${order}`
-		);
-		return tenants;
-	};
+  const allTenantsHandler = async (
+    propertyId?: string,
+    page?: number,
+    sortBy?: string,
+    order?: string
+  ) => {
+    try {
+      const params = new URLSearchParams();
 
-	const singleTenantHandler = async (tenantId: string) => {
-		if (!tenantId) return;
+      if (propertyId) params.append("property_id", propertyId);
+      if (page !== undefined) params.append("page", page.toString());
+      if (sortBy) params.append("sortBy", sortBy);
+      if (order) params.append("order", order);
 
-		const tenant = await customAxios(false).get(`/tenants/${tenantId}`);
+      const tenants = await customAxios(false).get(
+        `/tenants?${params.toString()}`
+      );
+      return tenants;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
 
-		return tenant;
-	};
+  const singleTenantHandler = async (tenantId: string) => {
+    if (!tenantId) return;
 
-	const updateTenantHandler = async (
-		tenantId: string,
-		updatedTenantData: TenantFormState
-	) => {
-		if (!tenantId || !updatedTenantData) return;
+    const tenant = await customAxios(false).get(`/tenants/${tenantId}`);
 
-		const { balance, rent_paid } = updatedTenantData;
+    return tenant;
+  };
 
-		const rentPaidNum = rent_paid.replace(/,/g, "");
-		const balanceNum = balance.replace(/,/g, "");
+  const updateTenantHandler = async (
+    tenantId: string,
+    updatedTenantData: TenantFormState
+  ) => {
+    if (!tenantId || !updatedTenantData) return;
 
-		updatedTenantData.rent_paid = rentPaidNum;
-		updatedTenantData.balance = balanceNum;
+    const { balance, rent_paid } = updatedTenantData;
 
-		const updatedTenant = await customAxios(false).put(
-			`/tenants/${tenantId}`,
-			updatedTenantData
-		);
+    const rentPaidNum = rent_paid.replace(/,/g, "");
+    const balanceNum = balance?.replace(/,/g, "");
 
-		return updatedTenant;
-	};
+    updatedTenantData.rent_paid = rentPaidNum;
+    updatedTenantData.balance = balanceNum;
 
-	const deleteTenantHandler = async (tenantId: string) => {
-		if (!tenantId) return;
+    const updatedTenant = await customAxios(false).put(
+      `/tenants/${tenantId}`,
+      updatedTenantData
+    );
 
-		const deletedTenant = await customAxios(false).delete(
-			`/tenants/${tenantId}`
-		);
+    return updatedTenant;
+  };
 
-		return deletedTenant;
-	};
+  const deleteTenantHandler = async (tenantId: string) => {
+    if (!tenantId) return;
 
-	return {
-		addTenantHandler,
-		allTenantsHandler,
-		singleTenantHandler,
-		updateTenantHandler,
-		deleteTenantHandler,
-	};
+    const deletedTenant = await customAxios(false).delete(
+      `/tenants/${tenantId}`
+    );
+
+    return deletedTenant;
+  };
+
+  return {
+    addTenantHandler,
+    allTenantsHandler,
+    singleTenantHandler,
+    updateTenantHandler,
+    deleteTenantHandler,
+  };
 }

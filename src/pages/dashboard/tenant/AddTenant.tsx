@@ -40,6 +40,7 @@ const AddTenant = () => {
 			onOpen();
 		},
 		onError: (error: AxiosError) => {
+			console.log(error)
 			if (error.response?.data) {
 				return toast.error(
 					(error.response.data as { message: string }).message

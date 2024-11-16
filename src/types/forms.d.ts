@@ -23,36 +23,27 @@ export interface AddPropertyFormState {
 	street: string;
 	description: string;
 	attraction?: string;
-	images?: File[] | undefined;
+	images?: File[];
 	title: string;
 	location: string;
-	description: string;
 	property_type: string;
 	unit_number: string;
-}
-
-export interface EditPropertyFormState {
-	description: string;
-	street: string;
-	attraction?: string;
-	images?: File[] | undefined;
-	title: string;
-	location: string;
-	description: string;
-	unit_number: string;
+  }
+  
+  export interface EditPropertyFormState extends AddPropertyFormState {
 	images_url?: string[];
-	property_type: string;
-}
+  }
+  
 
 export interface TenantFormState {
 	name: string;
 	assigned_unit: string;
 	assigned_property: string;
 	phone: string;
-	start_date?: Date | undefined;
-	end_date?: Date | undefined;
+	start_date: Date | undefined;
+	end_date: Date | undefined;
 	rent_paid: string;
-	balance: string;
+	balance: string | undefined;
 }
 
 export interface MaintenanceFormState {

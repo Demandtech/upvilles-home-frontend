@@ -9,7 +9,11 @@ interface CounterProps {
 const Counter: React.FC<CounterProps> = ({ targetNumber, labelColor }) => {
   const [count, setCount] = useState(0);
 
-  const countSpring = useSpring(0, { stiffness: 80, damping: 20, duration: 2 });
+  const countSpring = useSpring(0, {
+    stiffness: 80,
+    damping: 20,
+    duration: 0.1,
+  });
 
   useEffect(() => {
     if (!targetNumber) {
