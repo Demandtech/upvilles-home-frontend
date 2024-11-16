@@ -23,38 +23,6 @@ ChartJS.register(
 	Legend
 );
 
-// export const options = {
-// 	responsive: true,
-// 	plugins: {
-// 		legend: {
-// 			display: false,
-// 		},
-// 	},
-// 	scales: {
-// 		x: {
-// 			grid: {
-// 				display: false,
-// 			},
-// 			ticks: {
-// 				display: false,
-// 			},
-// 		},
-// 		y: {
-// 			grid: {
-// 				display: false,
-// 			},
-// 			ticks: {
-// 				stepSize: 1,
-// 				callback: (value: string) => `Unit ${value}`,
-// 				color: "#667185",
-// 				font: {
-// 					size: 15,
-// 				},
-// 			},
-// 		},
-// 	},
-// };
-
 export const options: ChartOptions<"bar"> = {
 	responsive: true,
 	plugins: {
@@ -80,19 +48,14 @@ export const options: ChartOptions<"bar"> = {
 				drawTicks: true,
 			},
 			ticks: {
-				display: false,
 				stepSize: 1,
 				callback: (value: string | number) => `Unit ${value}`,
 				color: "#667185",
-				// minRotation: 10,
+
 				font: {
 					size: 15,
 				},
 			},
-			beginAtZero: false,
-
-			// borderColor: "transparent", // Remove bottom border
-			// borderWidth: 0,
 		},
 	},
 };
