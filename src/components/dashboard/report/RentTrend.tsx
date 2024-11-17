@@ -27,6 +27,16 @@ export const options: ChartOptions<"bar"> = {
     legend: {
       display: false,
     },
+    tooltip: {
+      displayColors: false,
+
+      callbacks: {
+        label: (tooltipItem) => {
+          const value = tooltipItem.raw as number;
+          return value + " Units";
+        },
+      },
+    },
   },
 
   backgroundColor: "#E6E5FB",
@@ -46,7 +56,7 @@ export const options: ChartOptions<"bar"> = {
         drawTicks: true,
       },
       ticks: {
-        stepSize: 1,
+        stepSize: 4,
         callback: (value: string | number) => `Unit ${value}`,
         color: "#667185",
 
@@ -66,7 +76,6 @@ function RentTrend({ properties = [] }: { properties: PropertyType[] }) {
     labels,
     datasets: [
       {
-        label: "Units per property",
         data: units,
       },
     ],

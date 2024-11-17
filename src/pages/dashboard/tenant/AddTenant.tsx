@@ -17,84 +17,83 @@ import TenantForm from "../../../components/dashboard/tenant/TenantForm";
 import { useNavigate, useParams } from "react-router-dom";
 
 const AddTenant = () => {
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-	const formData = useSelector((state: RootState) => state.tenantForm);
-	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-	const [formKey, setFormKey] = useState(new Date().toISOString());
-	const { addTenantHandler } = useTenant();
-	const { current_property } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const formData = useSelector((state: RootState) => state.tenantForm);
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const [formKey, setFormKey] = useState(new Date().toISOString());
+  const { addTenantHandler } = useTenant();
+  const { current_property } = useParams();
 
-	const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-	const mutation = useMutation({
-		mutationFn: async (variables: TenantFormState) => {
-			return await addTenantHandler(variables);
-		},
-		onSuccess: (data: AxiosResponse) => {
-			console.log(data.data);
-			queryClient.invalidateQueries({ queryKey: ["authUser"] });
-			queryClient.invalidateQueries({
-				queryKey: ["property_tenant", data.data.assigned_property],
-			});
-			onOpen();
-		},
-		onError: (error: AxiosError) => {
-			console.log(error)
-			if (error.response?.data) {
-				return toast.error(
-					(error.response.data as { message: string }).message
-				);
-			}
-			toast.error("An error occured, please try again");
-		},
-	});
+  const mutation = useMutation({
+    mutationFn: async (variables: TenantFormState) => {
+      return await addTenantHandler(variables);
+    },
+    onSuccess: (data: AxiosResponse) => {
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      queryClient.invalidateQueries({
+        queryKey: ["property_tenant", data.data.assigned_property],
+      });
+      onOpen();
+    },
+    onError: (error: AxiosError) => {
+      console.error(error);
+      if (error.response?.data) {
+        return toast.error(
+          (error.response.data as { message: string }).message
+        );
+      }
+      toast.error("An error occured, please try again");
+    },
+  });
 
-	const handleAddTenant = (data: TenantFormState) => mutation.mutate(data);
+  const handleAddTenant = (data: TenantFormState) => mutation.mutate(data);
 
-	const successModalHandler = () => {
-		dispatch(resetTenantForm());
-		setFormKey(new Date().toISOString());
-		onClose();
-		navigate(
-			`/dashboard/properties/${mutation.data?.data.assigned_property._id}`
-		);
-	};
+  const successModalHandler = () => {
+    dispatch(resetTenantForm());
+    setFormKey(new Date().toISOString());
+    onClose();
+    navigate(
+      `/dashboard/properties/${mutation.data?.data.assigned_property._id}`
+    );
+  };
 
-	useEffect(() => {
-		dispatch(setTitle({ showIcon: true, title: "Add Tenant" }));
-	}, []);
+  useEffect(() => {
+    dispatch(setTitle({ showIcon: true, title: "Add Tenant" }));
+  }, []);
 
-	return (
-		<div className="bg-lightBg sm:p-3 lg:p-5 h-[calc(100dvh-126px)] lg:h-[calc(100dvh-86px)] scrollbar-hide">
-			<Helmet>
-				<title>Upvillehomes | Add Tenant</title>
-			</Helmet>
-			<div className="bg-white rounded-md pt-10 sm:shadow-lg shadow-dark px-3 lg:px-5 h-full  max-h-[calc(100dvh-126px)] lg:max-h-[calc(dvh-86px)] overflow-auto scrollbar-hide w-full">
-				<TenantForm
-					key={formKey}
-					formDefaultValue={{
-						...formData,
-						assigned_property: current_property as string,
-						start_date: formData.start_date,
-						end_date: formData.end_date,
-					}}
-					schema={tenantSchema}
-					onSubmit={handleAddTenant}
-					isLoading={mutation.isPending}
-					id=""
-				/>
-			</div>
-			<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
-				<SuccessModal
-					title="Successful!"
-					message="Tenant information has been successfully added"
-					onClose={successModalHandler}
-					buttonLabel="Go to Dashboard"
-				/>
-			</CustomModal>
-		</div>
-	);
+  return (
+    <div className="bg-lightBg sm:p-3 lg:p-5 h-[calc(100dvh-126px)] lg:h-[calc(100dvh-86px)] scrollbar-hide">
+      <Helmet>
+        <title>Upvillehomes | Add Tenant</title>
+      </Helmet>
+      <div className="bg-white rounded-md pt-10 sm:shadow-lg shadow-dark px-3 lg:px-5 h-full  max-h-[calc(100dvh-126px)] lg:max-h-[calc(dvh-86px)] overflow-auto scrollbar-hide w-full">
+        <TenantForm
+          key={formKey}
+          formDefaultValue={{
+            ...formData,
+            assigned_property: current_property as string,
+            start_date: formData.start_date,
+            end_date: formData.end_date,
+          }}
+          schema={tenantSchema}
+          onSubmit={handleAddTenant}
+          isLoading={mutation.isPending}
+          id=""
+        />
+      </div>
+      <CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <SuccessModal
+          title="Successful!"
+          message="Tenant information has been successfully added"
+          onClose={successModalHandler}
+          buttonLabel="Go to Dashboard"
+        />
+      </CustomModal>
+    </div>
+  );
 };
 
 export default AddTenant;

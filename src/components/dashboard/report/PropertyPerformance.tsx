@@ -1,5 +1,12 @@
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import { formatNaira } from "../../../utils/formatCurrency";
+import Counter from "../../common/Counter";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -23,18 +30,19 @@ function PropertyPerformance({
   const data = propertyReport?.map((item) => item.value);
   const backgroundColor = propertyReport?.map((item) => item.color);
 
+
   return (
     <div className="lg:w-[55%] flex flex-col justify-center bg-white rounded-lg px-5 py-10">
       <h5 className="font-semibold text-lg sm:text-xl mb-8 text-center md:text-start">
         Property Performance Report
       </h5>
-      <div className="flex flex-col md:flex-row items-center gap-8">
-        <div className="relative w-full max-w-[200px] rounded-full">
+      <div className="flex flex-col xl:flex-row items-center gap-8">
+        <div className="relative max-w-[220px]  rounded-full">
           <Doughnut
             aria-label="Property earning chart"
-            className="max-w-[200px] w-full h-full max-h-[200px]"
             data={{
               labels: labels || [],
+
               datasets: [
                 {
                   label: "Total Income earnings",
@@ -51,12 +59,36 @@ function PropertyPerformance({
                 legend: {
                   display: false,
                 },
+                tooltip: {
+                  enabled: true,
+                  displayColors: false,
+                  callbacks: {
+                    label: (tooltipItem) => {
+                      const value = tooltipItem.raw as number;
+
+                      const percentage = tooltipItem.raw
+                        ? (
+                            (value /
+                              tooltipItem.dataset.data.reduce(
+                                (acc, cur) => acc + cur,
+                                0
+                              )) *
+                            100
+                          ).toFixed(1) + "%"
+                        : "";
+
+                      return `${formatNaira(value)} (${percentage})`;
+                    },
+                  },
+                },
+               
               },
             }}
           />
           <div className="text-center absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
-            <p className="text-darkGrey pb-1 text-sm">Total Properties</p>
-            <p className="font-semibold text-lg">{totalProperties || 0}</p>
+            <p className="text-darkGrey pb-1 text-nowrap">Total Properties</p>
+       
+            <Counter labelColor="" targetNumber={totalProperties || 0} />
           </div>
         </div>
         <div className="w-full">
