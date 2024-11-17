@@ -36,18 +36,18 @@ const items = [
 	},
 ];
 
-function PropertyPerformance() {
+function PropertyPerformance({ propertyReport }: { propertyReport: any }) {
 	const labels = items.map((item) => item.label);
 	const data = items.map((item) => item.value);
 	const backgroundColor = items.map((item) => item.color);
 
 	const sortedData = items.sort((a, b) => b.value - a.value);
 
-	console.log(sortedData);
+	// console.log(sortedData);
 
 	return (
-		<div className="lg:w-[55%] bg-white rounded-lg px-8 py-10">
-			<h5 className="font-medium text-lg mb-5 text-center md:text-start">
+		<div className="lg:w-[55%] flex flex-col justify-center bg-white rounded-lg px-5 py-10">
+			<h5 className="font-semibold text-lg sm:text-xl mb-8 text-center md:text-start">
 				Property Performance Report
 			</h5>
 			<div className="flex flex-col md:flex-row items-center gap-8">
@@ -84,18 +84,24 @@ function PropertyPerformance() {
 					{labels.length > 0 &&
 						sortedData.map((label, index) => {
 							// const percentage = ((data[index] / total) * 100).toFixed(1);
+
 							return (
 								<div
 									key={index}
-									className="text-[#475367] flex border-b-2 border-dotted py-3 text-xs w-full last-of-type:border-b-0"
+									className="text-[#475367] flex border-b-2 border-dotted py-3 text-sm w-full last-of-type:border-b-0"
 								>
 									<div className="flex items-center gap-2">
-										<p
-											className={`w-2.5 h-2.5 bg-[${label.color}] rounded-full`}
-										/>
+										<div
+											style={{
+												background: label.color,
+											}}
+											className={`w-2.5 h-2.5 rounded-full`}
+										></div>
 										<p>{label.label}</p>
 									</div>
-									<p className="ml-auto">{label.percentage}% Income Earnings</p>
+									<p className="ml-auto text-xs">
+										{label.percentage}% Income Earnings
+									</p>
 								</div>
 							);
 						})}

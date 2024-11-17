@@ -53,7 +53,7 @@ export const options: ChartOptions<"bar"> = {
 				color: "#667185",
 
 				font: {
-					size: 15,
+					size: 12,
 				},
 			},
 		},
@@ -196,7 +196,7 @@ function RentTrend({ properties = [] }: { properties: PropertyType[] }) {
 				</div>
 			</div>
 			<div className="my-5">
-				<p className="mb-3 text-darkGrey">Units trend</p>
+				<p className="mb-5 text-darkGrey">Units trend</p>
 				<h1 className="font-medium text-lg">5 Bedroom Detached Duplex</h1>
 			</div>
 			<Bar

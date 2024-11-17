@@ -12,6 +12,7 @@ export default function useAuth(): {
 	handleLogin: (args: LoginFormState) => Promise<AxiosResponse>;
 	handleRefreshToken: (arg: string) => Promise<AxiosResponse>;
 	handleUpdateUser: (args: FormData) => Promise<AxiosResponse>;
+	handleUserReports: () => Promise<AxiosResponse>;
 	handleChangePassword: (
 		args: ChangePasswordFormState
 	) => Promise<AxiosResponse>;
@@ -79,6 +80,12 @@ export default function useAuth(): {
 		return response;
 	};
 
+	const handleUserReports = async () => {
+		const userReports = await customAxios().get("/user/reports");
+
+		return userReports;
+	};
+
 	return {
 		handleSignup,
 		getAuthUser,
@@ -87,5 +94,6 @@ export default function useAuth(): {
 		handleUpdateUser,
 		handleChangePassword,
 		handleUpdateSettings,
+		handleUserReports,
 	};
 }

@@ -1,4 +1,4 @@
-import { PropertyType } from '../../../types/property';
+import { PropertyType } from "../../../types/property";
 import { formatNaira } from "../../../utils/formatCurrency";
 import Counter from "../../common/Counter";
 import {
@@ -64,7 +64,7 @@ function ReportTopWrapper({
 				</div>
 			</div>
 			<div className="flex flex-col lg:flex-row gap-5">
-				<PropertyPerformance />
+				<PropertyPerformance propertyReport={[]} />
 				<RentTrend properties={properties} />
 			</div>
 		</div>
