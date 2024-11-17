@@ -38,7 +38,7 @@ export const tenantSchema = yup.object().shape({
   balance: yup
     .string()
     .transform((value) => (value === "" ? undefined : value))
-    // .notRequired()
+    .notRequired()
     .matches(
       /^(\d{1,3})(?:,\d{3})*(\.\d{1,2})?$/,
       "Outstanding balance must be a valid number"
