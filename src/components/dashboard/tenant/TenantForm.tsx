@@ -122,66 +122,66 @@ const TenantForm = ({
     }
   };
 
-  return (
-    <div className="max-w-[500px] mx-auto h-full">
-      <div className="text-center mb-10">
-        <h3 className="text-xl lg:text-2xl mb-1.5 font-semibold">
-          Tenant Information
-        </h3>
-        <p className="text-sm text-darkGrey">
-          Enter detailed tenant information and keep property data up-to-date
-        </p>
-      </div>
-      <form className="pb-10" onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid gap-5 sm:grid-cols-2 mb-10">
-          <Input
-            required
-            name="name"
-            type="text"
-            size="lg"
-            placeholder="Enter tenant name"
-            label="Tenant Name"
-            register={register}
-            error={errors.name?.message as string}
-            defaultValue={formDefaultValue.name}
-          />
-          <Input
-            required
-            name="phone"
-            type="text"
-            size="lg"
-            placeholder="Enter phone number"
-            label="Phone Number"
-            register={register}
-            error={errors.phone?.message as string}
-            defaultValue={formDefaultValue.phone}
-          />
-          <Input
-            required
-            name="rent_paid"
-            type="text"
-            size="lg"
-            placeholder="N0.00"
-            label="Rent paid"
-            value={currency.rent_paid}
-            register={register}
-            error={errors.rent_paid?.message as string}
-            defaultValue={formDefaultValue.rent_paid}
-            onChange={handleCurrencyChange}
-          />
-          <Input
-            required
-            name="balance"
-            type="text"
-            size="lg"
-            placeholder="N0.00"
-            label="Outstanding Balance"
-            value={currency.balance}
-            register={register}
-            error={errors.balance?.message as string}
-            defaultValue={formDefaultValue?.balance as string}
-            onChange={handleCurrencyChange}
-          />
+	return (
+		<div className="max-w-[500px] mx-auto h-full">
+			<div className="text-center mb-10">
+				<h3 className="text-xl lg:text-2xl mb-1.5 font-semibold">
+					Tenant Information
+				</h3>
+				<p className="text-sm text-darkGrey">
+					Enter detailed tenant information and keep property data up-to-date
+				</p>
+			</div>
+			<form className="pb-10" onSubmit={handleSubmit(onSubmit)}>
+				<div className="grid gap-5 sm:grid-cols-2 mb-10">
+					<Input
+						required
+						name="name"
+						type="text"
+						size="lg"
+						placeholder="Enter tenant name"
+						label="Tenant Name"
+						register={register}
+						error={errors.name?.message as string}
+						defaultValue={formDefaultValue.name}
+					/>
+					<Input
+						required
+						name="phone"
+						type="text"
+						size="lg"
+						placeholder="Enter phone number"
+						label="Phone Number"
+						register={register}
+						error={errors.phone?.message as string}
+						defaultValue={formDefaultValue.phone}
+					/>
+					<Input
+						required
+						name="rent_paid"
+						type="text"
+						size="lg"
+						placeholder="N0.00"
+						label="Rent paid"
+						value={currency.rent_paid}
+						register={register}
+						error={errors.rent_paid?.message as string}
+						defaultValue={formDefaultValue.rent_paid}
+						onChange={handleCurrencyChange}
+					/>
+					<Input
+						required
+						name="balance"
+						type="text"
+						size="lg"
+						placeholder="N0.00"
+						label="Outstanding Balance"
+						value={currency.balance}
+						register={register}
+						error={errors.balance?.message as string}
+						defaultValue={formDefaultValue.balance as string}
+						onChange={handleCurrencyChange}
+					/>
 
           <Select
             size="lg"

@@ -23,6 +23,7 @@ import {
 	TenantDetail,
 	UserProfile,
 	ChangePassword,
+	VerifyEmail,
 } from "./pages";
 
 const routes: RouteObject[] = [
@@ -47,6 +48,10 @@ const routes: RouteObject[] = [
 			{
 				path: "reset-password",
 				element: <ResetPassword />,
+			},
+			{
+				path: "verify-email",
+				element: <VerifyEmail />,
 			},
 		],
 	},

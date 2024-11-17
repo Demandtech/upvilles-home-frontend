@@ -28,22 +28,21 @@ export interface AddPropertyFormState {
 	location: string;
 	property_type: string;
 	unit_number: string;
-  }
-  
-  export interface EditPropertyFormState extends AddPropertyFormState {
+}
+
+export interface EditPropertyFormState extends AddPropertyFormState {
 	images_url?: string[];
-  }
-  
+}
 
 export interface TenantFormState {
 	name: string;
 	assigned_unit: string;
 	assigned_property: string;
 	phone: string;
-	start_date: Date | undefined;
-	end_date: Date | undefined;
+	start_date?: Date;
+	end_date?: Date;
 	rent_paid: string;
-	balance: string | undefined;
+	balance?: string;
 }
 
 export interface MaintenanceFormState {
