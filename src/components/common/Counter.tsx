@@ -31,7 +31,7 @@ const Counter: React.FC<CounterProps> = ({ targetNumber, labelColor }) => {
   }, [countSpring, targetNumber]);
 
   return (
-    <motion.div className="text-3xl font-semibold text-default">
+    <motion.div className="text-base sm:text-lg md:text-2xl lg:text-3xl font-semibold text-default">
       <p style={{ color: labelColor }}>{Math.floor(count)}</p>
     </motion.div>
   );

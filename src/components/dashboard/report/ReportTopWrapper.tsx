@@ -28,39 +28,41 @@ function ReportTopWrapper({
   return (
     <div className="mb-5">
       <div className="mb-5 flex gap-3 flex-wrap">
-        <div className="flex-1 bg-white gap-2 flex flex-col py-3 px-5 rounded-[10px] border border-[#E4E7EC] shadow-lg shadow-default-100">
-          <TotalPropertyManage />
-          <p className="text-nowrap text-darkGrey text-xs leading-5 font-normal">
+        <div className="min-w-[140px] flex-1 bg-white gap-1 md:gap-2 flex flex-col py-2 sm:py-3 px-3 sm:px-5 rounded-[10px] border border-[#E4E7EC] shadow-lg shadow-default-100">
+          <TotalPropertyManage className="w-7 sm:w-8 md:w-9" />
+          <p className=" text-darkGrey text-xs leading-5 font-normal">
             Total Properties Managed
           </p>
-          <Counter
-            labelColor="#212121"
-            targetNumber={total_properties ? total_properties : 0}
-          />
+          <div className="mt-auto">
+            <Counter
+              labelColor="#212121"
+              targetNumber={total_properties ? total_properties : 0}
+            />
+          </div>
         </div>
-        <div className="flex-1 bg-white gap-2 flex flex-col py-3 px-5 rounded-[10px] border border-[#E4E7EC] shadow-lg shadow-default-100">
-          <UpcomingMaintenanceManage />
-          <p className="text-nowrap text-darkGrey text-xs leading-5 font-normal">
+        <div className="min-w-[140px] flex-1 bg-white gap-1 sm:gap-2 flex flex-col py-2 sm:py-3 px-3 sm:px-5 rounded-[10px] border border-[#E4E7EC] shadow-lg shadow-default-100">
+          <UpcomingMaintenanceManage className="w-7 sm:w-8 md:w-9" />
+          <p className=" text-darkGrey  text-xs leading-5 font-normal">
             Occupancy Rate
           </p>
-          <p className="text-3xl font-semibold text-default">
+          <p className="text-base sm:text-lg md:text-2xl lg:text-3xl mt-auto font-semibold text-default text-nowrap">
             {occupancy_rate}
           </p>
         </div>
-        <div className="flex-1 bg-white gap-2 flex flex-col py-3 px-5 rounded-[10px] border border-[#E4E7EC] shadow-lg shadow-default-100">
-          <OverdueMaintenanceManage />
-          <p className="text-nowrap text-darkGrey text-xs leading-5 font-normal">
+        <div className="min-w-[140px] flex-1 bg-white gap-1 sm:gap-2 flex flex-col py-2 sm:py-3 px-3 sm:px-5 rounded-[10px] border border-[#E4E7EC] shadow-lg shadow-default-100">
+          <OverdueMaintenanceManage className="w-7 sm:w-8 md:w-9" />
+          <p className=" text-darkGrey text-xs leading-5 font-normal">
             Overdue Maintainance Task
           </p>
           <Counter labelColor="#212121" targetNumber={overdue_maintenance} />
         </div>
-        <div className="flex-1 bg-white gap-2 flex flex-col py-3 px-5 rounded-[10px] border border-[#E4E7EC] shadow-lg shadow-default-100">
-          <AllMaintenanceCost />
-          <p className="text-nowrap text-darkGrey text-xs leading-5 font-normal">
+        <div className=" min-w-[140px] flex-1 bg-white gap-2 flex flex-col py-2 sm:py-3 px-3 sm:px-5 rounded-[10px] border border-[#E4E7EC] shadow-lg shadow-default-100">
+          <AllMaintenanceCost className="w-7 sm:w-8 md:w-9" />
+          <p className=" text-darkGrey text-xs leading-5 font-normal">
             {" "}
             Total Maintenance Costs
           </p>
-          <p className="text-3xl font-semibold text-default">
+          <p className="text-base sm:text-lg md:text-2xl lg:text-3xl mt-auto font-semibold text-default text-nowrap">
             {formatNaira(total_maintenance_cost)}
           </p>
         </div>
