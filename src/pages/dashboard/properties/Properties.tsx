@@ -8,11 +8,27 @@ import { Stats } from "../../../types/user";
 
 const Dashboard: FC = () => {
 	const dispatch = useDispatch();
-	const { stats } = useSelector((state: RootState) => state.user);
+	const { stats, user } = useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
-		dispatch(setTitle({ title: "Property Management", showIcon: false }));
-	}, []);
+		dispatch(
+			setTitle({
+				title: <Welcome name={user?.company as string} />,
+				showIcon: false,
+			})
+		);
+
+		let timeoutId = setTimeout(() => {
+			dispatch(
+				setTitle({
+					title: "Dashboard",
+					showIcon: false,
+				})
+			);
+		}, 10000);
+
+		return () => clearTimeout(timeoutId);
+	}, [user]);
 
 	return (
 		<div>
@@ -24,5 +40,16 @@ const Dashboard: FC = () => {
 		</div>
 	);
 };
+
+function Welcome({ name }: { name: string }) {
+	return (
+		<div>
+			<p className="font-normal text-base">👋 Hi, {name}!</p>
+			<h3 className="text-2xl lg:min-w-28 text-nowrap">
+				Welcome to your Dashboard
+			</h3>
+		</div>
+	);
+}
 
 export default Dashboard;
