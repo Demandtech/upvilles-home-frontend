@@ -70,7 +70,7 @@ const Header = ({
 						className="md:hidden rounded-full"
 						type="button"
 						isIconOnly
-						onClick={setSidebar}
+						onPress={setSidebar}
 					>
 						<HamburgerIcon />
 					</Button>
