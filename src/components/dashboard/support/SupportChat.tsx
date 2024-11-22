@@ -145,11 +145,6 @@ function SupportChat({
 				<form onSubmit={handleSubmit} className="mt-auto">
 					<div className="relative min-h-12 flex">
 						<textarea
-							// endContent={
-							//   <Button isIconOnly variant="flat">
-							//     Send
-							//   </Button>
-							// }
 							name="message"
 							placeholder="Enter message"
 							value={message}
