@@ -22,10 +22,11 @@ html {
 	--danger: 3, 100%, 59%, 1;
 }
 
-
 .active {
 	background: hsla(255, 100%, 100%, 0.1);
 }
+
+
 
 /* Extend Tailwind CSS for custom scrollbar styles */
 @layer utilities {
@@ -51,4 +52,3 @@ html {
 		background-color: rgba(255, 255, 255, 0.3);
 	}
 }
-
