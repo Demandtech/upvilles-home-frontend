@@ -45,6 +45,7 @@ function Welcome({ name }: { name: string }) {
 	return (
 		<div>
 			<p className="font-normal text-base">👋 Hi, {name}!</p>
+		
 			<h3 className="text-2xl lg:min-w-28 text-nowrap">
 				Welcome to your Dashboard
 			</h3>

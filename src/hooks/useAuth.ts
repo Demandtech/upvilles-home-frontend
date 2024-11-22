@@ -11,6 +11,7 @@ export default function useAuth(): {
 	handleSignup: (args: Partial<SignupFormState>) => Promise<AxiosResponse>;
 	handleLogin: (args: LoginFormState) => Promise<AxiosResponse>;
 	handleRefreshToken: (arg: string) => Promise<AxiosResponse>;
+	handleVerifyUser: (arg: string) => Promise<AxiosResponse>;
 	handleUpdateUser: (args: FormData) => Promise<AxiosResponse>;
 	handleUserReports: () => Promise<AxiosResponse>;
 	handleChangePassword: (
@@ -20,6 +21,7 @@ export default function useAuth(): {
 		key: string;
 		value: boolean;
 	}) => Promise<AxiosResponse>;
+	handleResendVerification: (args: string) => Promise<AxiosResponse>;
 } {
 	const handleSignup = async (
 		userData: Partial<SignupFormState>
@@ -86,6 +88,21 @@ export default function useAuth(): {
 		return userReports;
 	};
 
+	const handleVerifyUser = async (emailToken: string) => {
+		const isVerify = await customAxios().post("/user/verify", {
+			email_token: emailToken,
+		});
+
+		return isVerify;
+	};
+	const handleResendVerification = async (email: string) => {
+		const response = await customAxios().post("/user/verify-resend", {
+			email,
+		});
+
+		return response;
+	};
+
 	return {
 		handleSignup,
 		getAuthUser,
@@ -95,5 +112,7 @@ export default function useAuth(): {
 		handleChangePassword,
 		handleUpdateSettings,
 		handleUserReports,
+		handleVerifyUser,
+		handleResendVerification,
 	};
 }

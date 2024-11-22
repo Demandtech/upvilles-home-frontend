@@ -54,9 +54,7 @@ export default function App() {
 	} as UseQueryOptions<AxiosResponse, Error>);
 
 	const authenticateUser = async () => {
-		if (!tokens) {
-			return;
-		}
+		if (!tokens) return;
 
 		try {
 			const { access_token, refresh_token } = JSON.parse(tokens);
@@ -65,11 +63,12 @@ export default function App() {
 				mutation.mutate(refresh_token);
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
 	useEffect(() => {
+		if (!tokens) return;
 		authenticateUser();
 	}, [tokens]);
 
@@ -95,7 +94,6 @@ export default function App() {
 			}
 			return;
 		}
-		console.log(pathname);
 	}, [error, pathname, tokens]);
 
 	return (

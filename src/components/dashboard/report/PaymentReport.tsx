@@ -5,8 +5,7 @@ const columns = [
   { name: "Tenant Name", uid: "name", sortable: true },
   { name: "Rent", uid: "rent_paid", sortable: true },
   { name: "Outstanding Balance", uid: "balance", sortable: true },
-  { name: "Payment Status", uid: "payment_status" },
-  { name: "Payment Method", uid: "method", sortable: true },
+  { name: "Payment Status", uid: "status" },
   { name: "Payment Date", uid: "start_date", sortable: true },
 ];
 function PaymentReport({

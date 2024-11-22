@@ -16,7 +16,7 @@ const TenantInformation = ({
 	tenant: Tenant;
 	isLoading: boolean;
 }) => {
-	console.log(isLoading);
+	// console.log(isLoading);
 	return (
 		<div className="bg-white shadow-lg shadow-default-100 rounded-lg py-10 px-5">
 			<div className="text-center max-w-[600px] mx-auto mb-7">
