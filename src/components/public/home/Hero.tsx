@@ -6,15 +6,16 @@ import Button from "../../ui/Button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-const Hero: FC = () => {
+const Hero: FC<{ name: string }> = ({ name }) => {
 	const navigate = useNavigate();
-	
+
 	const headingVariant = {
 		initial: { x: -20, opacity: 0 },
 		visible: { x: 0, opacity: 1 },
 	};
+
 	return (
-		<section className="bg-secondary pb-10 md:pb-0">
+		<section className="bg-secondary pb-10 md:pb-0 lg:py-10">
 			<div className="flex flex-col-reverse md:items-center md:gap-10 lg:flex-row bg-secondary max-w-[1220px] mx-auto md:px-6">
 				<div className="w-full space-y-5 px-6 md:px-0">
 					<div>
@@ -80,14 +81,23 @@ const Hero: FC = () => {
 						color="primary"
 						type="button"
 						className="px-16 border-1"
-						onPress={() => navigate("/auth/signup")}
+						onPress={() =>
+							navigate(name ? "/dashboard/properties" : "/auth/signup")
+						}
 						ariaLabel="Sign up navigation button"
 					>
-						Sign up
+						{name ? "Dashboard" : "Sign up"}
 					</Button>
 				</div>
-				<div className="w-full">
-					<Image alt="Hero Image" src={heroImg} />
+				<div className="w-full min-h-[300px]">
+					<Image
+						classNames={{
+							img: "object-cover object-center",
+						}}
+						width={"100%"}
+						alt="Hero Image"
+						src={heroImg}
+					/>
 				</div>
 			</div>
 		</section>

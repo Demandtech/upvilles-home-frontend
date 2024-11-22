@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, ReactNode, useCallback, useState } from "react";
 import Button from "../../components/ui/Button";
 import { Input } from "@nextui-org/input";
 import {
@@ -16,7 +16,7 @@ const Header = ({
 	setSidebar,
 	showNotification,
 }: {
-	title: string;
+	title: string | ReactNode;
 	showIcon: boolean;
 	setSidebar: () => void;
 	showNotification: boolean;

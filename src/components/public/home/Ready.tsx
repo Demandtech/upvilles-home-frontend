@@ -4,7 +4,7 @@ import { EmailIconSvg, AddressIconSvg, PhoneIconSvg } from "../../svgs";
 import { useNavigate } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 
-const Ready: FC = () => {
+const Ready: FC<{ name: string }> = ({ name }) => {
 	const navigate = useNavigate();
 
 	const ref = useRef(null);
@@ -68,9 +68,11 @@ const Ready: FC = () => {
 							size="lg"
 							type="submit"
 							className="bg-white text-default px-10 lg:px-16"
-							onPress={() => navigate("/auth/signup")}
+							onPress={() =>
+								navigate(name ? "/dashboard/properties" : "/auth/signup")
+							}
 						>
-							Get Started
+							{name ? "Continue" : "Get Started"}
 						</Button>
 					</div>
 					<div className="space-y-2 md:w-4/5 lg:w-2/6 lg:ml-auto">

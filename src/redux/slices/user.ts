@@ -16,10 +16,10 @@ const userSlice = createSlice({
 	reducers: {
 		setUser: (
 			state,
-			{ payload }: PayloadAction<{ user: User; stats: Stats }>
+			{ payload }: PayloadAction<{ user: User | null; stats: Stats | null }>
 		) => {
-			state.user = payload.user;
-			state.stats = payload.stats;
+			state.user = payload?.user;
+			state.stats = payload?.stats;
 		},
 		setLogout: () => {
 			Cookies.remove("auth_token");

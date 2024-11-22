@@ -1,9 +1,9 @@
-export function formatNaira(number: number) {
+export function formatNaira(number: number, frac: number = 2) {
 	return new Intl.NumberFormat("en-NG", {
 		style: "currency",
 		currency: "NGN",
-		minimumFractionDigits: 2,
-		maximumFractionDigits: 2,
+		minimumFractionDigits: frac,
+		maximumFractionDigits: frac,
 	}).format(number);
 }
 

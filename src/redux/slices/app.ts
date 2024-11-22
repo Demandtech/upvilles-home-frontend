@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ReactNode } from "react";
 
 const initialState: {
-	dashboardPageTitle: { title: string; showIcon: boolean };
+	dashboardPageTitle: { title: string | ReactNode; showIcon: boolean };
 	toast: { message: string };
 } = {
 	dashboardPageTitle: { title: "", showIcon: false },
@@ -14,7 +15,9 @@ const accountSlice = createSlice({
 	reducers: {
 		setTitle: (
 			state,
-			{ payload }: PayloadAction<{ title: string; showIcon: boolean }>
+			{
+				payload,
+			}: PayloadAction<{ title: string | ReactNode; showIcon: boolean }>
 		) => {
 			state.dashboardPageTitle = payload;
 		},
@@ -28,5 +31,5 @@ const accountSlice = createSlice({
 	},
 });
 
-export const { setTitle} = accountSlice.actions;
+export const { setTitle } = accountSlice.actions;
 export default accountSlice.reducer;

@@ -92,7 +92,7 @@ const SignupForm: FC = () => {
 
 	const onSuccessModalClose = () => {
 		onClose();
-		navigate("/dashboard/properties");
+		navigate("/auth/login");
 	};
 
 	useEffect(() => {
@@ -143,6 +143,7 @@ const SignupForm: FC = () => {
 							defaultValue={formData.phone as string}
 						/>
 						<Input
+							required
 							label="Company name"
 							size="lg"
 							placeholder="Enter company name"
@@ -247,8 +248,8 @@ const SignupForm: FC = () => {
 				<SuccessModal
 					onClose={onSuccessModalClose}
 					title="Successful!"
-					message="User Registration is successful"
-					buttonLabel="Go to Dashboard"
+					message="User Registration is successful! verification email has been sent to your email"
+					buttonLabel="Continue"
 				/>
 			</CustomModal>
 		</>

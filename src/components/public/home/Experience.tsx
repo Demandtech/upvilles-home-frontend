@@ -14,11 +14,11 @@ const experiences: string[] = [
 	"Our system is designed specifically to address the unique challenges and regulatory landscape in Nigeria.",
 ];
 
-const Experience: FC = () => {
+const Experience: FC<{ name: string }> = ({ name }) => {
 	const navigate = useNavigate();
 	const ref = useRef(null);
 
-	const isInView = useInView(ref, { once: false });
+	const isInView = useInView(ref, { once: true });
 
 	return (
 		<div className="py-16">
@@ -49,7 +49,7 @@ const Experience: FC = () => {
 					/>
 				</div>
 
-				<div ref={ref} className="w-full lg:w-2/6 space-y-5">
+				<div ref={ref} className="w-full lg:w-5/12 space-y-5">
 					<div>
 						<motion.h2
 							initial={{ opacity: 0, x: -20 }}
@@ -57,7 +57,7 @@ const Experience: FC = () => {
 							transition={{
 								type: "spring",
 								damping: 10,
-								duration: 0.3,
+								duration: 0.4,
 								stiffness: 100,
 								delay: 0.1,
 							}}
@@ -66,12 +66,12 @@ const Experience: FC = () => {
 							Experience the Benefits
 						</motion.h2>
 						<motion.h2
-							initial={{ opacity: 0, x: 20 }}
+							initial={{ opacity: 0, x: -20 }}
 							animate={isInView ? { opacity: 1, x: 0 } : ""}
 							transition={{
 								type: "spring",
 								damping: 20,
-								duration: 0.3,
+								duration: 0.4,
 								stiffness: 200,
 								delay: 0.2,
 							}}
@@ -85,7 +85,7 @@ const Experience: FC = () => {
 							transition={{
 								type: "spring",
 								damping: 30,
-								duration: 0.3,
+								duration: 0.4,
 								stiffness: 300,
 								delay: 0.3,
 							}}
@@ -94,7 +94,7 @@ const Experience: FC = () => {
 							Management Solution
 						</motion.h2>
 					</div>
-					<ul className="space-y-3">
+					<ul className="space-y-3 lg:w-5/6">
 						{experiences.map((text, index) => (
 							<ListItem index={index} text={text} key={text} />
 						))}
@@ -105,11 +105,11 @@ const Experience: FC = () => {
 						color="primary"
 						size="lg"
 						onPress={() => {
-							navigate("/auth/signup");
+							navigate(name ? "/dashboard/properties" : "/auth/signup");
 						}}
 						ariaLabel="Sign up navigation button"
 					>
-						Sign Up
+						{name ? "Dashboard" : "Sign Up"}
 					</Button>
 				</div>
 			</div>

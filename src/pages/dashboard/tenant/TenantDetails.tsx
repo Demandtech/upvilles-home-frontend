@@ -36,7 +36,7 @@ export default function TenantDetails() {
 	return (
 		<div>
 			<div className="bg-lightBg space-y-7 py-8 px-3 md:px-5">
-				<TenantInformation isLoading={isLoading} tenant={singleTenant?.data} />
+				<TenantInformation tenant={singleTenant?.data} />
 				<TenantHistory isLoading={isLoading} tenant={singleTenant?.data} />
 			</div>
 		</div>

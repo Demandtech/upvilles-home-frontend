@@ -9,14 +9,7 @@ import {
 	TenantPhone,
 } from "../../../svgs";
 
-const TenantInformation = ({
-	tenant,
-	isLoading,
-}: {
-	tenant: Tenant;
-	isLoading: boolean;
-}) => {
-	console.log(isLoading);
+const TenantInformation = ({ tenant }: { tenant: Tenant }) => {
 	return (
 		<div className="bg-white shadow-lg shadow-default-100 rounded-lg py-10 px-5">
 			<div className="text-center max-w-[600px] mx-auto mb-7">

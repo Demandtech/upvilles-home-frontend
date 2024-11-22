@@ -68,6 +68,8 @@ export default function MyTable({
 										? "bg-[#ff3b30] border-[#f7e8e2]"
 										: cellValue === "schedule"
 										? "bg-[#007AFF] border-[#E3F4FD]"
+										: cellValue === "pending"
+										? "bg-[#FF9500] border-[#F7E8E2DB]"
 										: ""
 								}`}
 							></div>

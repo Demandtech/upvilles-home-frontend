@@ -2,106 +2,25 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { FC, useCallback, useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
-import { useQuery, useMutation, UseQueryOptions } from "@tanstack/react-query";
-import useAuth from "../../hooks/useAuth";
-import { AxiosResponse } from "axios";
-import { setUser } from "../../redux/slices/user";
+
 import { motion } from "framer-motion";
 import { ArrowBack } from "../../components/svgs";
 import Button from "../../components/ui/Button";
 
 const DashboardLayout: FC = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
 	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 	const { dashboardPageTitle } = useSelector((state: RootState) => state.app);
 	const { user } = useSelector((state: RootState) => state.user);
-	const { handleRefreshToken, getAuthUser } = useAuth();
-
-	const tokens = Cookies.get("auth_token");
 
 	const toggleSidebar = useCallback(() => {
 		if (windowWidth < 768) {
 			setIsSidebarOpen((prev) => !prev);
 		}
 	}, [windowWidth]);
-
-	const isTokenExpired = (token: string): boolean => {
-		try {
-			const decoded: { exp: number } = jwtDecode(token);
-			return decoded.exp * 1000 < Date.now();
-		} catch (err) {
-			console.error(err);
-			return false;
-		}
-	};
-
-	const mutation = useMutation({
-		mutationKey: ["refresh_token"],
-		mutationFn: handleRefreshToken,
-		onSuccess: (data) => {
-			Cookies.set(
-				"auth_token",
-				JSON.stringify({
-					access_token: data.data.access_token,
-					refresh_token: data.data.refresh_token,
-				})
-			);
-		},
-		onError: (error) => {
-			console.log("Error: ", error);
-		},
-	});
-
-	const { data: authUserData, error } = useQuery<AxiosResponse, Error>({
-		queryKey: ["authUser"],
-		queryFn: () => {
-			return getAuthUser();
-		},
-		enabled: tokens ? !isTokenExpired(JSON.parse(tokens).access_token) : false,
-	} as UseQueryOptions<AxiosResponse, Error>);
-
-	const authenticateUser = async () => {
-		if (!tokens) {
-			navigate("/auth/login");
-			return;
-		}
-
-		try {
-			const { access_token, refresh_token } = JSON.parse(tokens);
-
-			if (isTokenExpired(access_token)) {
-				mutation.mutate(refresh_token);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	useEffect(() => {
-		authenticateUser();
-	}, [tokens]);
-
-	useEffect(() => {
-		if (authUserData) {
-			dispatch(
-				setUser({
-					user: authUserData.data.user,
-					stats: authUserData.data.stats,
-				})
-			);
-		}
-	}, [authUserData, dispatch]);
-
-	useEffect(() => {
-		if (!error) return;
-		navigate("/auth/login");
-	}, [error, navigate]);
 
 	useEffect(() => {
 		const handleResize = () => setWindowWidth(window.innerWidth);
@@ -187,9 +106,9 @@ const DashboardLayout: FC = () => {
 								<ArrowBack />
 							</Button>
 						)}
-						<span className="text-lg justify-start font-semibold">
+						<div className="text-lg justify-start font-semibold">
 							{dashboardPageTitle.title}
-						</span>
+						</div>
 					</div>
 					<Outlet />
 				</div>

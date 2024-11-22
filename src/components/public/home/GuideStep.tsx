@@ -12,7 +12,7 @@ const guides: string[] = [
 	"Track maintenance activities, compliance status, and security incidents from a single dashboard.",
 	"Get detailed reports on property performance, maintenance costs, and compliance records.",
 ];
-const GuideStep: FC = () => {
+const GuideStep: FC<{ name: string }> = ({ name }) => {
 	const navigate = useNavigate();
 	const ref1 = useRef(null);
 	const ref2 = useRef(null);
@@ -91,11 +91,11 @@ const GuideStep: FC = () => {
 						color="primary"
 						size="lg"
 						onPress={() => {
-							navigate("/auth/signup");
+							navigate(name ? "/dashboard/properties" : "/auth/signup");
 						}}
 						ariaLabel="Sign up navigation button"
 					>
-						Sign Up
+						{name ? "Dashboard" : "Sign Up"}
 					</Button>
 				</div>
 			</div>
