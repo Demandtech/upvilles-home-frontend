@@ -8,7 +8,7 @@ export interface SignupFormState {
 	password: string;
 	name: string;
 	confirmPassword?: string;
-	company?: string;
+	company: string;
 	phone?: string;
 	termCondition?: boolean;
 }

@@ -143,6 +143,7 @@ const SignupForm: FC = () => {
 							defaultValue={formData.phone as string}
 						/>
 						<Input
+							required
 							label="Company name"
 							size="lg"
 							placeholder="Enter company name"

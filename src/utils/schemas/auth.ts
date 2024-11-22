@@ -19,7 +19,7 @@ export const loginSchema: yup.ObjectSchema<{
 export const signupSchema: yup.ObjectSchema<{
 	name: string;
 	phone?: string;
-	company?: string;
+	company: string;
 	password: string;
 	email: string;
 	confirmPassword: string | undefined;
@@ -27,7 +27,7 @@ export const signupSchema: yup.ObjectSchema<{
 }> = yup.object().shape({
 	name: yup.string().required("Full name is required"),
 	phone: yup.string(),
-	company: yup.string(),
+	company: yup.string().required("Signup is required"),
 	email: yup
 		.string()
 		.label("Email")

@@ -31,7 +31,7 @@ export const updateProfileSchema: yup.ObjectSchema<{
 	name: string;
 	email: string;
 	phone?: string | null;
-	company?: string;
+	company: string;
 	image?: File | null;
 }> = yup.object().shape({
 	name: yup.string().required("Full name is required"),
@@ -50,7 +50,7 @@ export const updateProfileSchema: yup.ObjectSchema<{
 
 			return false;
 		}),
-	company: yup.string(),
+	company: yup.string().required("Company name is required!"),
 	email: yup
 		.string()
 		.label("Email")
