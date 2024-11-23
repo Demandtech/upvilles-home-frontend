@@ -134,7 +134,7 @@ export default function MyTable({
 			}}
 			classNames={{
 				wrapper:
-					"overflow-auto min-h-[500px] gap-0 p-0 rounded-md shadow-none scrollbar-hide bg-lightBg",
+					"overflow-auto lg:min-h-[100px] gap-0 p-0 rounded-md shadow-none scrollbar-hide bg-lightBg",
 				thead: "[&>tr]:first:shadow-none",
 			}}
 		>
