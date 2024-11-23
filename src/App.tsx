@@ -63,12 +63,13 @@ export default function App() {
 				mutation.mutate(refresh_token);
 			}
 		} catch (error) {
-			console.error(error);
+			console.log(error);
 		}
 	};
 
 	useEffect(() => {
-		if (!tokens) return;
+		if(!tokens) return
+
 		authenticateUser();
 	}, [tokens]);
 
@@ -94,6 +95,7 @@ export default function App() {
 			}
 			return;
 		}
+		console.log(pathname);
 	}, [error, pathname, tokens]);
 
 	return (
