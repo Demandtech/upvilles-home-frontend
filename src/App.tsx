@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { AxiosResponse } from "axios";
 import { RouterProvider } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import routes from "./routes";
 import useAuth from "./hooks/useAuth";
-import { setUser } from "./redux/slices/user";
+import { setLogout, setUser } from "./redux/slices/user";
 
 export default function App() {
 	const { handleRefreshToken, getAuthUser } = useAuth();
@@ -40,8 +40,8 @@ export default function App() {
 				})
 			);
 		},
-		onError: (error) => {
-			console.log("Error: ", error);
+		onError: (error: any) => {
+			throw new Error(error);
 		},
 	});
 
@@ -53,7 +53,7 @@ export default function App() {
 		enabled: tokens ? !isTokenExpired(JSON.parse(tokens).access_token) : false,
 	} as UseQueryOptions<AxiosResponse, Error>);
 
-	const authenticateUser = async () => {
+	const authenticateUser = useCallback(async () => {
 		if (!tokens) return;
 
 		try {
@@ -63,9 +63,10 @@ export default function App() {
 				mutation.mutate(refresh_token);
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
+			dispatch(setLogout());
 		}
-	};
+	}, [tokens]);
 
 	useEffect(() => {
 		if (!tokens) return;

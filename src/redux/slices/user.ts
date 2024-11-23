@@ -23,6 +23,7 @@ const userSlice = createSlice({
 		},
 		setLogout: () => {
 			Cookies.remove("auth_token");
+			localStorage.clear()
 			return initialState;
 		},
 	},
