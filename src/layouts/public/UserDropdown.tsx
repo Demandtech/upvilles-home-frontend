@@ -1,4 +1,3 @@
-import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
 import {
 	Dropdown,
@@ -27,11 +26,6 @@ function UserDropdown({ name }: { name: string }) {
 	return (
 		<div>
 			<div className="flex items-center ">
-				<div>
-					{" "}
-					<Avatar size="sm" color="primary" />
-				</div>
-
 				<Dropdown
 					classNames={{
 						content: "min-w-[150px]",

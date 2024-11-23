@@ -13,7 +13,7 @@ import { RootState } from "../../redux/store";
 const Home: FC = () => {
 	const { user } = useSelector((state: RootState) => state.user);
 
-	const name = user?.name as string;
+	const name = user?.company as string;
 
 	return (
 		<div className="max-w-[1440px] mx-auto">

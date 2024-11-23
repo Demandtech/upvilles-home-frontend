@@ -26,47 +26,49 @@ const TenantHistory = ({
 				<h3 className="text-default font-bold text-xl mb-2">
 					Payment History{" "}
 				</h3>
-				<p className="text-darkGrey">Payment summary of {tenant?.name}</p>
+				<p className="text-darkGrey text-xs sm:text-sm lg:text-base">
+					Payment summary of {tenant?.name}
+				</p>
 			</div>
 			<div>
 				<div className="flex gap-5 flex-wrap mb-10">
-					<div className="relative flex-1 py-7 px-5 md:px-10 rounded-md shadow-md shadow-default-100 bg-lightBg border border-[#EEEEEE]">
+					<div className="min-w-[250px] relative flex-1 py-7 px-5 md:px-10 rounded-md shadow-md shadow-default-100 bg-lightBg border border-[#EEEEEE]">
 						<div>
-							<h6 className="text-2xl font-semibold mb-1">
+							<h6 className="text-xl sm:text-2xl font-semibold mb-1">
 								{formatNaira(tenant?.rent_paid)}
 							</h6>
-							<p className="text-[#7b7777] text-sm text-nowrap">
+							<p className="text-[#7b7777] text-xs sm:text-sm text-nowrap">
 								Total Amount Paid
 							</p>
 						</div>
 						<div className="absolute right-4 top-4">
-							<TenantAmountIcon className="fill-[#007AFF]" />
+							<TenantAmountIcon className="fill-[#007AFF] w-6 sm:w-7 md:w-8" />
 						</div>
 					</div>
-					<div className="relative flex-1 py-7 px-5 md:px-10 bg-lightBg shadow-md shadow-default-100 rounded-md border border-[#EEEEEE]">
+					<div className="min-w-[250px] relative flex-1 py-7 px-5 md:px-10 bg-lightBg shadow-md shadow-default-100 rounded-md border border-[#EEEEEE]">
 						<div>
-							<h6 className="text-2xl mb-1 font-semibold text-nowrap">
+							<h6 className="text-xl sm:text-2xl mb-1 font-semibold text-nowrap">
 								{formatNaira(tenant?.balance || 0)}
 							</h6>
-							<p className="text-[#7b7777] text-sm text-nowrap">
+							<p className="text-[#7b7777] text-xs sm:text-sm text-nowrap">
 								Outstanding Balance
 							</p>
 						</div>
 						<div className="absolute right-4 top-4">
-							<TenantAmountIcon className="fill-[#FF6B6B]" />
+							<TenantAmountIcon className="fill-[#FF6B6B] w-6 sm:w-7 md:w-8" />
 						</div>
 					</div>
-					<div className="bg-lightBg relative px-5 md:px-10 py-7 shadow-md shadow-default-100 rounded-md flex-1 border border-[#EEEEEE]">
+					<div className="min-w-[250px] bg-lightBg relative px-5 md:px-10 py-7 shadow-md shadow-default-100 rounded-md flex-1 border border-[#EEEEEE]">
 						<div>
-							<h6 className="text-2xl mb-1 font-semibold text-nowrap">
+							<h6 className="text-xl sm:text-2xl mb-1 font-semibold text-nowrap">
 								{moment(tenant?.end_date).format("MMM DD, YYYY")}
 							</h6>
-							<p className=" text-[#7b7777] text-sm text-nowrap">
+							<p className=" text-[#7b7777] text-xs sm:text-sm text-nowrap">
 								Next Payment Due Date{" "}
 							</p>
 						</div>
 						<div className="absolute right-4 top-4">
-							<NextPaymentIcon />
+							<NextPaymentIcon className="w-6 sm:w-7 md:w-8" />
 						</div>
 					</div>
 				</div>

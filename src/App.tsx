@@ -1,10 +1,15 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useMemo, useState } from "react";
 import { AxiosResponse } from "axios";
 import { RouterProvider } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { NextUIProvider } from "@nextui-org/system";
-import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
+import {
+	useMutation,
+	useQuery,
+	UseQueryOptions,
+	useQueryClient,
+} from "@tanstack/react-query";
 import { Bounce, ToastContainer } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,9 +19,11 @@ import useAuth from "./hooks/useAuth";
 import { setLogout, setUser } from "./redux/slices/user";
 
 export default function App() {
+	const [redirected, setRedirected] = useState<boolean>(false);
 	const { handleRefreshToken, getAuthUser } = useAuth();
-	const tokens = Cookies.get("auth_token");
+	const tokens = useMemo(() => Cookies.get("auth_token"), []);
 	const dispatch = useDispatch();
+	const queryClient = useQueryClient();
 
 	const isTokenExpired = (token: string): boolean => {
 		try {
@@ -39,6 +46,7 @@ export default function App() {
 					refresh_token: data.data.refresh_token,
 				})
 			);
+			queryClient.invalidateQueries({ queryKey: ["authUser"] });
 		},
 		onError: (error: any) => {
 			throw new Error(error);
@@ -91,7 +99,8 @@ export default function App() {
 		if (error || !tokens) {
 			dispatch(setUser({ user: null, stats: null }));
 
-			if (pathname.includes("dashboard")) {
+			if (pathname.includes("dashboard") && !redirected) {
+				setRedirected(true);
 				window.location.href = "/auth/login";
 			}
 			return;

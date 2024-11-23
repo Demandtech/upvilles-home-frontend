@@ -14,6 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import { AxiosError } from "axios";
 import { toast } from "../../../../configs/services";
+
 const SettingWrapper = () => {
 	const { user } = useSelector((state: RootState) => state.user);
 	const { handleUpdateSettings } = useAuth();
@@ -102,7 +103,7 @@ const SettingWrapper = () => {
 								<Switch
 									name="notification"
 									onValueChange={(val) => handleSettings(val, "notification")}
-									isSelected={settings.notification}
+									isSelected={settings?.notification}
 									size="sm"
 									isDisabled={isPending}
 								/>
@@ -123,7 +124,7 @@ const SettingWrapper = () => {
 									onValueChange={(val) =>
 										handleSettings(val, "security_options")
 									}
-									isSelected={settings.security_options}
+									isSelected={settings?.security_options}
 									isDisabled={isPending}
 								/>
 							</TableCell>
@@ -143,7 +144,7 @@ const SettingWrapper = () => {
 									onValueChange={(val) =>
 										handleSettings(val, "property_management")
 									}
-									isSelected={settings.property_management}
+									isSelected={settings?.property_management}
 									isDisabled={isPending}
 								/>
 							</TableCell>
@@ -163,7 +164,7 @@ const SettingWrapper = () => {
 									onValueChange={(val) =>
 										handleSettings(val, "data_management")
 									}
-									isSelected={settings.data_management}
+									isSelected={settings?.data_management}
 									isDisabled={isPending}
 								/>
 							</TableCell>
@@ -181,7 +182,7 @@ const SettingWrapper = () => {
 								<Switch
 									size="sm"
 									onValueChange={(val) => handleSettings(val, "product_update")}
-									isSelected={settings.product_update}
+									isSelected={settings?.product_update}
 									isDisabled={isPending}
 								/>
 							</TableCell>
