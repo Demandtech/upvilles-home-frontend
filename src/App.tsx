@@ -68,7 +68,7 @@ export default function App() {
 	};
 
 	useEffect(() => {
-		if(!tokens) return
+		if (!tokens) return;
 
 		authenticateUser();
 	}, [tokens]);
@@ -95,7 +95,6 @@ export default function App() {
 			}
 			return;
 		}
-		console.log(pathname);
 	}, [error, pathname, tokens]);
 
 	return (
