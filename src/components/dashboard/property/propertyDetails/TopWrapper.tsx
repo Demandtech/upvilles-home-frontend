@@ -1,5 +1,6 @@
 import { Spinner } from "@nextui-org/spinner";
 import { ImageGallery, PropertyInfo } from ".";
+import { ImageUrl } from "../../../../types/common";
 
 const TopWrapper = ({
 	id,
@@ -7,7 +8,7 @@ const TopWrapper = ({
 	isLoading,
 }: {
 	id: string;
-	thumbnails: string[];
+	thumbnails: ImageUrl[];
 	isLoading: boolean;
 }) => {
 	return (

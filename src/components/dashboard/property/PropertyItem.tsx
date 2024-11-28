@@ -7,13 +7,28 @@ import { Image } from "@nextui-org/image";
 
 const PropertyItem = ({ item }: { item: PropertyType }) => {
 	const navigate = useNavigate();
+
+	let imgUrls = [];
+
+	if (item && item.images && Array.isArray(item.images)) {
+		imgUrls = item.images.map((imgUrl) => {
+			try {
+				return JSON.parse(imgUrl);
+			} catch (error) {
+				return { url: "" };
+			}
+		});
+	}
+
+	const imageUrl = imgUrls.length > 0 ? imgUrls[0]?.url : "";
+
 	return (
 		<Card className="">
 			<CardBody className="p-0 flex flex-col">
 				<div className="h-[240px] w-full relative rounded-b-xl overflow-hidden">
 					<Image
 						className="object-cover object-center h-full w-full"
-						src={item?.images_url[0]}
+						src={imageUrl}
 						width={"100%"}
 						height={240}
 					/>

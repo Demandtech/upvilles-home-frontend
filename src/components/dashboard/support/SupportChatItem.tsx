@@ -1,21 +1,25 @@
 import { Avatar } from "@nextui-org/avatar";
 import { Image } from "@nextui-org/image";
 import { forwardRef, memo } from "react";
+import { User } from "../../../types/user";
 
 type ChatType = {
 	_id: string;
-	content: string | null;
-	sender: "user" | "admin";
-	img: string | null;
+	message: string | null;
+	sender: Partial<User>;
+	img?: File | string | undefined;
+	// imgUrl: string;
 };
 
 const SupportChatItem = forwardRef<HTMLDivElement, ChatType>(
-	({ content, sender, img }, ref) => {
+	({ message, sender, img }, ref) => {
 		return (
 			<div ref={ref}>
 				<div
 					className={`${
-						sender === "user" ? "ml-auto flex-row-reverse" : "mr-auto flex-row"
+						sender.role === "USER"
+							? "ml-auto flex-row-reverse"
+							: "mr-auto flex-row"
 					} w-[80%] flex gap-3`}
 				>
 					<div>
@@ -28,10 +32,10 @@ const SupportChatItem = forwardRef<HTMLDivElement, ChatType>(
 									className="object-cover rounded-lg"
 									width={"100%"}
 									height={"auto"}
-									src={img as string}
+									// src={imgUrl as string}
 								/>
 							)}
-							{content && <p className="p-3 text-sm">{content}</p>}
+							{message && <p className="p-3 text-sm">{message}</p>}
 						</div>
 					</div>
 				</div>

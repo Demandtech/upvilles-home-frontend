@@ -1,9 +1,11 @@
+import { ImageUrl } from "./common";
+
 export interface PropertyType {
 	_id: string;
 	street: string;
 	description: string;
 	attraction: string;
-	images_url: string[];
+	images: string[];
 	title: string;
 	location: string;
 	description: string;

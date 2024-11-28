@@ -1,29 +1,50 @@
-import { useEffect, useState } from "react";
-import { setTitle } from "../../redux/slices/app";
+import {
+	useEffect,
+	useState,
+	SetStateAction,
+	Dispatch,
+	ChangeEvent,
+} from "react";
+import { setTitle } from "../../../redux/slices/app";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar } from "@nextui-org/avatar";
-import { RootState } from "../../redux/store";
-import { CameraIcon } from "../../components/svgs";
+import { RootState } from "../../../redux/store";
+import { CameraIcon } from "../../../components/svgs";
 import { Input } from "@nextui-org/input";
-import { toast, useForm, yupResolver } from "../../../configs/services";
-import Button from "../../components/ui/Button";
+import { toast, useForm, yupResolver } from "../../../../configs/services";
+import Button from "../../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
-import { updateProfileSchema } from "../../utils/schemas/user";
+import { updateProfileSchema } from "../../../utils/schemas/user";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth";
 import { AxiosError } from "axios";
-import { CustomModal } from "../../components/ui/Modal";
-import SuccessModal from "../../components/common/SuccessModal";
+import { CustomModal } from "../../../components/ui/Modal";
+import SuccessModal from "../../../components/common/SuccessModal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
+import useImage from "../../../hooks/useImage";
+import { ImageUrl } from "../../../types/common";
+import { Spinner } from "@nextui-org/spinner";
+
+const handleMutationError = (error: AxiosError) => {
+	console.log(error);
+	toast.error(
+		error.response?.data
+			? (error.response.data as { message: string }).message
+			: "An error occurred, please try again"
+	);
+};
 
 function Profile() {
 	const { user } = useSelector((state: RootState) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const [newImgUrl, setNewImgUrl] = useState(user?.image_url);
+	const [newImgUrl, setNewImgUrl] = useState(user?.image.url);
 	const queryClient = useQueryClient();
-	const { handleUpdateUser } = useAuth();
+	const { handleUpdateUser, handleUpdateImage } = useAuth();
 	const { onOpen, onOpenChange, onClose, isOpen } = useDisclosure();
+	const [uploadProgress, setUploadProgress] = useState<number>(100);
+	const { uploadImage } = useImage();
+	const [isDirty, setIsDirty] = useState(false);
 
 	const {
 		register,
@@ -40,20 +61,62 @@ function Profile() {
 		},
 	});
 
+	const watchedValues = watch();
+
+	const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const { files } = event.target as HTMLInputElement;
+
+		if (files?.length) {
+			const imageFile = files[0];
+
+			const imagePreviewUrl = URL.createObjectURL(imageFile);
+
+			setNewImgUrl(imagePreviewUrl);
+
+			const formData = new FormData();
+
+			formData.append("file", imageFile);
+			formData.append(
+				"upload_preset",
+				import.meta.env.VITE_CLOUDINARY_USER_PRESET as string
+			);
+
+			uploadImageMutation.mutate({ formData, setUploadProgress });
+		}
+	};
+
 	const { mutate, isPending } = useMutation({
 		mutationFn: (data: FormData) => handleUpdateUser(data),
 		onSuccess: () => {
 			onOpen();
 			queryClient.invalidateQueries({ queryKey: ["authUser"] });
 		},
-		onError: (error: AxiosError) => {
-			if (error.response?.data) {
-				return toast.error(
-					(error.response.data as { message: string }).message
-				);
-			}
-			return toast.error("An error occured, please try again");
+		onError: handleMutationError,
+	});
+
+	const uploadImageMutation = useMutation({
+		mutationFn: ({
+			formData,
+			setUploadProgress,
+		}: {
+			formData: FormData;
+			setUploadProgress: Dispatch<SetStateAction<number>>;
+		}) => uploadImage(formData, setUploadProgress),
+		onSuccess: (res) => {
+			setNewImgUrl(res.secure_url);
+			updateUserImageMutation.mutate({
+				url: res.secure_url,
+				public_id: res.public_id,
+			});
 		},
+		onError: handleMutationError,
+	});
+
+	const updateUserImageMutation = useMutation({
+		mutationKey: ["chaneg_profile_photo"],
+		mutationFn: (img: ImageUrl) => handleUpdateImage(img),
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
+		onError: handleMutationError,
 	});
 
 	const onSubmitForm = (data: {
@@ -61,16 +124,11 @@ function Profile() {
 		email: string;
 		company?: string | undefined;
 		phone?: string | null;
-		image?: File | null;
 	}) => {
 		const formData = new FormData();
 
 		Object.entries(data).forEach(([key, val]) => {
-			if (key === "image" && val instanceof FileList) {
-				const imageFile = val[0];
-				formData.append(key, imageFile);
-			}
-			formData.append(key, val as string | File | Blob);
+			formData.append(key, val as string);
 		});
 		mutate(formData);
 	};
@@ -80,27 +138,23 @@ function Profile() {
 		queryClient.invalidateQueries({ queryKey: ["authUser"] });
 	}, []);
 
-	const watchImage: FileList = watch("image");
-
 	useEffect(() => {
-		if (watchImage && watchImage instanceof FileList && watchImage.length > 0) {
-			const imageFile = watchImage[0];
+		const isDirty =
+			watchedValues.name !== user?.name ||
+			watchedValues.email !== user?.email ||
+			watchedValues.company !== user?.company ||
+			watchedValues.phone !== user?.phone;
 
-			const imagePreviewUrl = URL.createObjectURL(imageFile);
+		setIsDirty(isDirty);
+	}, [watchedValues]);
 
-			setNewImgUrl(imagePreviewUrl);
-		}
-	}, [watchImage]);
-
-	// useEffect(() => {
-	// if (user) {
-	// setValue("name", user?.name as string);
-	// }
-	// });
-
-	if (!user) return;
-
-	console.log(user);
+	if (!user) {
+		return (
+			<div className="flex justify-center pt-20">
+				<Spinner />
+			</div>
+		);
+	}
 
 	return (
 		<div className="px-3 md:px-5 py-5 bg-lightBg min-h-[calc(100dvh-70px)] lg:min-h-[calc(100dvh-86px)]">
@@ -108,20 +162,24 @@ function Profile() {
 				<div className="flex flex-col items-center gap-4">
 					<div className="relative">
 						<Avatar
-							src={(newImgUrl as string) || (user?.image_url as string)}
+							src={(newImgUrl as string) || (user?.image.url as string)}
 							color="primary"
 							size="lg"
-							className="w-20 h-20"
+							style={{
+								opacity: uploadProgress,
+							}}
+							className={`opacity-${uploadProgress} w-20 h-20`}
 						/>
 						<div className="absolute shadow-sm bg-[#003566] p-2 -right-4 bottom-2 rounded-full">
 							<label className="block cursor-pointer" htmlFor="profile_image">
 								<CameraIcon className="text-white w-5 h-5" size={10} />
 								<input
-									{...register("image")}
-									accept="image/*"
+									accept="image/jpeg,image/png,image/jpg"
 									id="profile_image"
 									type="file"
 									hidden
+									name="image"
+									onChange={handleImageChange}
 								/>
 							</label>
 						</div>
@@ -134,11 +192,7 @@ function Profile() {
 					</div>
 				</div>
 				<div className="max-w-[500px] mx-auto">
-					<form
-						onSubmit={handleSubmit(onSubmitForm)}
-						method="post"
-						encType="multipart/form-data"
-					>
+					<form onSubmit={handleSubmit(onSubmitForm)}>
 						<div className="flex flex-col gap-5 mt-6">
 							<div className="gap-5 flex">
 								<Input
@@ -225,6 +279,7 @@ function Profile() {
 									color="primary"
 									className="w-full"
 									type="submit"
+									disabled={!isDirty}
 								>
 									Save information
 								</Button>

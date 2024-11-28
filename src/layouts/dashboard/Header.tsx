@@ -74,11 +74,11 @@ const Header = ({
 					>
 						<HamburgerIcon />
 					</Button>
-					<p
+					<div
 						className={`font-semibold hidden md:block  text-2xl lg:min-w-28 text-nowrap`}
 					>
 						{title}
-					</p>
+					</div>
 				</div>
 				<div className="w-full max-w-sm">
 					<Input

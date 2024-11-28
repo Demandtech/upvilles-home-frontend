@@ -1,4 +1,4 @@
-import { useEffect, useState, FC } from "react";
+import { useEffect, useState, FC, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setTitle } from "../../../redux/slices/app";
 import { useParams, Params } from "react-router-dom";
@@ -68,9 +68,8 @@ const PropertyDetials: FC = () => {
 		}
 	}, [isSuccess, dispatch, singleProperty]);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		dispatch(setTitle({ title: "Property Details", showIcon: true }));
-		window.scrollTo(0, 0);
 	}, []);
 
 	return (
@@ -79,7 +78,11 @@ const PropertyDetials: FC = () => {
 				<title>Upvillehomes | Property Details</title>
 			</Helmet>
 			<TopWrapper
-				thumbnails={singleProperty?.data.images_url || []}
+				thumbnails={
+					singleProperty?.data.images.map((image: string) =>
+						JSON.parse(image)
+					) || []
+				}
 				id={id || ""}
 				isLoading={isPropertyLoading}
 			/>

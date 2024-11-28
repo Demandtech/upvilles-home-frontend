@@ -10,9 +10,13 @@ export default function useProperty(): {
 		updatedProperty: FormData
 	) => Promise<AxiosResponse>;
 	deleteProperty: (params: string) => Promise<AxiosResponse>;
+	deletePropertyImage: (
+		param1: string,
+		param2: string
+	) => Promise<AxiosResponse>;
 } {
 	const addProperty = async (newProperty: FormData): Promise<AxiosResponse> => {
-		const result = await customAxios(true).post("/properties", newProperty);
+		const result = await customAxios(false).post("/properties", newProperty);
 
 		return result;
 	};
@@ -31,7 +35,7 @@ export default function useProperty(): {
 		propertyId: string,
 		updateProperty: FormData
 	): Promise<AxiosResponse> => {
-		const result = await customAxios(true).put(
+		const result = await customAxios(false).put(
 			`/properties/${propertyId}`,
 			updateProperty
 		);
@@ -51,11 +55,23 @@ export default function useProperty(): {
 			throw new Error();
 		}
 	};
+	const deletePropertyImage = async (
+		public_id: string,
+		property_id: string
+	) => {
+		const res = await customAxios(false).delete(
+			`/properties/images/${public_id}/${property_id}`
+		);
+
+		console.log(res);
+		return res;
+	};
 	return {
 		addProperty,
 		editProperty,
 		allProperties,
 		getSingleProperty,
 		deleteProperty,
+		deletePropertyImage,
 	};
 }

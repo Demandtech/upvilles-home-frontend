@@ -5,6 +5,7 @@ import {
 	LoginFormState,
 	ChangePasswordFormState,
 } from "../types/forms";
+import { ImageUrl } from "../types/common";
 
 export default function useAuth(): {
 	getAuthUser: () => Promise<AxiosResponse>;
@@ -22,6 +23,7 @@ export default function useAuth(): {
 		value: boolean;
 	}) => Promise<AxiosResponse>;
 	handleResendVerification: (args: string) => Promise<AxiosResponse>;
+	handleUpdateImage: (args: ImageUrl) => Promise<AxiosResponse>;
 } {
 	const handleSignup = async (
 		userData: Partial<SignupFormState>
@@ -50,7 +52,10 @@ export default function useAuth(): {
 	};
 
 	const handleUpdateUser = async (updatedData: FormData) => {
-		const updatedUser = await customAxios(true).put("user/update", updatedData);
+		const updatedUser = await customAxios(false).put(
+			"user/update",
+			updatedData
+		);
 
 		return updatedUser;
 	};
@@ -93,11 +98,22 @@ export default function useAuth(): {
 			email_token: emailToken,
 		});
 
+		console.log(isVerify);
+
 		return isVerify;
 	};
+
 	const handleResendVerification = async (email: string) => {
 		const response = await customAxios().post("/user/verify-resend", {
 			email,
+		});
+
+		return response;
+	};
+
+	const handleUpdateImage = async (image: ImageUrl) => {
+		const response = await customAxios().patch("/user/upload", {
+			image,
 		});
 
 		return response;
@@ -114,5 +130,6 @@ export default function useAuth(): {
 		handleUserReports,
 		handleVerifyUser,
 		handleResendVerification,
+		handleUpdateImage,
 	};
 }

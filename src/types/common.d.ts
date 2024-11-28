@@ -106,3 +106,8 @@ export interface Tenant {
 	contact: string;
 	move_in_date: string;
 }
+
+export type ImageUrl = {
+	url: string;
+	public_id: string;
+};

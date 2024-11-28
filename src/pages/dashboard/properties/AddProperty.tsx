@@ -2,12 +2,12 @@ import PropertyForm from "../../../components/dashboard/property/PropertyForm";
 import { useEffect, useState } from "react";
 import { setTitle } from "../../../redux/slices/app";
 import { useDispatch, useSelector } from "react-redux";
-import { addPropertySchema } from "../../../utils/schemas/properties";
+import { propertySchema } from "../../../utils/schemas/properties";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useProperty from "../../../hooks/useProperty";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { CustomModal } from "../../../components/ui/Modal";
-import { AddPropertyFormState } from "../../../types/forms";
+import { PropertyFormState } from "../../../types/forms";
 import { RootState } from "../../../redux/store";
 import { resetPropertyForm } from "../../../redux/slices/forms/propertyForm";
 import { Helmet } from "react-helmet-async";
@@ -26,7 +26,9 @@ function AddProperty() {
 	const [formKey, setFormKey] = useState(new Date().toISOString());
 
 	const mutation = useMutation({
+		mutationKey: ["add_property"],
 		mutationFn: async (variables: FormData) => {
+			console.log({ images: variables.get("images") });
 			return await addProperty(variables);
 		},
 		onSuccess: () => {
@@ -36,6 +38,7 @@ function AddProperty() {
 			return;
 		},
 		onError: (error: AxiosError) => {
+			console.log(error);
 			if (error.response?.data) {
 				return toast.error(
 					(error.response.data as { message: string }).message
@@ -45,18 +48,17 @@ function AddProperty() {
 		},
 	});
 
-	const handleAddProperty = (data: AddPropertyFormState) => {
+	const handleAddProperty = (data: PropertyFormState) => {
 		const formData = new FormData();
 
 		Object.entries(data).forEach(([key, val]) => {
-			if (key === "images") {
-				Array.from(val).forEach((file) => {
-					if (file instanceof File) {
-						formData.append("images", file);
-					}
+			if (key === "images" && Array.isArray(val)) {
+				val.forEach((image) => {
+					formData.append(`images[]`, JSON.stringify(image));
 				});
-			} else if (val !== undefined) {
-				formData.append(key, val);
+				return;
+			} else {
+				formData.append(key, val as string);
 			}
 		});
 
@@ -82,10 +84,10 @@ function AddProperty() {
 			<div className="rounded-md shadow-lg shadow-dark py-5 px-5 lg:px-10 h-full w-full">
 				<PropertyForm
 					key={formKey}
-					schema={addPropertySchema}
+					schema={propertySchema}
 					onFormSubmit={handleAddProperty}
 					isLoading={mutation.isPending}
-					formDefaultValue={initialState}
+					formDefaultValue={initialState ? initialState : undefined}
 				/>
 				<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
 					<SuccessModal

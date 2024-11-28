@@ -1,9 +1,11 @@
+import { ImageUrl } from "./common";
+
 export interface User {
 	_id: string;
 	name: string;
 	email: string;
 	company: string;
-	image_url: string | null;
+	image: ImageUrl;
 	phone: string | null;
 	role: "USER" | "ADMIN";
 	updatedAt: string;

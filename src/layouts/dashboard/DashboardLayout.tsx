@@ -82,7 +82,7 @@ const DashboardLayout: FC = () => {
 						<Sidebar
 							isSidebarOpen={isSidebarOpen}
 							name={user?.name}
-							image_uri={user?.image_url as string | undefined}
+							image_uri={user?.image.url as string | undefined}
 							onSidebarClose={toggleSidebar}
 						/>
 					</motion.div>

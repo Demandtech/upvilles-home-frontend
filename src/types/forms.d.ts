@@ -1,3 +1,4 @@
+import { ImageUrl } from './common';
 export interface LoginFormState {
 	email: string;
 	password: string;
@@ -19,20 +20,20 @@ export interface ChangePasswordFormState {
 	confirm_password: string;
 }
 
-export interface AddPropertyFormState {
+export interface PropertyFormState {
 	street: string;
 	description: string;
 	attraction?: string;
-	images?: File[];
+	images: ImageUrl[];
 	title: string;
 	location: string;
 	property_type: string;
 	unit_number: string;
 }
 
-export interface EditPropertyFormState extends AddPropertyFormState {
-	images_url?: string[];
-}
+// export interface EditPropertyFormState extends AddPropertyFormState {
+	// images_url?: string[];
+// }
 
 export interface TenantFormState {
 	name: string;

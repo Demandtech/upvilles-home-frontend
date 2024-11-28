@@ -10,6 +10,8 @@ function Assistance({
 	startChat: boolean;
 	setStartChat: Dispatch<SetStateAction<boolean>>;
 }) {
+
+
 	return (
 		<div className="flex items-center gap-10 bg-white rounded-xl py-10 px-5 md:px-10 shadow-lg shadow-default-100 ">
 			<div className="flex flex-col gap-5 md:gap-8">
