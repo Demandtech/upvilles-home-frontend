@@ -13,6 +13,7 @@ export default function useSupport(): {
 		arg2: number,
 		arg3: number
 	) => Promise<AxiosResponse>;
+	endChat: (arg: string) => Promise<AxiosResponse>;
 } {
 	const createSupportChat = async ({
 		img,
@@ -41,5 +42,14 @@ export default function useSupport(): {
 		return resp;
 	};
 
-	return { createSupportChat, allMessages };
+	const endChat = async (session_id: string) => {
+		console.log(session_id)
+		const resp = await customAxios(false).get(
+			`/supports/end_chat/${session_id}`
+		);
+
+		return resp;
+	};
+
+	return { createSupportChat, allMessages, endChat };
 }

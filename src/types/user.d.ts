@@ -1,4 +1,5 @@
 import { ImageUrl } from "./common";
+import { SessionId } from "./support";
 
 export interface User {
 	_id: string;
@@ -13,12 +14,7 @@ export interface User {
 	verifiedAt: string | null;
 	unread_notifications: boolean;
 	settings: Settings;
-	current_support_session: {
-		_id: string;
-		active: boolean;
-		admin: User;
-		user: User;
-	};
+	current_support_session: SessionId | null;
 }
 
 export interface Stats {
