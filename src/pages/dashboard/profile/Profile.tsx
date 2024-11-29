@@ -162,7 +162,7 @@ function Profile() {
 				<div className="flex flex-col items-center gap-4">
 					<div className="relative">
 						<Avatar
-							src={(newImgUrl as string) || (user?.image.url as string)}
+							src={(newImgUrl as string) || (user?.image?.url as string)}
 							color="primary"
 							size="lg"
 							style={{
