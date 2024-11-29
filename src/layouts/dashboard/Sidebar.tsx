@@ -54,7 +54,7 @@ const Sidebar = ({
         <Image src={whitelogo} className="w-28 sm:w-36" />
       </div>
       <div className="flex items-center flex-col">
-        <div className="relative h-20 w-20 sm:w-24 sm:h-24 rounded-full">
+        <div className="relative h-20 w-20 rounded-full">
           <Avatar
             src={image_uri}
             color="default"

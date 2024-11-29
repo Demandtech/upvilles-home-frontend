@@ -13,6 +13,12 @@ export interface User {
 	verifiedAt: string | null;
 	unread_notifications: boolean;
 	settings: Settings;
+	current_support_session: {
+		_id: string;
+		active: boolean;
+		admin: User;
+		user: User;
+	};
 }
 
 export interface Stats {

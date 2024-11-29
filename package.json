@@ -22,6 +22,7 @@
     "@nextui-org/modal": "^2.0.41",
     "@nextui-org/navbar": "^2.0.37",
     "@nextui-org/pagination": "^2.0.36",
+    "@nextui-org/progress": "^2.0.34",
     "@nextui-org/select": "^2.2.7",
     "@nextui-org/skeleton": "^2.0.32",
     "@nextui-org/spinner": "^2.0.34",
@@ -48,6 +49,7 @@
     "react-router-dom": "^6.27.0",
     "react-toastify": "^10.0.6",
     "redux-persist": "^6.0.0",
+    "socket.io-client": "^4.8.1",
     "yup": "^1.4.0"
   },
   "devDependencies": {

@@ -8,6 +8,7 @@ import { RootState } from "../../redux/store";
 import { motion } from "framer-motion";
 import { ArrowBack } from "../../components/svgs";
 import Button from "../../components/ui/Button";
+import socket from "../../../configs/socket";
 
 const DashboardLayout: FC = () => {
 	const navigate = useNavigate();
@@ -37,6 +38,18 @@ const DashboardLayout: FC = () => {
 			setIsSidebarOpen(false);
 		}
 	}, [windowWidth]);
+
+	useEffect(() => {
+		if (!user) return;
+
+		socket.on("connect", () =>
+			socket.emit("client-connected", { user_id: user._id })
+		);
+
+		return () => {
+			socket.off("connect");
+		};
+	}, [user]);
 
 	return (
 		<main

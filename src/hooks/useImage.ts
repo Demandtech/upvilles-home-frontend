@@ -1,5 +1,6 @@
 import axios, { AxiosProgressEvent } from "axios";
 import { Dispatch, SetStateAction } from "react";
+import customAxios from "../../configs/axios";
 
 export default function useImage() {
 	const uploadImage = async (
@@ -26,11 +27,18 @@ export default function useImage() {
 							}
 					  }
 					: () => {},
-				
 			}
 		);
 		return response.data;
 	};
 
-	return { uploadImage };
+	const deleteImage = async (public_id: string) => {
+		const response = await customAxios(false).delete(
+			`supports/message/image/${public_id}`
+		);
+
+		return response;
+	};
+
+	return { uploadImage, deleteImage };
 }
