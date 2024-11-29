@@ -38,7 +38,7 @@ function Profile() {
 	const { user } = useSelector((state: RootState) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const [newImgUrl, setNewImgUrl] = useState(user?.image.url);
+	const [newImgUrl, setNewImgUrl] = useState(user?.image?.url);
 	const queryClient = useQueryClient();
 	const { handleUpdateUser, handleUpdateImage } = useAuth();
 	const { onOpen, onOpenChange, onClose, isOpen } = useDisclosure();
