@@ -2,7 +2,6 @@ import { Select, SelectItem } from "@nextui-org/select";
 import { memo } from "react";
 import { SelectProps } from "../../types/common";
 
-
 function App({
 	register,
 	data = [],
@@ -12,15 +11,18 @@ function App({
 	size = "md",
 	defaultValue,
 	isLoading = false,
+	isRequired,
 }: SelectProps) {
 	return (
 		<div className="w-full">
-			{label && (
+			{/* {label && (
 				<label className="mb-1 block text-sm" htmlFor="select">
 					{label}
 				</label>
-			)}
+			)} */}
 			<Select
+				labelPlacement="outside"
+				label={label}
 				id="select"
 				size={size}
 				className="w-full"
@@ -32,6 +34,7 @@ function App({
 				isInvalid={!!error}
 				defaultSelectedKeys={[defaultValue]}
 				isLoading={isLoading}
+				isRequired={isRequired}
 			>
 				{data.map((item: { key: string; label: string }) => {
 					return (

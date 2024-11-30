@@ -11,6 +11,7 @@ export default function DateInput({
 	setValue,
 	defaultValue,
 	size,
+	isRequired,
 }: DateProps) {
 	return (
 		<DatePicker
@@ -28,6 +29,7 @@ export default function DateInput({
 			defaultValue={
 				defaultValue && parseDate(moment(defaultValue).format("YYYY-MM-DD"))
 			}
+			isRequired={isRequired}
 			size={size}
 		/>
 	);

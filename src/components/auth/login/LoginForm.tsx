@@ -75,8 +75,11 @@ const LoginForm: FC = () => {
 	return (
 		<form className="mt-10 space-y-8" onSubmit={handleSubmit(submitForm)}>
 			<div>
-				<div className="space-y-4">
+				<div className="flex flex-col gap-5">
 					<Input
+						classNames={{
+							label: "!text-white",
+						}}
 						label="Email Address"
 						size="lg"
 						placeholder="Enter your your email"
@@ -89,6 +92,9 @@ const LoginForm: FC = () => {
 					/>
 
 					<Input
+						classNames={{
+							label: "!text-white",
+						}}
 						name="password"
 						label="Password"
 						size="lg"

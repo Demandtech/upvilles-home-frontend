@@ -120,6 +120,9 @@ const SignupForm: FC = () => {
 							error={errors.name?.message}
 							type="text"
 							defaultValue={formData.name}
+							classNames={{
+								label: "!text-white",
+							}}
 						/>
 						<Input
 							label="Email Address"
@@ -131,6 +134,9 @@ const SignupForm: FC = () => {
 							error={errors.email?.message}
 							type="text"
 							defaultValue={formData.email}
+							classNames={{
+								label: "!text-white",
+							}}
 						/>
 						<Input
 							label="Phone number"
@@ -141,6 +147,9 @@ const SignupForm: FC = () => {
 							error={errors.phone?.message}
 							type="text"
 							defaultValue={formData.phone as string}
+							classNames={{
+								label: "!text-white",
+							}}
 						/>
 						<Input
 							required
@@ -152,8 +161,14 @@ const SignupForm: FC = () => {
 							error={errors.company?.message}
 							type="text"
 							defaultValue={formData.company as string}
+							classNames={{
+								label: "!text-white",
+							}}
 						/>
 						<Input
+							classNames={{
+								label: "!text-white",
+							}}
 							name="password"
 							label="Password"
 							size="lg"
@@ -204,6 +219,9 @@ const SignupForm: FC = () => {
 									)}
 								</Button>
 							}
+							classNames={{
+								label: "!text-white",
+							}}
 						/>
 					</div>
 					<div className="mt-3">

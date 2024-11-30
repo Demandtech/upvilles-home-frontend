@@ -30,11 +30,11 @@ export const tenantSchema = yup.object().shape({
     .required("Lease/Rent end date required!"),
   rent_paid: yup
     .string()
-    .required("Rent paid fee is required")
-    .matches(
-      /^(\d{1,3})(?:,\d{3})*(\.\d{1,2})?$/,
-      "Rent paid must be a valid number"
-    ),
+    .required("Rent paid fee is required"),
+    // .matches(
+    //   /^(\d{1,3})(?:,\d{3})*(\.\d{1,2})?$/,
+    //   "Rent paid must be a valid number"
+    // ),
   balance: yup
     .string()
     .nonNullable()

@@ -29,7 +29,11 @@ export default function UpdateMaintenance() {
 		onClose();
 		navigate(-1);
 	};
-	const { data: singleMaintenance, isSuccess } = useQuery({
+	const {
+		data: singleMaintenance,
+		isSuccess,
+		isLoading,
+	} = useQuery({
 		queryKey: ["single_maintenance", id],
 		queryFn: () => singleMaintenanceHandler(id as string),
 		enabled: !!id,
@@ -58,8 +62,6 @@ export default function UpdateMaintenance() {
 	useEffect(() => {
 		if (isSuccess && singleMaintenance) {
 			dispatch(setMaintenanceDetails(singleMaintenance.data));
-
-			console.log(singleMaintenance);
 		}
 	}, [isSuccess, singleMaintenance]);
 
@@ -71,26 +73,25 @@ export default function UpdateMaintenance() {
 				<title>Upvillehomes | Update Maintenance - Dashboard</title>
 			</Helmet>
 			<div className="bg-white rounded-md shadow-lg shadow-dark py-5 px-5 lg:px-10 h-full w-full overflow-auto scrollbar-hide">
-				{singleMaintenance && singleMaintenance.data && (
-					<MaintenanceForm
-						editedId={id}
-						onFormSubmit={onFormSubmit}
-						isLoading={mutation.isPending}
-						formDefaultValue={{
-							facility: singleMaintenance?.data.facility,
-							status: singleMaintenance?.data.status,
-							maintenance_fee: formatCurrency(
-								singleMaintenance?.data.maintenance_fee
-							),
-							technician: singleMaintenance?.data.technician,
-							property: singleMaintenance?.data.property,
+				<MaintenanceForm
+					isPageLoading={isLoading}
+					editedId={id}
+					onFormSubmit={onFormSubmit}
+					isLoading={mutation.isPending}
+					formDefaultValue={{
+						facility: singleMaintenance?.data.facility,
+						status: singleMaintenance?.data.status,
+						maintenance_fee: formatCurrency(
+							singleMaintenance?.data.maintenance_fee
+						),
+						technician: singleMaintenance?.data.technician,
+						property: singleMaintenance?.data.property,
 
-							schedule_date: moment(
-								singleMaintenance?.data.schedule_date
-							).format("YYYY-MM-DD") as unknown as Date,
-						}}
-					/>
-				)}
+						schedule_date: moment(singleMaintenance?.data.schedule_date).format(
+							"YYYY-MM-DD"
+						) as unknown as Date,
+					}}
+				/>
 			</div>
 			<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
 				<SuccessModal

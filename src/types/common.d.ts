@@ -1,6 +1,7 @@
 import { SVGProps, ChangeEvent } from "react";
 import { FieldValue, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { DatePickerProps } from "@nextui-org/date-picker";
+import { SlotsToClasses } from "@nextui-org/theme";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
 	size?: number;
@@ -51,6 +52,7 @@ export interface InputProps<TFieldValues extends FieldValues = FieldValues> {
 	value?: string;
 	onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 	defaultValue: string;
+	classNames?: SlotsToClasses;
 }
 
 export interface SelectProps<TFieldValues extends FieldValues = FieldValue> {
@@ -62,6 +64,7 @@ export interface SelectProps<TFieldValues extends FieldValues = FieldValue> {
 	size?: "sm" | "md" | "lg";
 	defaultValue: string;
 	isLoading?: boolean;
+	isRequired?: boolean;
 }
 
 export interface DateProps<TFieldValues extends FieldValue = FieldValue> {
@@ -72,6 +75,7 @@ export interface DateProps<TFieldValues extends FieldValue = FieldValue> {
 	error?: string | null;
 	setValue: UseFormSetValue;
 	defaultValue: DateValue;
+	isRequired?: boolean;
 }
 
 export interface TableColumnType {

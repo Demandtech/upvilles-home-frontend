@@ -17,9 +17,11 @@ import { updatePropertyForm } from "../../../redux/slices/forms/propertyForm";
 import { ImageUrl } from "../../../types/common";
 import { Image } from "@nextui-org/image";
 import useImage from "../../../hooks/useImage";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import useProperty from "../../../hooks/useProperty";
+import isEqual from "lodash/isEqual";
+import { Textarea } from "@nextui-org/input";
 
 const typesData = [
 	{ key: "Residential", label: "Residential" },
@@ -50,7 +52,6 @@ const PropertyForm = ({
 		defaultValues: formDefaultValue,
 	});
 	const dispatch = useDispatch();
-	const queryClient = useQueryClient();
 	const [imagesUrl, setImagesUrl] = useState<ImageUrl[]>(
 		formDefaultValue && formDefaultValue.images?.length > 0
 			? formDefaultValue?.images
@@ -59,6 +60,7 @@ const PropertyForm = ({
 	const [uploadProgress, setUploadProgress] = useState<number>(100);
 	const { uploadImage } = useImage();
 	const { deletePropertyImage } = useProperty();
+	const [isDirty, setIsDirty] = useState(false);
 
 	const uploadImageMutation = useMutation({
 		mutationFn: ({
@@ -69,9 +71,7 @@ const PropertyForm = ({
 			setUploadProgress: Dispatch<SetStateAction<number>>;
 		}) => uploadImage(formData, setUploadProgress),
 		onSuccess: (res) => {
-			console.log(res);
 			setImagesUrl((prev) => {
-				console.log(prev);
 				const previousImages = prev.filter((item) => item.public_id);
 				return [...previousImages, { url: res.url, public_id: res.public_id }];
 			});
@@ -90,16 +90,8 @@ const PropertyForm = ({
 			publicId: string;
 			propertyId: string;
 		}) => deletePropertyImage(publicId, propertyId),
-		onSuccess: () => {
-			if (id) {
-				queryClient.invalidateQueries({ queryKey: ["single_property", id] });
-			}
-			// setImagesUrl((prev)=> prev.filter())
-		},
-		onError: (error: AxiosError) => {
-			console.log(error);
-			toast.error(error.message);
-		},
+
+		onError: (error: AxiosError) => toast.error(error.message),
 	});
 
 	const handleImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -126,8 +118,8 @@ const PropertyForm = ({
 		}
 	};
 
-	const handleDelete = (imageInput: ImageUrl) =>
-		deleteImageMutation.mutate(
+	const handleDelete = (imageInput: ImageUrl) => {
+		return deleteImageMutation.mutate(
 			{
 				publicId: imageInput.public_id,
 				propertyId: id as string,
@@ -141,7 +133,7 @@ const PropertyForm = ({
 				},
 			}
 		);
-
+	};
 	const watchFields = watch();
 
 	useEffect(() => {
@@ -158,7 +150,12 @@ const PropertyForm = ({
 						value: val as keyof PropertyFormState,
 					})
 				);
+
+				setIsDirty(false);
 			});
+		}
+		if (id) {
+			setIsDirty(isEqual(formDefaultValue, watchFields));
 		}
 	}, [watchFields, id, formDefaultValue]);
 
@@ -245,24 +242,37 @@ const PropertyForm = ({
 					</div>
 					<div className="space-y-5">
 						<div>
-							<label className="block mb-1.5">
+							<label
+								className={`${errors.images ? "text-danger" : ""} block mb-1.5`}
+							>
 								Property image(s)
-								<span className="font-light text-xs text-darkGrey">
+								<span
+									className={`font-light text-xs ${
+										errors.images ? "text-danger" : "text-darkGrey"
+									} `}
+								>
 									(Minimum of 4 pictures & Maximum of 12 pictures)
 								</span>
 								:
 							</label>
 
-							<div className="border-2 bg-[#A4A4A41A] py-5 rounded-md border-darkGrey border-dotted w-full block">
-								<label className="" htmlFor="img-upload">
+							<div
+								className={`border-2  ${
+									errors.images
+										? "border-transparent bg-[#fee7ef]"
+										: "border-darkGrey bg-[#A4A4A41A]"
+								}   py-5 rounded-md  border-dotted w-full block`}
+							>
+								<label htmlFor="img-upload">
 									<input
 										type="file"
 										id="img-upload"
-										hidden
 										accept="image/jpeg,image/png,image/jpg"
 										multiple
+										hidden
 										name="images"
 										onChange={handleImageChange}
+										disabled={uploadImageMutation.isPending}
 									/>
 									<div className="flex flex-col gap-1 items-center">
 										<FileUpload />
@@ -278,7 +288,7 @@ const PropertyForm = ({
 								<div
 									style={{
 										display: "grid",
-										gridTemplateColumns: `repeat(auto-fit, minmax(70px, 1fr))`,
+										gridTemplateColumns: `repeat(auto-fit, minmax(70px, 80px))`,
 										gap: 5,
 									}}
 									className="mt-4"
@@ -318,22 +328,31 @@ const PropertyForm = ({
 							)}
 						</div>
 						<div>
-							<label htmlFor="description" className="block mb-1.5">
-								Property Description:
-							</label>
-							<textarea
-								className="bg-[#A4A4A41A] p-3 rounded-md w-full resize-none min-h-[100px]"
+							<Textarea
+								className="p-3 rounded-md w-full resize-none min-h-[100px]"
 								id="description"
 								placeholder="Enter description"
 								{...register("description")}
-							></textarea>
-							{errors.description && (
-								<p className="text-danger text-xs">
-									{errors.description?.message as string | undefined}
-								</p>
-							)}
+								aria-label="Property Description"
+								aria-required="true"
+								label="Property Description:"
+								labelPlacement="outside"
+								isInvalid={!!errors.description}
+								errorMessage={errors.description?.message}
+								classNames={{
+									mainWrapper: "p-0",
+									base: "!p-0",
+								}}
+								isRequired
+								radius="sm"
+							/>
 						</div>
-						<Button isLoading={isLoading} type="submit" className="w-full">
+						<Button
+							disabled={isDirty}
+							isLoading={isLoading}
+							type="submit"
+							className="w-full"
+						>
 							{id ? "Edit" : "Add"} Property Details
 						</Button>
 					</div>

@@ -39,7 +39,7 @@ export default function EditTenant() {
 		onClose();
 	};
 
-	const { data: editTenant } = useQuery<AxiosResponse, Error>({
+	const { data: editTenant, isLoading } = useQuery<AxiosResponse, Error>({
 		queryKey: ["single_tenant", id],
 		queryFn: () => singleTenantHandler(id as string),
 		enabled: !!id,
@@ -66,7 +66,7 @@ export default function EditTenant() {
 	const handleDefaultCurrency = useCallback(
 		(number: number) => {
 			if (!number) return;
-			
+
 			const str = number?.toString().split(".");
 
 			if (str && str?.length > 1) {
@@ -86,27 +86,28 @@ export default function EditTenant() {
 				<title>Upvillehomes | Add Tenant</title>
 			</Helmet>
 			<div className="bg-white rounded-md shadow-lg shadow-dark p-3 lg:p-5 h-full w-full overflow-auto scrollbar-thin scrollbar-rounded">
-				{editTenant && (
+				{/* {editTenant && ( */}
 					<TenantForm
+						isPageLoading={isLoading}
 						key={formKey}
 						formDefaultValue={{
 							name: editTenant?.data.name as string,
 							assigned_property: editTenant?.data.assigned_property._id,
 							assigned_unit: editTenant?.data.assigned_unit,
 							phone: editTenant?.data.phone,
-							start_date: editTenant.data.start_date,
-							end_date: editTenant.data.end_date,
+							start_date: editTenant?.data.start_date,
+							end_date: editTenant?.data.end_date,
 							rent_paid: handleDefaultCurrency(
-								editTenant.data.rent_paid
+								editTenant?.data.rent_paid
 							) as string,
-							balance: handleDefaultCurrency(editTenant.data.balance) as string,
+							balance: handleDefaultCurrency(editTenant?.data.balance) as string,
 						}}
 						schema={tenantSchema}
 						onSubmit={handleEditTenant}
 						isLoading={mutation.isPending}
 						id={id as string}
 					/>
-				)}
+				{/* )} */}
 			</div>
 			<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
 				<SuccessModal

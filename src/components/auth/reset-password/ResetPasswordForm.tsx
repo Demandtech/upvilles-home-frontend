@@ -28,6 +28,9 @@ const ResetPasswordForm = () => {
 		>
 			<div className="w-full space-y-5">
 				<Input
+					classNames={{
+						label: "!text-white",
+					}}
 					label="Email Address"
 					size="lg"
 					placeholder="Enter your your email"

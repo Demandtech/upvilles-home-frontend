@@ -57,13 +57,16 @@ export default function useProperty(): {
 	};
 	const deletePropertyImage = async (
 		public_id: string,
-		property_id: string
+		property_id?: string
 	) => {
-		const res = await customAxios(false).delete(
-			`/properties/images/${public_id}/${property_id}`
-		);
+		let url = `/properties/images/${public_id}`;
 
-		console.log(res);
+		if (property_id) {
+			url += `?property_id=${property_id}`;
+		}
+
+		const res = await customAxios(false).delete(url);
+
 		return res;
 	};
 	return {
