@@ -2,7 +2,7 @@ import Button from "../../ui/Button";
 import { FC, useState, useEffect } from "react";
 import Input from "../../ui/Input";
 import { Link, useNavigate } from "react-router-dom";
-import { loginSchema } from "../../../utils/schemas/auth";
+import { loginSchema } from "../../../schemas/auth";
 import { useForm, yupResolver, toast } from "../../../../configs/services";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "../../svgs";
 import {

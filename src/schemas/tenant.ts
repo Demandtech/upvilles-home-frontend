@@ -1,4 +1,4 @@
-import { yup } from "../../../configs/services";
+import { yup } from "../../configs/services";
 
 export const tenantSchema = yup.object().shape({
   name: yup.string().required("Tenant name is required!"),

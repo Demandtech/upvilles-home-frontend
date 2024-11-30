@@ -1,7 +1,7 @@
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
 import { Link, useNavigate } from "react-router-dom";
-import { resetPasswordSchema } from "../../../utils/schemas/auth";
+import { resetPasswordSchema } from "../../../schemas/auth";
 import { useForm, yupResolver } from "../../../../configs/services";
 import { useState } from "react";
 

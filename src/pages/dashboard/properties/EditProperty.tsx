@@ -3,7 +3,7 @@ import PropertyForm from "../../../components/dashboard/property/PropertyForm";
 import { useEffect } from "react";
 import { setTitle } from "../../../redux/slices/app";
 import { useDispatch } from "react-redux";
-import { propertySchema } from "../../../utils/schemas/properties";
+import { propertySchema } from "../../../schemas/properties";
 import {
 	useQuery,
 	useMutation,

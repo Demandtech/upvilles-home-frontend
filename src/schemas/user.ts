@@ -1,4 +1,4 @@
-import { yup } from "../../../configs/services";
+import { yup } from "../../configs/services";
 
 export const changePasswordSchema: yup.ObjectSchema<{
 	new_password: string;

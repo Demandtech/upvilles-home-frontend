@@ -1,5 +1,5 @@
-import { yup } from "../../../configs/services";
-import { PropertyFormState } from "../../types/forms";
+import { yup } from "../../configs/services";
+import { PropertyFormState } from "../types/forms";
 
 export const propertySchema: yup.ObjectSchema<PropertyFormState> = yup
 	.object()

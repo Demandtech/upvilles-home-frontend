@@ -2,7 +2,7 @@ import PropertyForm from "../../../components/dashboard/property/PropertyForm";
 import { useEffect, useState } from "react";
 import { setTitle } from "../../../redux/slices/app";
 import { useDispatch, useSelector } from "react-redux";
-import { propertySchema } from "../../../utils/schemas/properties";
+import { propertySchema } from "../../../schemas/properties";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useProperty from "../../../hooks/useProperty";
 import { useDisclosure } from "@nextui-org/use-disclosure";

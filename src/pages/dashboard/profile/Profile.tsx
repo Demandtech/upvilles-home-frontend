@@ -14,25 +14,17 @@ import { Input } from "@nextui-org/input";
 import { toast, useForm, yupResolver } from "../../../../configs/services";
 import Button from "../../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
-import { updateProfileSchema } from "../../../utils/schemas/user";
+import { updateProfileSchema } from "../../../schemas/user";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
-import { AxiosError } from "axios";
 import { CustomModal } from "../../../components/ui/Modal";
 import SuccessModal from "../../../components/common/SuccessModal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import useImage from "../../../hooks/useImage";
 import { ImageUrl } from "../../../types/common";
 import { Spinner } from "@nextui-org/spinner";
-
-const handleMutationError = (error: AxiosError) => {
-	console.log(error);
-	toast.error(
-		error.response?.data
-			? (error.response.data as { message: string }).message
-			: "An error occurred, please try again"
-	);
-};
+import handleMutationError from "../../../utils/handleMutationError";
+import { CircularProgress } from "@nextui-org/progress";
 
 function Profile() {
 	const { user } = useSelector((state: RootState) => state.user);
@@ -68,10 +60,6 @@ function Profile() {
 
 		if (files?.length) {
 			const imageFile = files[0];
-
-			const imagePreviewUrl = URL.createObjectURL(imageFile);
-
-			setNewImgUrl(imagePreviewUrl);
 
 			const formData = new FormData();
 
@@ -113,9 +101,12 @@ function Profile() {
 	});
 
 	const updateUserImageMutation = useMutation({
-		mutationKey: ["chaneg_profile_photo"],
+		mutationKey: ["change_profile_photo"],
 		mutationFn: (img: ImageUrl) => handleUpdateImage(img),
-		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
+		onSuccess: () => {
+			toast.success("Image successfully updated!");
+			queryClient.invalidateQueries({ queryKey: ["authUser"] });
+		},
 		onError: handleMutationError,
 	});
 
@@ -160,16 +151,26 @@ function Profile() {
 		<div className="px-3 md:px-5 py-5 bg-lightBg min-h-[calc(100dvh-70px)] lg:min-h-[calc(100dvh-86px)]">
 			<div className="bg-white px-5 py-10 rounded-xl shadow-lg shadow-default-100 h-full w-full">
 				<div className="flex flex-col items-center gap-4">
-					<div className="relative">
-						<Avatar
-							src={(newImgUrl as string) || (user?.image?.url as string)}
-							color="primary"
-							size="lg"
-							style={{
-								opacity: uploadProgress,
-							}}
-							className={`opacity-${uploadProgress} w-20 h-20`}
-						/>
+					<div className="relative min-h-20 min-w-20 flex items-center justify-center">
+						{updateUserImageMutation.isPending || uploadProgress < 100 ? (
+							<CircularProgress
+								showValueLabel={true}
+								aria-label="Loading..."
+								value={uploadProgress}
+								size="lg"
+								color="warning"
+								minValue={0}
+								maxValue={100}
+							/>
+						) : (
+							<Avatar
+								src={(newImgUrl as string) || (user?.image?.url as string)}
+								color="primary"
+								size="lg"
+								className={`w-20 h-20`}
+							/>
+						)}
+
 						<div className="absolute shadow-sm bg-[#003566] p-2 -right-4 bottom-2 rounded-full">
 							<label className="block cursor-pointer" htmlFor="profile_image">
 								<CameraIcon className="text-white w-5 h-5" size={10} />

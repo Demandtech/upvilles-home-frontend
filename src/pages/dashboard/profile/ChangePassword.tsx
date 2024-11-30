@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Input } from "@nextui-org/input";
 import { useForm, yupResolver, toast } from "../../../../configs/services";
 import Button from "../../../components/ui/Button";
-import { changePasswordSchema } from "../../../utils/schemas/user";
+import { changePasswordSchema } from "../../../schemas/user";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import { AxiosError } from "axios";

@@ -3,7 +3,7 @@ import { setTitle } from "../../../redux/slices/app";
 import { Helmet } from "react-helmet-async";
 import { useDispatch } from "react-redux";
 import TenantForm from "../../../components/dashboard/tenant/TenantForm";
-import { tenantSchema } from "../../../utils/schemas/tenant";
+import { tenantSchema } from "../../../schemas/tenant";
 import { TenantFormState } from "../../../types/forms";
 import { CustomModal } from "../../../components/ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";

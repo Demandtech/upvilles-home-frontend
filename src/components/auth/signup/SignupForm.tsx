@@ -3,7 +3,7 @@ import Button from "../../ui/Button";
 import Input from "../../ui/Input";
 import { Checkbox } from "@nextui-org/checkbox";
 import { Link, useNavigate } from "react-router-dom";
-import { signupSchema } from "../../../utils/schemas/auth";
+import { signupSchema } from "../../../schemas/auth";
 import { toast, useForm, yupResolver } from "../../../../configs/services";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "../../svgs";
 import { SignupFormState } from "../../../types/forms";

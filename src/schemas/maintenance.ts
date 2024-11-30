@@ -1,4 +1,4 @@
-import { yup } from "../../../configs/services";
+import { yup } from "../../configs/services";
 
 export const maintenanceSchema = yup.object().shape({
 	status: yup

@@ -2,7 +2,7 @@ import Input from "../../ui/Input";
 import { Input as NextInput } from "@nextui-org/input";
 import Select from "../../ui/Select";
 import { useForm, yupResolver, Controller } from "../../../../configs/services";
-import { maintenanceSchema } from "../../../utils/schemas/maintenance";
+import { maintenanceSchema } from "../../../schemas/maintenance";
 import Button from "../../ui/Button";
 import { MaintenanceFormState } from "../../../types/forms";
 import { useDispatch } from "react-redux";

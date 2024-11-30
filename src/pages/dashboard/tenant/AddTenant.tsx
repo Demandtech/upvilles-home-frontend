@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { setTitle } from "../../../redux/slices/app";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
-import { tenantSchema } from "../../../utils/schemas/tenant";
+import { tenantSchema } from "../../../schemas/tenant";
 import { RootState } from "../../../redux/store";
 import { TenantFormState } from "../../../types/forms";
 import { resetTenantForm } from "../../../redux/slices/forms/tenantForm";
