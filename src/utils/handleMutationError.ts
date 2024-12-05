@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { toast } from "../../configs/services";
 
-const handleMutationError = (error: AxiosError) => {
+const handleError = (error: AxiosError) => {
 	toast.error(
 		error.response?.data
 			? (error.response.data as { message: string }).message
@@ -9,4 +9,4 @@ const handleMutationError = (error: AxiosError) => {
 	);
 };
 
-export default handleMutationError;
+export default handleError;

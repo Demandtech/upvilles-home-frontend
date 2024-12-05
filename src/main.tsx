@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { HelmetProvider } from "react-helmet-async";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import App from "./App";
 import "./index.css";
@@ -18,7 +18,7 @@ createRoot(document.getElementById("root")!).render(
 				<Provider store={store}>
 					<App />
 				</Provider>
-				<ReactQueryDevtools initialIsOpen={false} />
+				{/* <ReactQueryDevtools initialIsOpen={false}/> */}
 			</QueryClientProvider>
 		</HelmetProvider>
 	</StrictMode>

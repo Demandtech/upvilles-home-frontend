@@ -13,8 +13,6 @@ import { PropertyType } from "../../../types/property";
 import { Bar } from "react-chartjs-2";
 import { useCallback, useEffect, useState } from "react";
 import { SharedSelection } from "@nextui-org/system";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
 import useTenant from "../../../hooks/useTenant";
 import { Tenant } from "../../../types/tenant";
 import { formatNaira } from "../../../utils/formatCurrency";
@@ -160,12 +158,9 @@ function RentTrend({ properties = [] }: { properties: PropertyType[] }) {
 		},
 	};
 
-	const { data: tenants, isLoading } = useQuery<AxiosResponse, Error>({
-		queryKey: ["tenants", selectedProperty],
-		queryFn: () =>
-			allTenantsHandler(selectedProperty?._id as string, 1, "", "", 20),
-		enabled: !!selectedProperty?._id,
-	} as UseQueryOptions<AxiosResponse, Error>);
+	const { data: tenants, isLoading } = allTenantsHandler(
+		selectedProperty?._id as string
+	);
 
 	const labels = tenants?.data?.tenants?.map(
 		(tenant: Tenant) => `Unit ${tenant.assigned_unit}`

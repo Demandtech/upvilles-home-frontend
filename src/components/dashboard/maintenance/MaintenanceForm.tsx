@@ -9,11 +9,11 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { updateMaintenanceForm } from "../../../redux/slices/forms/maintenanceForm";
 import useProperty from "../../../hooks/useProperty";
-import { useQuery } from "@tanstack/react-query";
 import DateInput from "../../ui/DatePicker";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { isEqual } from "lodash";
 import { Spinner } from "@nextui-org/spinner";
+import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
 
 const data = [
 	{ key: "overdue", label: "Overdue" },
@@ -47,13 +47,26 @@ function MaintenanceForm({
 		resolver: yupResolver(maintenanceSchema),
 		defaultValues: formDefaultValue,
 	});
+	const [page, setPage] = useState(1);
+	const [isOpen, setIsOpen] = useState(true);
+	let search = "";
+	let limit = 3;
+
+	const { data: propertiesData, isLoading: isPropertiesLoading } =
+		allProperties(page, search, limit);
+
+
+	const [, scrollerRef] = useInfiniteScroll({
+		hasMore: propertiesData?.data.meta.total_page > page,
+		isEnabled: isOpen,
+		onLoadMore: () => {
+			setPage((prev) => prev + 1);
+			console.log(page);
+		},
+	});
 
 	const watchFields = watch();
 
-	const { data: properties, isLoading: isPropertiesLoading } = useQuery({
-		queryKey: ["properties"],
-		queryFn: allProperties,
-	});
 	const [isDirty, setIsDirty] = useState(false);
 
 	const handleMaintenanceFeeChange = (value: string) => {
@@ -98,7 +111,6 @@ function MaintenanceForm({
 			);
 		}
 	}, [watchFields.maintenance_fee, setValue]);
-
 
 	return (
 		<>
@@ -147,7 +159,7 @@ function MaintenanceForm({
 								name="property"
 								label="Property:"
 								data={
-									properties?.data?.properties.map(
+									propertiesData?.data?.properties.map(
 										(prop: { _id: string; title: string }) => ({
 											key: prop._id,
 											label: prop.title,
@@ -159,6 +171,8 @@ function MaintenanceForm({
 								register={register}
 								defaultValue={formDefaultValue?.property as string}
 								error={errors.property?.message as string}
+								scrollRef={scrollerRef}
+								setIsOpen={setIsOpen}
 							/>
 							<Controller
 								name="maintenance_fee"

@@ -12,14 +12,12 @@ function App({
 	defaultValue,
 	isLoading = false,
 	isRequired,
+	scrollRef,
+	setIsOpen,
+	variant,
 }: SelectProps) {
 	return (
 		<div className="w-full">
-			{/* {label && (
-				<label className="mb-1 block text-sm" htmlFor="select">
-					{label}
-				</label>
-			)} */}
 			<Select
 				labelPlacement="outside"
 				label={label}
@@ -35,14 +33,16 @@ function App({
 				defaultSelectedKeys={[defaultValue]}
 				isLoading={isLoading}
 				isRequired={isRequired}
+				scrollRef={scrollRef}
+				onOpenChange={setIsOpen}
+				items={data}
+				variant={variant}
 			>
-				{data.map((item: { key: string; label: string }) => {
-					return (
-						<SelectItem color="primary" key={item.key}>
-							{item.label}
-						</SelectItem>
-					);
-				})}
+				{(item) => (
+					<SelectItem color="primary" key={item.key}>
+						{item.label}
+					</SelectItem>
+				)}
 			</Select>
 		</div>
 	);

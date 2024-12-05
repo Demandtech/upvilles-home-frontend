@@ -1,19 +1,21 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setTitle } from "../../../redux/slices/app";
 import { useEffect, useState } from "react";
-import MaintenanceForm from "../../../components/dashboard/maintenance/MaintenanceForm";
+import { AxiosError } from "axios";
 import { Helmet } from "react-helmet-async";
 import { useDisclosure } from "@nextui-org/use-disclosure";
-import { CustomModal } from "../../../components/ui/Modal";
-import SuccessModal from "../../../components/common/SuccessModal";
-import { MaintenanceFormState } from "../../../types/forms";
+import { useDispatch, useSelector } from "react-redux";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useMaintenance from "../../../hooks/useMaintenance";
-import { toast } from "../../../../configs/services";
-import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+
+import MaintenanceForm from "../../../components/dashboard/maintenance/MaintenanceForm";
+import SuccessModal from "../../../components/common/SuccessModal";
+
+import { setTitle } from "../../../redux/slices/app";
+import { CustomModal } from "../../../components/ui/Modal";
+import { MaintenanceFormState } from "../../../types/forms";
+import { toast } from "../../../../configs/services";
 import { RootState } from "../../../redux/store";
 import { resetMaintenanceForm } from "../../../redux/slices/forms/maintenanceForm";
+import { createMaintenance } from "../../../helper/apis/maintenanceApi";
 
 export default function CreateMaintenance() {
 	const dispatch = useDispatch();
@@ -23,13 +25,11 @@ export default function CreateMaintenance() {
 		(state: RootState) => state.maintenanceForm
 	);
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-	const { createMaintenanceHandler } = useMaintenance();
 	const [formKey, setFormKey] = useState(new Date().toISOString());
 
 	const mutation = useMutation({
 		mutationKey: ["create_maintenance"],
-		mutationFn: async (data: MaintenanceFormState) =>
-			createMaintenanceHandler(data),
+		mutationFn: async (data: MaintenanceFormState) => createMaintenance(data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["auth_user"] });
 			queryClient.invalidateQueries({ queryKey: ["maintenances"] });

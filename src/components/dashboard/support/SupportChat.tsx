@@ -34,6 +34,7 @@ import socket from "../../../../configs/socket";
 import { CustomModal } from "../../ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { ModalFooter } from "@nextui-org/modal";
+import handleError from "../../../utils/handleMutationError";
 
 function SupportChat({
 	setStartChat,
@@ -78,9 +79,7 @@ function SupportChat({
 			setMessage({ message: "", img: { url: "", public_id: "" } });
 			queryClient.invalidateQueries({ queryKey: ["authUser"] });
 		},
-		onError: (error: AxiosError) => {
-			console.log(error);
-		},
+		onError: (error: AxiosError) => handleError(error),
 	});
 
 	const uploadImageMutation = useMutation({
@@ -297,36 +296,33 @@ function SupportChat({
 					onSubmit={handleSubmit}
 					className="mt-auto border-t border-[#d2d2d2] bg-[#fcfcfc]"
 				>
-					{(message.img.url || uploadProgress < 100) && (
-						<div className="py-3 pl-5 relative max-w-[120px]">
-							{uploadProgress < 100 && (
-								<CircularProgress
-									showValueLabel={true}
-									aria-label="Upload Progress"
-									value={uploadProgress}
-									size="lg"
-									color="primary"
-								/>
-							)}
-							{uploadProgress === 100 && (
-								<>
-									<Image
-										src={message.img.url}
-										width={100}
-										height={100}
-										className="object-center object-cover"
-									/>
-									<Button
-										onPress={() => handleDelete(message.img.public_id)}
-										variant="flat"
-										className="absolute -right-0 top-3 z-20 bg-default-300 !px-0 min-w-4 max-w-4 h-4 rounded-full"
-									>
-										<CloseIcon className="w-3" />
-									</Button>
-								</>
-							)}
+					{message.img.url && !uploadImageMutation.isPending && (
+						<div className="py-3 pl-5 relative w-full max-w-[100px]">
+							<Image
+								src={message.img.url}
+								width={80}
+								height={80}
+								className="object-center object-cover"
+							/>
+							<Button
+								onPress={() => handleDelete(message.img.public_id)}
+								variant="flat"
+								className="absolute -right-0 top-3 z-20 bg-default-300 !px-0 min-w-4 max-w-4 h-4 rounded-full"
+							>
+								<CloseIcon className="w-3" />
+							</Button>
 						</div>
 					)}
+					{(uploadImageMutation.isPending || uploadProgress < 100) && (
+						<CircularProgress
+							showValueLabel={true}
+							aria-label="Upload Progress"
+							value={uploadProgress}
+							size="lg"
+							color="primary"
+						/>
+					)}
+
 					<div className="relative min-h-12 flex">
 						<div className="absolute flex  left-5 bottom-1/2 translate-y-1/2">
 							<Button type="button" isIconOnly variant="flat">

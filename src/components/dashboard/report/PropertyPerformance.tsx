@@ -87,25 +87,27 @@ function PropertyPerformance({
 				<div className="w-full">
 					{labels?.length > 0 ? (
 						propertyReport.map((label, index) => {
-							return (
-								<div
-									key={index}
-									className="text-[#475367] gap-2 flex border-b-2 border-dotted py-3 w-full last-of-type:border-b-0"
-								>
-									<div className="flex items-center gap-2">
-										<div
-											style={{
-												background: label.color,
-											}}
-											className={`w-2.5 h-2.5 rounded-full`}
-										></div>
-										<p className="text-nowrap text-xs">{label.label}</p>
+							if (Number(label.percentage || "0") > 0) {
+								return (
+									<div
+										key={index}
+										className="text-[#475367] gap-2 flex border-b-2 border-dotted py-3 w-full last-of-type:border-b-0"
+									>
+										<div className="flex items-center gap-2">
+											<div
+												style={{
+													background: label.color,
+												}}
+												className={`w-2.5 h-2.5 rounded-full`}
+											></div>
+											<p className="text-nowrap text-xs">{label.label}</p>
+										</div>
+										<p className="ml-auto text-xs text-nowrap">
+											{label.percentage}% Earnings
+										</p>
 									</div>
-									<p className="ml-auto text-xs text-nowrap">
-										{label.percentage}% Earnings
-									</p>
-								</div>
-							);
+								);
+							}
 						})
 					) : (
 						<p className="text-sm text-center text-gray-500">

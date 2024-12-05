@@ -1,4 +1,4 @@
-import { SVGProps, ChangeEvent } from "react";
+import { SVGProps, ChangeEvent, SetStateAction, Dispatch } from "react";
 import { FieldValue, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { DatePickerProps } from "@nextui-org/date-picker";
 import { SlotsToClasses } from "@nextui-org/theme";
@@ -65,6 +65,9 @@ export interface SelectProps<TFieldValues extends FieldValues = FieldValue> {
 	defaultValue: string;
 	isLoading?: boolean;
 	isRequired?: boolean;
+	scrollRef?: ReactRef | null;
+	setIsOpen?: Dispatch<SetStateAction<boolean>>;
+	variant?: "bordered";
 }
 
 export interface DateProps<TFieldValues extends FieldValue = FieldValue> {

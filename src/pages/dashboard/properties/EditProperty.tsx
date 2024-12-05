@@ -4,14 +4,9 @@ import { useEffect } from "react";
 import { setTitle } from "../../../redux/slices/app";
 import { useDispatch } from "react-redux";
 import { propertySchema } from "../../../schemas/properties";
-import {
-	useQuery,
-	useMutation,
-	useQueryClient,
-	UseQueryOptions,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useProperty from "../../../hooks/useProperty";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { CustomModal } from "../../../components/ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { PropertyFormState } from "../../../types/forms";
@@ -20,13 +15,14 @@ import { toast } from "../../../../configs/services";
 import { resetPropertyForm } from "../../../redux/slices/forms/propertyForm";
 import SuccessModal from "../../../components/common/SuccessModal";
 import { Spinner } from "@nextui-org/spinner";
+import { editProperty } from "../../../helper/apis/propertyApi";
 
 const EditProperty = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const queryClient = useQueryClient();
-	const { editProperty, getSingleProperty } = useProperty();
+	const { getSingleProperty } = useProperty();
 	const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
 
 	const mutation = useMutation({
@@ -63,10 +59,7 @@ const EditProperty = () => {
 		mutation.mutate(formData);
 	};
 
-	const { data: singleProperty } = useQuery<AxiosResponse, Error>({
-		queryKey: ["single_property", id],
-		queryFn: () => getSingleProperty(id as string),
-	} as UseQueryOptions<AxiosResponse, Error>);
+	const { data: singleProperty } = getSingleProperty(id as string);
 
 	const handleModalClose = () => {
 		dispatch(resetPropertyForm());

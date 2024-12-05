@@ -7,7 +7,6 @@ import { MaintenanceFormState } from "../../../types/forms";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { CustomModal } from "../../../components/ui/Modal";
 import SuccessModal from "../../../components/common/SuccessModal";
-import useMaintenance from "../../../hooks/useMaintenance";
 import { toast } from "../../../../configs/services";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -15,6 +14,10 @@ import moment from "moment";
 import { AxiosError } from "axios";
 import { setMaintenanceDetails } from "../../../redux/slices/maintenance";
 import { formatCurrency } from "../../../utils/formatCurrency";
+import {
+	singleMaintenance,
+	updateMaintenance,
+} from "../../../helper/apis/maintenanceApi";
 
 export default function UpdateMaintenance() {
 	const { id } = useParams();
@@ -22,27 +25,25 @@ export default function UpdateMaintenance() {
 	const queryClient = useQueryClient();
 	const navigate = useNavigate();
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-	const { singleMaintenanceHandler, updateMaintenanceHandler } =
-		useMaintenance();
 
 	const successModalHandler = () => {
 		onClose();
 		navigate(-1);
 	};
 	const {
-		data: singleMaintenance,
+		data: singleMaintenanceData,
 		isSuccess,
 		isLoading,
 	} = useQuery({
 		queryKey: ["single_maintenance", id],
-		queryFn: () => singleMaintenanceHandler(id as string),
+		queryFn: () => singleMaintenance(id as string),
 		enabled: !!id,
 	});
 
 	const mutation = useMutation({
 		mutationKey: ["update_maintenance", id],
 		mutationFn: (newMaintenanceData: MaintenanceFormState) =>
-			updateMaintenanceHandler(id as string, newMaintenanceData),
+			updateMaintenance(id as string, newMaintenanceData),
 		onSuccess: () => {
 			onOpen();
 			queryClient.invalidateQueries({ queryKey: ["maintenances"] });
@@ -60,8 +61,8 @@ export default function UpdateMaintenance() {
 	}, []);
 
 	useEffect(() => {
-		if (isSuccess && singleMaintenance) {
-			dispatch(setMaintenanceDetails(singleMaintenance.data));
+		if (isSuccess && singleMaintenanceData) {
+			dispatch(setMaintenanceDetails(singleMaintenanceData.data));
 		}
 	}, [isSuccess, singleMaintenance]);
 
@@ -79,17 +80,17 @@ export default function UpdateMaintenance() {
 					onFormSubmit={onFormSubmit}
 					isLoading={mutation.isPending}
 					formDefaultValue={{
-						facility: singleMaintenance?.data.facility,
-						status: singleMaintenance?.data.status,
+						facility: singleMaintenanceData?.data.facility,
+						status: singleMaintenanceData?.data.status,
 						maintenance_fee: formatCurrency(
-							singleMaintenance?.data.maintenance_fee
+							singleMaintenanceData?.data.maintenance_fee
 						),
-						technician: singleMaintenance?.data.technician,
-						property: singleMaintenance?.data.property,
+						technician: singleMaintenanceData?.data.technician,
+						property: singleMaintenanceData?.data.property,
 
-						schedule_date: moment(singleMaintenance?.data.schedule_date).format(
-							"YYYY-MM-DD"
-						) as unknown as Date,
+						schedule_date: moment(
+							singleMaintenanceData?.data.schedule_date
+						).format("YYYY-MM-DD") as unknown as Date,
 					}}
 				/>
 			</div>

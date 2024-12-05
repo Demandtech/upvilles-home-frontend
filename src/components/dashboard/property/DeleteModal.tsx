@@ -1,17 +1,18 @@
-import Button from "../../ui/Button";
 import { ModalFooter } from "@nextui-org/modal";
-import { SuccessIcon, DeletePropertyIcon } from "../../svgs";
-import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useProperty from "../../../hooks/useProperty";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import Button from "../../ui/Button";
+import { SuccessIcon, DeletePropertyIcon } from "../../svgs";
+
+import { useState } from "react";
+import { deleteProperty } from "../../../helper/apis/propertyApi";
+
 
 function DeleteModal({ onClose, id }: { onClose: () => void; id: string }) {
 	const [isSuccess, setIsSuccess] = useState(false);
 	const queryClient = useQueryClient();
 	const navigate = useNavigate();
-
-	const { deleteProperty } = useProperty();
 
 	const mutation = useMutation({
 		mutationKey: ["deleteProperty"],
@@ -22,6 +23,7 @@ function DeleteModal({ onClose, id }: { onClose: () => void; id: string }) {
 			setIsSuccess(true);
 		},
 		onError: (error) => {
+			// console.log(error);
 			console.log("Error: ", error);
 		},
 	});

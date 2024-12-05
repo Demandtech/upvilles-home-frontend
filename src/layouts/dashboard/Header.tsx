@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode, useCallback, useState } from "react";
+import { ChangeEvent, ReactNode, useCallback } from "react";
 import Button from "../../components/ui/Button";
 import { Input } from "@nextui-org/input";
 import {
@@ -7,7 +7,7 @@ import {
 	ArrowBack,
 } from "../../components/svgs";
 import { debounce } from "../../utils/debounce";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { HamburgerIcon } from "../../components/svgs";
 
 const Header = ({
@@ -21,19 +21,16 @@ const Header = ({
 	setSidebar: () => void;
 	showNotification: boolean;
 }) => {
-	const [searchValue, setSearchValue] = useState("");
 	const navigate = useNavigate();
 	const location = useLocation();
+	const [searchParams, setSearchParams] = useSearchParams();
 
-	async function searchDate(query: string) {
-		setSearchValue(query);
-	}
+	const searchDate = async (query: string) => setSearchParams(`q=${query}`);
 
-	const handleSearch = useCallback(debounce(searchDate, 500), []);
+	const handleSearch = useCallback(debounce(searchDate, 300), []);
 
-	function handleChange(event: ChangeEvent<HTMLInputElement>) {
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
 		handleSearch(event.target.value);
-	}
 
 	return (
 		<div
@@ -100,7 +97,7 @@ const Header = ({
 						placeholder="Search property, tenants... "
 						required={false}
 						onChange={handleChange}
-						value={searchValue}
+						value={(searchParams.get("q") as string) || ""}
 					/>
 				</div>
 				<div>

@@ -4,9 +4,10 @@ import { setTitle } from "../../../redux/slices/app";
 import { Schedule, Metrics } from "../../../components/dashboard/maintenance";
 import { RootState } from "../../../redux/store";
 import { Stats } from "../../../types/user";
-import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import useMaintenance from "../../../hooks/useMaintenance";
 import { setMaintenances } from "../../../redux/slices/maintenance";
+import { useSearchParams } from "react-router-dom";
 
 const Maintenance = () => {
 	const dispatch = useDispatch();
@@ -15,14 +16,20 @@ const Maintenance = () => {
 	const [sortBy, setSortBy] = useState({ column: "", direction: "descending" });
 	const { stats } = useSelector((state: RootState) => state.user);
 	const { allMaintenancesHandler } = useMaintenance();
+	const [searchParams] = useSearchParams();
+
+	const search = searchParams.get("q");
+	const limit = 4;
 
 	const queryClient = useQueryClient();
 
-	const { data, isLoading, isSuccess } = useQuery({
-		queryKey: ["maintenances", page, sortBy.column, sortBy.direction],
-		queryFn: () =>
-			allMaintenancesHandler(page, sortBy.column, sortBy.direction),
-	});
+	const { data, isLoading, isSuccess } = allMaintenancesHandler(
+		page,
+		sortBy.column,
+		sortBy.direction,
+		search as string,
+		limit
+	);
 
 	useEffect(() => {
 		dispatch(setTitle({ title: "Maintenance", showIcon: false }));

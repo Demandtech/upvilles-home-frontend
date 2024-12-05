@@ -4,7 +4,6 @@ import { setTitle } from "../../../redux/slices/app";
 import { useDispatch, useSelector } from "react-redux";
 import { propertySchema } from "../../../schemas/properties";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useProperty from "../../../hooks/useProperty";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { CustomModal } from "../../../components/ui/Modal";
 import { PropertyFormState } from "../../../types/forms";
@@ -15,11 +14,11 @@ import { AxiosError } from "axios";
 import { toast } from "../../../../configs/services";
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../../../components/common/SuccessModal";
+import { addProperty } from "../../../helper/apis/propertyApi";
 
 function AddProperty() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { addProperty } = useProperty();
 	const queryClient = useQueryClient();
 	const initialState = useSelector((state: RootState) => state.propertyForm);
 	const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();

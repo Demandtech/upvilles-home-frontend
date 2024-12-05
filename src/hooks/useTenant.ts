@@ -1,100 +1,39 @@
 import { AxiosResponse } from "axios";
-import customAxios from "../../configs/axios";
-import { TenantFormState } from "../types/forms";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import * as apis from "../helper/apis/tenantApi";
 
 export default function useTenant() {
-	const addTenantHandler = async (
-		newTenantData: TenantFormState
-	): Promise<AxiosResponse> => {
-		try {
-			const { balance, rent_paid } = newTenantData;
-
-			const rentPaidNum = rent_paid.replace(/,/g, "");
-			const balanceNum = balance?.replace(/,/g, "");
-
-			newTenantData.rent_paid = rentPaidNum;
-			newTenantData.balance = balanceNum;
-
-			const result = await customAxios(false).post("/tenants", newTenantData);
-
-			return result;
-		} catch (error: any) {
-			console.log(error);
-			throw new Error(error);
-		}
-	};
-
-	const allTenantsHandler = async (
+	const allTenantsHandler = (
 		propertyId?: string,
-		page: number = 1,
+		page?: number,
 		sortBy?: string,
 		order?: string,
-		limit: number = 5
+		search?: string,
+		limit?: number,
+		options?: UseQueryOptions<AxiosResponse, Error>
 	) => {
-		try {
-			const params = new URLSearchParams();
-
-			if (propertyId) params.append("property_id", propertyId);
-			if (page !== undefined) params.append("page", page.toString());
-			if (sortBy) params.append("sortBy", sortBy);
-			if (order) params.append("order", order);
-			if (limit) params.append("limit", limit.toString());
-
-			const tenants = await customAxios(false).get(
-				`/tenants?${params.toString()}`
-			);
-      
-			return tenants;
-		} catch (error: any) {
-			throw new Error(error);
-		}
+		return useQuery<AxiosResponse, Error>({
+			queryKey: ["all-tenants", propertyId, sortBy, order, page, search, limit],
+			queryFn: async () =>
+				apis.allTenants(propertyId, page, sortBy, order, search, limit),
+			...options,
+		});
 	};
 
-	const singleTenantHandler = async (tenantId: string) => {
-		if (!tenantId) return;
-
-		const tenant = await customAxios(false).get(`/tenants/${tenantId}`);
-
-		return tenant;
-	};
-
-	const updateTenantHandler = async (
+	const singleTenantHandler = (
 		tenantId: string,
-		updatedTenantData: TenantFormState
+		options?: UseQueryOptions<AxiosResponse, Error>
 	) => {
-		if (!tenantId || !updatedTenantData) return;
-
-		const { balance, rent_paid } = updatedTenantData;
-
-		const rentPaidNum = rent_paid.replace(/,/g, "");
-		const balanceNum = balance?.replace(/,/g, "");
-
-		updatedTenantData.rent_paid = rentPaidNum;
-		updatedTenantData.balance = balanceNum;
-
-		const updatedTenant = await customAxios(false).put(
-			`/tenants/${tenantId}`,
-			updatedTenantData
-		);
-
-		return updatedTenant;
-	};
-
-	const deleteTenantHandler = async (tenantId: string) => {
-		if (!tenantId) return;
-
-		const deletedTenant = await customAxios(false).delete(
-			`/tenants/${tenantId}`
-		);
-
-		return deletedTenant;
+		return useQuery<AxiosResponse, Error>({
+			queryKey: ["tenant-details", tenantId],
+			queryFn: async () => apis.singleTenant(tenantId),
+			enabled: !!tenantId,
+			...options,
+		});
 	};
 
 	return {
-		addTenantHandler,
 		allTenantsHandler,
 		singleTenantHandler,
-		updateTenantHandler,
-		deleteTenantHandler,
 	};
 }

@@ -9,12 +9,12 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateTenantForm } from "../../../redux/slices/forms/tenantForm";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import useProperty from "../../../hooks/useProperty";
 import DateInput from "../../ui/DatePicker";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { Spinner } from "@nextui-org/spinner";
 import { isEqual } from "lodash";
+import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
 
 const TenantForm = ({
 	onSubmit,
@@ -35,13 +35,24 @@ const TenantForm = ({
 	const navigate = useNavigate();
 	const { allProperties } = useProperty();
 
-	const { data: properties, isLoading: isPropertiesLoading } = useQuery({
-		queryKey: ["properties"],
-		queryFn: allProperties,
-	});
-
 	const [available_units, setAvailableUnits] = useState<number[]>([]);
 	const [isDirty, setIsDirty] = useState(false);
+	const [isOpen, setIsOpen] = useState(true);
+	const [page, setPage] = useState(1);
+	let search = "";
+	let limit = 8;
+
+	const { data: propertiesData, isLoading: isPropertiesLoading } =
+		allProperties(page, search, limit);
+
+	const [, scrollerRef] = useInfiniteScroll({
+		hasMore: propertiesData?.data.meta.total_page > page,
+		isEnabled: isOpen,
+		onLoadMore: () => {
+			setPage((prev) => prev + 1);
+			console.log(page);
+		},
+	});
 
 	const {
 		register,
@@ -72,12 +83,12 @@ const TenantForm = ({
 	}, [watchFields, id]);
 
 	useEffect(() => {
-		if (!properties?.data) return;
+		if (!propertiesData?.data) return;
 
 		const selectedProperty =
 			watchFields.assigned_property || formDefaultValue.assigned_property;
 
-		const property = properties?.data?.properties.find(
+		const property = propertiesData?.data?.properties.find(
 			(property: { _id: string }) => {
 				return property._id === selectedProperty;
 			}
@@ -98,25 +109,17 @@ const TenantForm = ({
 		setAvailableUnits(property?.available_units as number[]);
 	}, [
 		watchFields.assigned_property,
-		properties,
+		propertiesData?.data,
 		formDefaultValue.assigned_property,
 	]);
 
 	const handleCurrencyChange = (value: string) => {
-		// Clean the value by removing non-numeric characters (except for commas and decimals)
 		const sanitizedValue = value.replace(/[^0-9.,]/g, "");
-
-		// Split the value by decimal to separate the integer part and decimal part
 		const parts = sanitizedValue.split(".");
-
-		// Remove commas for thousands separation
 		const raw = parts[0].replace(/,/g, "");
-
-		// Format the integer part as currency
 		const integerPart: string = formatCurrency(Number(raw));
 		const decimalPart = parts[1];
 
-		// Return the formatted value with or without decimal part
 		return parts.length > 1 ? `${integerPart}.${decimalPart}` : integerPart;
 	};
 
@@ -232,13 +235,15 @@ const TenantForm = ({
 								name="assigned_property"
 								label="Assigned Property:"
 								data={
-									properties?.data?.properties.map(
+									propertiesData?.data?.properties.map(
 										(prop: { _id: string; title: string }) => ({
 											key: prop._id,
 											label: prop.title,
 										})
 									) || []
 								}
+								scrollRef={scrollerRef}
+								setIsOpen={setIsOpen}
 								isRequired={true}
 								isLoading={isPropertiesLoading}
 								register={register}

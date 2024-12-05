@@ -9,22 +9,18 @@ import { CustomModal } from "../../../components/ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import SuccessModal from "../../../components/common/SuccessModal";
 import { useParams } from "react-router-dom";
-import {
-	useQuery,
-	UseQueryOptions,
-	useMutation,
-	useQueryClient,
-} from "@tanstack/react-query";
-import { AxiosResponse, AxiosError } from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import useTenant from "../../../hooks/useTenant";
 import { toast } from "../../../../configs/services";
 import { formatCurrency } from "../../../utils/formatCurrency";
+import { updateTenant } from "../../../helper/apis/tenantApi";
 
 export default function EditTenant() {
 	const dispatch = useDispatch();
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 	const [formKey, setFormKey] = useState(Date.now());
-	const { singleTenantHandler, updateTenantHandler } = useTenant();
+	const { singleTenantHandler } = useTenant();
 	const { id } = useParams();
 	const queryClient = useQueryClient();
 
@@ -39,19 +35,14 @@ export default function EditTenant() {
 		onClose();
 	};
 
-	const { data: editTenant, isLoading } = useQuery<AxiosResponse, Error>({
-		queryKey: ["single_tenant", id],
-		queryFn: () => singleTenantHandler(id as string),
-		enabled: !!id,
-	} as UseQueryOptions<AxiosResponse, Error>);
+	const { data: editTenant, isLoading } = singleTenantHandler(id as string);
 
 	const mutation = useMutation({
 		mutationFn: async (data: TenantFormState) =>
-			updateTenantHandler(id as string, data),
+			updateTenant(id as string, data),
 		onSuccess: () => {
 			onOpen();
 			queryClient.invalidateQueries({ queryKey: ["tenants"] });
-			queryClient.invalidateQueries({ queryKey: ["single_tenant"] });
 		},
 		onError: (error: AxiosError) => {
 			console.log(error);
@@ -86,28 +77,26 @@ export default function EditTenant() {
 				<title>Upvillehomes | Add Tenant</title>
 			</Helmet>
 			<div className="bg-white rounded-md shadow-lg shadow-dark p-3 lg:p-5 h-full w-full overflow-auto scrollbar-thin scrollbar-rounded">
-				{/* {editTenant && ( */}
-					<TenantForm
-						isPageLoading={isLoading}
-						key={formKey}
-						formDefaultValue={{
-							name: editTenant?.data.name as string,
-							assigned_property: editTenant?.data.assigned_property._id,
-							assigned_unit: editTenant?.data.assigned_unit,
-							phone: editTenant?.data.phone,
-							start_date: editTenant?.data.start_date,
-							end_date: editTenant?.data.end_date,
-							rent_paid: handleDefaultCurrency(
-								editTenant?.data.rent_paid
-							) as string,
-							balance: handleDefaultCurrency(editTenant?.data.balance) as string,
-						}}
-						schema={tenantSchema}
-						onSubmit={handleEditTenant}
-						isLoading={mutation.isPending}
-						id={id as string}
-					/>
-				{/* )} */}
+				<TenantForm
+					isPageLoading={isLoading}
+					key={formKey}
+					formDefaultValue={{
+						name: editTenant?.data.name as string,
+						assigned_property: editTenant?.data.assigned_property._id,
+						assigned_unit: editTenant?.data.assigned_unit,
+						phone: editTenant?.data.phone,
+						start_date: editTenant?.data.start_date,
+						end_date: editTenant?.data.end_date,
+						rent_paid: handleDefaultCurrency(
+							editTenant?.data.rent_paid
+						) as string,
+						balance: handleDefaultCurrency(editTenant?.data.balance) as string,
+					}}
+					schema={tenantSchema}
+					onSubmit={handleEditTenant}
+					isLoading={mutation.isPending}
+					id={id as string}
+				/>
 			</div>
 			<CustomModal isOpen={isOpen} onOpenChange={onOpenChange}>
 				<SuccessModal

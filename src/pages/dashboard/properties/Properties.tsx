@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useLayoutEffect } from "react";
 import { Summary, Properties } from "../../../components/dashboard/property";
 import { setTitle } from "../../../redux/slices/app";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ const Dashboard: FC = () => {
 	const dispatch = useDispatch();
 	const { stats, user } = useSelector((state: RootState) => state.user);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		dispatch(
 			setTitle({
 				title: <Welcome name={user?.company as string} />,
@@ -36,7 +36,7 @@ const Dashboard: FC = () => {
 				<title>Upvillehomes | Properties - Dashboard</title>
 			</Helmet>
 			<Summary stats={stats as Stats} />
-			<Properties />
+			<Properties stats={stats as Stats} />
 		</div>
 	);
 };
@@ -45,7 +45,7 @@ function Welcome({ name }: { name: string }) {
 	return (
 		<div>
 			<p className="font-normal text-base">👋 Hi, {name}!</p>
-		
+
 			<h3 className="text-2xl lg:min-w-28 text-nowrap">
 				Welcome to your Dashboard
 			</h3>

@@ -19,9 +19,9 @@ import { Image } from "@nextui-org/image";
 import useImage from "../../../hooks/useImage";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import useProperty from "../../../hooks/useProperty";
 import isEqual from "lodash/isEqual";
 import { Textarea } from "@nextui-org/input";
+import { deletePropertyImage } from "../../../helper/apis/propertyApi";
 
 const typesData = [
 	{ key: "Residential", label: "Residential" },
@@ -59,7 +59,6 @@ const PropertyForm = ({
 	);
 	const [uploadProgress, setUploadProgress] = useState<number>(100);
 	const { uploadImage } = useImage();
-	const { deletePropertyImage } = useProperty();
 	const [isDirty, setIsDirty] = useState(false);
 
 	const uploadImageMutation = useMutation({
@@ -76,10 +75,8 @@ const PropertyForm = ({
 				return [...previousImages, { url: res.url, public_id: res.public_id }];
 			});
 		},
-		onError: (err: AxiosError) => {
-			console.log(err);
-			toast.error("Error occured uploading images");
-		},
+		onError: (err: AxiosError) =>
+			toast.error(err.message || "Error occured uploading images"),
 	});
 
 	const deleteImageMutation = useMutation({

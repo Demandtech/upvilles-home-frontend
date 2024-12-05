@@ -3,7 +3,7 @@ import { ModalFooter } from "@nextui-org/modal";
 import { SuccessIcon, DeletePropertyIcon } from "../../svgs";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useMaintenance from "../../../hooks/useMaintenance";
+import { deleteMaintenance } from "../../../helper/apis/maintenanceApi";
 
 export default function DeleteMaintenanceModal({
 	onClose,
@@ -15,11 +15,9 @@ export default function DeleteMaintenanceModal({
 	const [isSuccess, setIsSuccess] = useState(false);
 	const queryClient = useQueryClient();
 
-	const { deleteMaintenanceHandler } = useMaintenance();
-
 	const mutation = useMutation({
 		mutationKey: ["delete_maintenance", id],
-		mutationFn: deleteMaintenanceHandler,
+		mutationFn: (maintenanceId: string) => deleteMaintenance(maintenanceId),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: ["maintenances"],

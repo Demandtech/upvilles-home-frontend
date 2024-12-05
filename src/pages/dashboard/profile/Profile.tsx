@@ -158,7 +158,7 @@ function Profile() {
 								aria-label="Loading..."
 								value={uploadProgress}
 								size="lg"
-								color="warning"
+								color="primary"
 								minValue={0}
 								maxValue={100}
 							/>

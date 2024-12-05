@@ -3,7 +3,7 @@ import { ModalFooter } from "@nextui-org/modal";
 import { SuccessIcon, DeletePropertyIcon } from "../../svgs";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useTenant from "../../../hooks/useTenant";
+import { deleteTenant } from "../../../helper/apis/tenantApi";
 
 export default function DeleteTenantModal({
 	onClose,
@@ -15,11 +15,9 @@ export default function DeleteTenantModal({
 	const [isSuccess, setIsSuccess] = useState(false);
 	const queryClient = useQueryClient();
 
-	const { deleteTenantHandler } = useTenant();
-
 	const mutation = useMutation({
 		mutationKey: ["deleteTenant", id],
-		mutationFn: deleteTenantHandler,
+		mutationFn: deleteTenant,
 		onSuccess: (data) => {
 			queryClient.invalidateQueries({
 				queryKey: ["tenants", data?.data.assigned_property],

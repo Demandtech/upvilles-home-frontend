@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { setTitle } from "../../../redux/slices/app";
 import { useDispatch } from "react-redux";
-import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import useTenant from "../../../hooks/useTenant";
 import { setTenantDetails } from "../../../redux/slices/tenant";
@@ -18,11 +17,7 @@ export default function TenantDetails() {
 		data: singleTenant,
 		isSuccess,
 		isLoading,
-	} = useQuery({
-		queryKey: ["tenant_details", id],
-		queryFn: () => singleTenantHandler(id as string),
-		enabled: !!id,
-	});
+	} = singleTenantHandler(id as string);
 
 	useEffect(() => {
 		if (singleTenant && isSuccess) {
@@ -30,7 +25,7 @@ export default function TenantDetails() {
 		}
 	}, [isSuccess, singleTenant]);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		dispatch(setTitle({ showIcon: true, title: "Tenant Profile" }));
 	}, [id]);
 
