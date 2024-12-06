@@ -1,5 +1,5 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import { FC, useCallback, useEffect, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useSelector } from "react-redux";
@@ -12,10 +12,12 @@ import socket from "../../../configs/socket";
 
 const DashboardLayout: FC = () => {
 	const navigate = useNavigate();
-	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 	const { dashboardPageTitle } = useSelector((state: RootState) => state.app);
 	const { user } = useSelector((state: RootState) => state.user);
+	const scrollRef = useRef<HTMLDivElement>(null);
+	const { pathname } = useLocation();
 
 	const toggleSidebar = useCallback(() => {
 		if (windowWidth < 768) {
@@ -51,6 +53,18 @@ const DashboardLayout: FC = () => {
 		};
 	}, [user]);
 
+	useEffect(() => {
+		if (scrollRef.current) {
+			scrollRef.current.scrollTo({ top: 0 });
+		}
+	}, [pathname]);
+
+	const sidebarWidth = isSidebarOpen
+		? windowWidth > 768
+			? "250px"
+			: "100%"
+		: "0";
+
 	return (
 		<main
 			id="dashboard-layout"
@@ -64,18 +78,18 @@ const DashboardLayout: FC = () => {
 					aria-expanded={isSidebarOpen}
 					aria-controls="sidebar"
 					initial={{
-						width: windowWidth > 768 ? 250 : 0,
+						width: 0,
 						opacity: 0,
 					}}
 					animate={{
 						opacity: isSidebarOpen ? 1 : 0,
-						width: isSidebarOpen ? (windowWidth > 768 ? 250 : "100%") : "0",
+						width: sidebarWidth,
 					}}
 					transition={{
 						type: "spring",
 						stiffness: 300,
 						damping: 30,
-						duration: 1000,
+						duration: 0.5,
 					}}
 				>
 					<motion.div
@@ -100,7 +114,10 @@ const DashboardLayout: FC = () => {
 						/>
 					</motion.div>
 				</motion.div>
-				<div className="flex-1 relative h-screen overflow-auto">
+				<div
+					ref={scrollRef}
+					className="flex-1 relative h-screen overflow-auto scrollbar-hide"
+				>
 					<Header
 						title={dashboardPageTitle.title}
 						showIcon={dashboardPageTitle.showIcon}
@@ -123,6 +140,7 @@ const DashboardLayout: FC = () => {
 							{dashboardPageTitle.title}
 						</div>
 					</div>
+
 					<Outlet />
 				</div>
 			</div>

@@ -1,67 +1,39 @@
+import { useRef } from "react";
+
 import Button from "../../ui/Button";
 import NotificationItem from "./NotificationItem";
 import { CheckedIcon } from "../../svgs";
 import { NotificationListProps } from "../../../types/notification";
-// const notifications = [
-// 	{
-// 		_id: "id1",
-// 		title: "Payment Reminder",
-// 		message:
-// 			"Tenant James Okoye (Unit 3A) has an overdue rent payment of ₦150,000 for the month of October. Please follow up to ensure timely collection.",
-// 		date: "12-09-2024",
-// 		time: "8.00am",
-// 		isRead: false,
-// 	},
-// 	{
-// 		_id: "id2",
-// 		title: "New Maintenance Request Created",
-// 		message:
-// 			" A new maintenance request has been submitted for Unit 2B regarding a plumbing leak in the kitchen.",
-// 		date: "12-09-2024 ",
-// 		time: "8.00am",
-// 		isRead: true,
-// 	},
-// 	{
-// 		_id: "id3",
-// 		title: "Lease Expiration Reminder",
-// 		message:
-// 			"Lease for Tenant Sarah Adeoye (Unit 5C) is set to expire on November 30, 2024.",
-// 		date: "12-09-2024 ",
-// 		time: "8.00am",
-// 		isRead: false,
-// 	},
-// 	{
-// 		_id: "id4",
-// 		title: "Payment Reminder",
-// 		message:
-// 			"Tenant James Okoye (Unit 3A) has an overdue rent payment of ₦150,000 for the month of October.  Please follow up to ensure timely collection.",
-// 		date: "12-09-2024 ",
-// 		time: "8.00am",
-// 		isRead: true,
-// 	},
-// 	{
-// 		_id: "1d5",
-// 		title: "Payment Reminder",
-// 		message:
-// 			"Tenant James Okoye (Unit 3A) has an overdue rent payment of ₦150,000 for the month of October.  Please follow up to ensure timely collection.",
-
-// 		time: "8.00am",
-// 		date: "12-09-2024 ",
-// 		isRead: false,
-// 	},
-// ];
+import { Spinner } from "@nextui-org/spinner";
 
 function NotificationList({
 	data,
 	meta,
 	setState,
 	state,
-	setPage,
 	onReadNotification,
 	onReadAllNotifications,
 	user,
+	isFetchingMore,
+	hasMore,
+	fetchMore,
+	setPage,
 }: NotificationListProps) {
-	console.log(setPage);
+	const containerRef = useRef(null);
+
+	const handleScroll = () => {
+		const container = containerRef.current;
+		if (container) {
+			const { scrollTop, scrollHeight, clientHeight } = container;
+
+			if (scrollTop + clientHeight >= scrollHeight) {
+				if (hasMore) {
+					fetchMore().then(() => setPage((prev: number) => prev + 1));
+				}
+			}
+		}
+	};
+
 	return (
 		<div className="bg-white h-full scrollbar-hide rounded-md shadow-lg shadow-default-100 overflow-auto">
 			<div className="flex sticky z-10 top-0 items-center pt-2 pb-3 bg-[#F3FBFF]">
@@ -107,7 +79,11 @@ function NotificationList({
 					</Button>
 				</div>
 			</div>
-			<div className="overflow-x-auto">
+			<div
+				ref={containerRef}
+				onScroll={handleScroll}
+				className="overflow-x-auto h-full"
+			>
 				{data?.length > 0 ? (
 					data.map((item) => (
 						<NotificationItem
@@ -120,6 +96,11 @@ function NotificationList({
 					<p className="p-4 text-center text-darkGrey">
 						No notifications available.
 					</p>
+				)}
+				{isFetchingMore && (
+					<div className="flex justify-center">
+						<Spinner size="sm" />
+					</div>
 				)}
 			</div>
 		</div>

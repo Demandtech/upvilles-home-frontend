@@ -168,7 +168,8 @@ function SupportChat({
 		(event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault();
 
-			if (!message.message && !message.img) return;
+			if (!message.message && !message.img.url && !message.img.public_id)
+				return;
 
 			if (!currentChat) {
 				startChatMutation.mutate(
@@ -355,7 +356,7 @@ function SupportChat({
 						/>
 						<div className="absolute right-5 bottom-1/2 translate-y-1/2">
 							<Button
-								disabled={!message.message.trim() && !message.img}
+								disabled={!message.message.trim() && !message.img.url}
 								type="submit"
 								isIconOnly
 								variant="flat"

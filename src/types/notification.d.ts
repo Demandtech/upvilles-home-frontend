@@ -1,5 +1,5 @@
 import { User } from "./user";
-export interface Notification {
+export interface NotificationType {
 	_id: string;
 	title: string;
 	content: string;
@@ -10,7 +10,7 @@ export interface Notification {
 }
 
 export interface NotificationListProps {
-	data: Notification[];
+	data: NotificationType[];
 	meta: { unread: number };
 	setPage: Dispatch<SetStateAction<number>>;
 	setState: Dispatch<SetStateAction<"all" | "unread" | "read">>;
@@ -18,4 +18,9 @@ export interface NotificationListProps {
 	onReadNotification: (id) => void;
 	onReadAllNotifications: () => void;
 	user: User;
+	isFetchingMore: boolean;
+
+	hasMore: boolean;
+
+	fetchMore: any;
 }
