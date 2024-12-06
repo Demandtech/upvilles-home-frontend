@@ -15,12 +15,11 @@ import { jwtDecode } from "jwt-decode";
 import "react-toastify/dist/ReactToastify.css";
 
 import routes from "./routes";
-import useAuth from "./hooks/useAuth";
 import { setLogout, setUser } from "./redux/slices/user";
+import { refreshToken, authUser } from "./helper/apis/authApi";
 
 export default function App() {
 	const [redirected, setRedirected] = useState<boolean>(false);
-	const { handleRefreshToken, getAuthUser } = useAuth();
 	const tokens = useMemo(() => Cookies.get("auth_token"), []);
 	const dispatch = useDispatch();
 	const queryClient = useQueryClient();
@@ -37,7 +36,7 @@ export default function App() {
 
 	const mutation = useMutation({
 		mutationKey: ["refresh_token"],
-		mutationFn: handleRefreshToken,
+		mutationFn: refreshToken,
 		onSuccess: (data) => {
 			Cookies.set(
 				"auth_token",
@@ -55,9 +54,7 @@ export default function App() {
 
 	const { data: authUserData, error } = useQuery<AxiosResponse, Error>({
 		queryKey: ["authUser"],
-		queryFn: () => {
-			return getAuthUser();
-		},
+		queryFn: authUser,
 		enabled: tokens ? !isTokenExpired(JSON.parse(tokens).access_token) : false,
 	} as UseQueryOptions<AxiosResponse, Error>);
 

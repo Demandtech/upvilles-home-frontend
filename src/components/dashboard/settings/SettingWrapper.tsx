@@ -11,13 +11,12 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useAuth from "../../../hooks/useAuth";
 import { AxiosError } from "axios";
 import { toast } from "../../../../configs/services";
+import { updateSettings } from "../../../helper/apis/authApi";
 
 const SettingWrapper = () => {
 	const { user } = useSelector((state: RootState) => state.user);
-	const { handleUpdateSettings } = useAuth();
 	const queryClient = useQueryClient();
 	const [settings, setSettings] = useState({
 		notification: user?.settings?.notification,
@@ -28,8 +27,7 @@ const SettingWrapper = () => {
 	});
 
 	const { mutate, isPending } = useMutation({
-		mutationFn: (data: { key: string; value: boolean }) =>
-			handleUpdateSettings(data),
+		mutationFn: (data: { key: string; value: boolean }) => updateSettings(data),
 		onSuccess: (data: any) => {
 			if (data) {
 				toast.success(data?.message);

@@ -16,7 +16,6 @@ import Button from "../../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import { updateProfileSchema } from "../../../schemas/user";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import useAuth from "../../../hooks/useAuth";
 import { CustomModal } from "../../../components/ui/Modal";
 import SuccessModal from "../../../components/common/SuccessModal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
@@ -25,6 +24,7 @@ import { ImageUrl } from "../../../types/common";
 import { Spinner } from "@nextui-org/spinner";
 import handleMutationError from "../../../utils/handleMutationError";
 import { CircularProgress } from "@nextui-org/progress";
+import { updateUser, updateImage } from "../../../helper/apis/authApi";
 
 function Profile() {
 	const { user } = useSelector((state: RootState) => state.user);
@@ -32,7 +32,6 @@ function Profile() {
 	const navigate = useNavigate();
 	const [newImgUrl, setNewImgUrl] = useState(user?.image?.url);
 	const queryClient = useQueryClient();
-	const { handleUpdateUser, handleUpdateImage } = useAuth();
 	const { onOpen, onOpenChange, onClose, isOpen } = useDisclosure();
 	const [uploadProgress, setUploadProgress] = useState<number>(100);
 	const { uploadImage } = useImage();
@@ -74,7 +73,7 @@ function Profile() {
 	};
 
 	const { mutate, isPending } = useMutation({
-		mutationFn: (data: FormData) => handleUpdateUser(data),
+		mutationFn: (data: FormData) => updateUser(data),
 		onSuccess: () => {
 			onOpen();
 			queryClient.invalidateQueries({ queryKey: ["authUser"] });
@@ -102,7 +101,7 @@ function Profile() {
 
 	const updateUserImageMutation = useMutation({
 		mutationKey: ["change_profile_photo"],
-		mutationFn: (img: ImageUrl) => handleUpdateImage(img),
+		mutationFn: (img: ImageUrl) => updateImage(img),
 		onSuccess: () => {
 			toast.success("Image successfully updated!");
 			queryClient.invalidateQueries({ queryKey: ["authUser"] });

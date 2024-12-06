@@ -20,7 +20,6 @@ import {
 } from "../../svgs";
 import { Image } from "@nextui-org/image";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import useSupport from "../../../hooks/useSupport";
 import { AxiosError, AxiosResponse } from "axios";
 import useImage from "../../../hooks/useImage";
 import { ImageUrl } from "../../../types/common";
@@ -35,6 +34,11 @@ import { CustomModal } from "../../ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { ModalFooter } from "@nextui-org/modal";
 import handleError from "../../../utils/handleMutationError";
+import {
+	createSupportChat,
+	endChat,
+	allMessages,
+} from "../../../helper/apis/supports";
 
 function SupportChat({
 	setStartChat,
@@ -50,7 +54,6 @@ function SupportChat({
 	});
 	const [chatList, setChatList] = useState<ChatType[]>([]);
 	const chatRef = useRef<HTMLDivElement>(null);
-	const { createSupportChat, allMessages, endChat } = useSupport();
 	const { uploadImage, deleteImage } = useImage();
 	const { user } = useSelector((state: RootState) => state.user);
 	const queryClient = useQueryClient();

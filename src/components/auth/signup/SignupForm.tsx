@@ -11,7 +11,6 @@ import { updateForm, resetForm } from "../../../redux/slices/forms/signup";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useMutation } from "@tanstack/react-query";
-import useAuth from "../../../hooks/useAuth";
 import Cookies from "js-cookie";
 import { setUser } from "../../../redux/slices/user";
 import { User, Stats } from "../../../types/user";
@@ -19,6 +18,7 @@ import SuccessModal from "../../common/SuccessModal";
 import { CustomModal } from "../../ui/Modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { AxiosError } from "axios";
+import { signup } from "../../../helper/apis/authApi";
 
 const SignupForm: FC = () => {
 	const navigate = useNavigate();
@@ -30,7 +30,7 @@ const SignupForm: FC = () => {
 	});
 	const [formKey, setFormKey] = useState(new Date().toISOString());
 	const formData = useSelector((state: RootState) => state.signup);
-	const { handleSignup } = useAuth();
+
 	const {
 		register,
 		handleSubmit,
@@ -70,7 +70,7 @@ const SignupForm: FC = () => {
 	);
 
 	const mutation = useMutation({
-		mutationFn: handleSignup,
+		mutationFn: signup,
 		onSuccess: handleMutationSuccess,
 		onError: (error: AxiosError) => {
 			if (error.response?.data) {

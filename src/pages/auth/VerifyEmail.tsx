@@ -3,25 +3,24 @@ import { SuccessIcon } from "../../components/svgs";
 import Button from "../../components/ui/Button";
 import { useCallback, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import useAuth from "../../hooks/useAuth";
 import { AxiosError } from "axios";
 import { toast } from "../../../configs/services";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/slices/user";
 import { Spinner } from "@nextui-org/spinner";
+import { verifyUser, resendVerification } from "../../helper/apis/authApi";
 
 function VerifyEmail() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const dispatch = useDispatch();
-	const { handleVerifyUser, handleResendVerification } = useAuth();
 	const queryParams = new URLSearchParams(location.search);
 	const emailToken = queryParams.get("emailToken");
 	const [email, setEmail] = useState<string>("");
 
 	const verifyMutation = useMutation({
-		mutationFn: (token: string) => handleVerifyUser(token),
+		mutationFn: (token: string) => verifyUser(token),
 		onSuccess: (data) => {
 			console.log(data);
 			Cookies.set(
@@ -51,14 +50,10 @@ function VerifyEmail() {
 	});
 
 	const resendMutation = useMutation({
-		mutationFn: (email: string) => handleResendVerification(email),
-		onSuccess: () => {
-			toast.success("Verification link resent successfully!");
-		},
+		mutationFn: (email: string) => resendVerification(email),
+		onSuccess: () => toast.success("Verification link resent successfully!"),
 
-		onError: () => {
-			toast.error("An error occured, try again!");
-		},
+		onError: () => toast.error("An error occured, try again!"),
 	});
 
 	const resendTokenHandler = () => resendMutation.mutate(email);

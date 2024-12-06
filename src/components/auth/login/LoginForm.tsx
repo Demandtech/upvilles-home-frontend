@@ -13,10 +13,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { LoginFormState } from "../../../types/forms";
 import { useMutation } from "@tanstack/react-query";
-import useAuth from "../../../hooks/useAuth";
 import Cookies from "js-cookie";
 import { setUser } from "../../../redux/slices/user";
 import { AxiosError } from "axios";
+import { login } from "../../../helper/apis/authApi";
 
 const LoginForm: FC = () => {
 	const navigate = useNavigate();
@@ -25,7 +25,6 @@ const LoginForm: FC = () => {
 
 	const formData = useSelector((state: RootState) => state.login);
 
-	const { handleLogin } = useAuth();
 	const {
 		register,
 		handleSubmit,
@@ -37,7 +36,7 @@ const LoginForm: FC = () => {
 	});
 
 	const mutation = useMutation({
-		mutationFn: handleLogin,
+		mutationFn: login,
 		onSuccess: (data) => {
 			Cookies.set(
 				"auth_token",

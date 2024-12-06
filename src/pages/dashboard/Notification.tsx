@@ -3,17 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { setTitle } from "../../redux/slices/app";
 import NotificationList from "../../components/dashboard/notifications/NotificationList";
 import { Helmet } from "react-helmet-async";
-import useNotification from "../../hooks/useNotification";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { RootState } from "../../redux/store";
 import { toast } from "../../../configs/services";
 import { AxiosError, AxiosResponse } from "axios";
 import { User } from "../../types/user";
+import {
+	readAllNotification,
+	readNotification,
+	allNotificationsHadler,
+} from "../../helper/apis/notifications";
 
 const Notification = () => {
 	const dispatch = useDispatch();
-	const { allNotificationsHadler, readNotification, readAllNotification } =
-		useNotification();
+
 	const [page, setPage] = useState<number>(1);
 	const [state, setState] = useState<"all" | "unread" | "read">("all");
 	const { user } = useSelector((state: RootState) => state.user);

@@ -10,8 +10,8 @@ import useProperty from "../../hooks/useProperty";
 import { AxiosResponse } from "axios";
 import { RootState } from "../../redux/store";
 import useTenant from "../../hooks/useTenant";
-import useAuth from "../../hooks/useAuth";
 import { useSearchParams } from "react-router-dom";
+import { userReports } from "../../helper/apis/authApi";
 
 const Report = () => {
 	const dispatch = useDispatch();
@@ -33,7 +33,6 @@ const Report = () => {
 	const { allMaintenancesHandler } = useMaintenance();
 	const { allProperties } = useProperty();
 	const { allTenantsHandler } = useTenant();
-	const { handleUserReports } = useAuth();
 
 	const { data: propertiesData } = allProperties(
 		1,
@@ -52,7 +51,7 @@ const Report = () => {
 
 	const { data: reportsData } = useQuery<AxiosResponse, Error>({
 		queryKey: ["user_reports"],
-		queryFn: handleUserReports,
+		queryFn: userReports,
 	} as UseQueryOptions<AxiosResponse, Error>);
 
 	const { data: tenantsData, isLoading: isTenantsLoading } = allTenantsHandler(

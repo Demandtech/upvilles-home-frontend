@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { setTitle } from "../../../redux/slices/app";
 import { useDispatch } from "react-redux";
 import { Input } from "@nextui-org/input";
@@ -6,16 +6,15 @@ import { useForm, yupResolver, toast } from "../../../../configs/services";
 import Button from "../../../components/ui/Button";
 import { changePasswordSchema } from "../../../schemas/user";
 import { useMutation } from "@tanstack/react-query";
-import useAuth from "../../../hooks/useAuth";
 import { AxiosError } from "axios";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { CustomModal } from "../../../components/ui/Modal";
 import SuccessModal from "../../../components/common/SuccessModal";
 import { useNavigate } from "react-router-dom";
+import { changePassword } from "../../../helper/apis/authApi";
 
 function ChangePassword() {
 	const dispatch = useDispatch();
-	const { handleChangePassword } = useAuth();
 	const { onClose, onOpen, onOpenChange, isOpen } = useDisclosure();
 	const navigate = useNavigate();
 
@@ -32,7 +31,7 @@ function ChangePassword() {
 			current_password: string;
 			new_password: string;
 			confirm_password: string;
-		}) => handleChangePassword(data),
+		}) => changePassword(data),
 		onSuccess: onOpen,
 		onError: (error: AxiosError) => {
 			console.log(error);
@@ -55,7 +54,7 @@ function ChangePassword() {
 		navigate(-1);
 	};
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		dispatch(setTitle({ title: "Change Password", showIcon: true }));
 	}, []);
 

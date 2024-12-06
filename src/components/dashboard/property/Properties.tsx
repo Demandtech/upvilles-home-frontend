@@ -9,9 +9,8 @@ import useProperty from "../../../hooks/useProperty";
 import { setProperties } from "../../../redux/slices/property";
 import { Pagination } from "@nextui-org/pagination";
 import { RootState } from "../../../redux/store";
-import { Stats } from "../../../types/user";
 
-const Properties = ({ stats }: { stats: Stats }) => {
+const Properties = () => {
 	const navigate = useNavigate();
 	const { allProperties } = useProperty();
 	const dispatch = useDispatch();
@@ -21,7 +20,7 @@ const Properties = ({ stats }: { stats: Stats }) => {
 	);
 	const [searchParams] = useSearchParams();
 	let limit = 8;
-	let search = searchParams.get("q") as string;
+	let search = searchParams.get("q") || "";
 
 	const {
 		data: propertiesData,
@@ -30,13 +29,15 @@ const Properties = ({ stats }: { stats: Stats }) => {
 	} = allProperties(page, search, limit);
 
 	useEffect(() => {
-		dispatch(
-			setProperties({
-				properties: propertiesData?.data.properties,
-				meta: propertiesData?.data.meta,
-			})
-		);
-	}, [isSuccess, dispatch]);
+		if (isSuccess) {
+			dispatch(
+				setProperties({
+					properties: propertiesData?.data.properties,
+					meta: propertiesData?.data.meta,
+				})
+			);
+		}
+	}, [isSuccess, dispatch, propertiesData?.data]);
 
 	return (
 		<div className="bg-[#fafafa] px-3 py-5 sm:px-5 h-full">
@@ -56,9 +57,9 @@ const Properties = ({ stats }: { stats: Stats }) => {
 			<div>
 				{isLoading ? (
 					<div className="grid lg:grid-cols-4 gap-4">
-						{Array.from({ length: stats?.total_properties })
+						{["", "", "", "", "", ""]
 							.map((_, index) => (
-								<PropertyCardSkeleton isLoaded={!isLoading} key={index} />
+								<PropertyCardSkeleton isLoaded={isLoading} key={index} />
 							))
 							.slice(limit)}
 					</div>
@@ -75,7 +76,7 @@ const Properties = ({ stats }: { stats: Stats }) => {
 						color="primary"
 						page={page}
 						total={meta?.total_page}
-						onChange={(page) => setPage && setPage(page)}
+						onChange={(page) => setPage(page)}
 						size="md"
 					/>
 				</div>

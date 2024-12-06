@@ -36,7 +36,7 @@ const Dashboard: FC = () => {
 				<title>Upvillehomes | Properties - Dashboard</title>
 			</Helmet>
 			<Summary stats={stats as Stats} />
-			<Properties stats={stats as Stats} />
+			<Properties />
 		</div>
 	);
 };
