@@ -15,8 +15,6 @@ export default defineConfig({
 							return "nextui";
 						} else if (id.includes("@tanstack")) {
 							return "tanstack";
-						} else if (id.includes("react-")) {
-							return "react";
 						}
 
 						return "vendor";
