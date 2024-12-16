@@ -135,7 +135,13 @@ const TenantForm = ({
 		if (id) {
 			setIsDirty(isEqual(formDefaultValue, watchFields));
 		}
-	}, [watchFields.rent_paid, watchFields.balance, setValue, id]);
+	}, [
+		watchFields.rent_paid,
+		watchFields.balance,
+		setValue,
+		id,
+		formDefaultValue,
+	]);
 
 	return (
 		<>
@@ -181,10 +187,11 @@ const TenantForm = ({
 							<Controller
 								name="rent_paid"
 								control={control}
+								defaultValue={formDefaultValue.rent_paid}
 								render={({ field }) => (
 									<NextInput
 										{...field}
-										isRequired={true}
+										isRequired
 										radius="sm"
 										type="text"
 										labelPlacement="outside"
@@ -208,6 +215,7 @@ const TenantForm = ({
 							<Controller
 								name="balance"
 								control={control}
+								defaultValue={formDefaultValue.balance}
 								render={({ field }) => (
 									<NextInput
 										labelPlacement="outside"

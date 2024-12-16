@@ -1,6 +1,11 @@
-import { Button } from "@nextui-org/button";
+import { forwardRef, memo, Suspense, lazy } from "react";
 import { ButtonProps } from "../../types/common";
-import { forwardRef, memo } from "react";
+
+const LazyButton = lazy(() =>
+	import("@nextui-org/button").then((module) => ({
+		default: module.Button,
+	}))
+);
 
 const MyButton = forwardRef<HTMLButtonElement, ButtonProps>(
 	(
@@ -23,8 +28,8 @@ const MyButton = forwardRef<HTMLButtonElement, ButtonProps>(
 		ref
 	) => {
 		return (
-			<div>
-				<Button
+			<Suspense>
+				<LazyButton
 					ref={ref}
 					variant={variant}
 					size={size}
@@ -44,8 +49,8 @@ const MyButton = forwardRef<HTMLButtonElement, ButtonProps>(
 					onClick={onClick}
 				>
 					{children}
-				</Button>
-			</div>
+				</LazyButton>
+			</Suspense>
 		);
 	}
 );

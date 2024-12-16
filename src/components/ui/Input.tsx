@@ -21,7 +21,7 @@ function App({
 			<Input
 				radius="sm"
 				id={name}
-				classNames={{...classNames}}
+				classNames={{ ...classNames }}
 				className="text-white"
 				size={size}
 				placeholder={placeholder}

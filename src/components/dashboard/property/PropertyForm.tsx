@@ -1,6 +1,6 @@
 import Input from "../../ui/Input";
 import Select from "../../ui/Select";
-import { CloseIcon, FileUpload } from "../../svgs";
+import { CloseIcon, FileUpload, ExpandIcon } from "../../svgs";
 import Button from "../../ui/Button";
 import { toast, useForm, yupResolver } from "../../../../configs/services";
 import { ObjectSchema } from "yup";
@@ -22,6 +22,8 @@ import { AxiosError } from "axios";
 import isEqual from "lodash/isEqual";
 import { Textarea } from "@nextui-org/input";
 import { deletePropertyImage } from "../../../helper/apis/propertyApi";
+import { Spinner } from "@nextui-org/spinner";
+import { setImagePreview } from "../../../redux/slices/app";
 
 const typesData = [
 	{ key: "Residential", label: "Residential" },
@@ -57,9 +59,10 @@ const PropertyForm = ({
 			? formDefaultValue?.images
 			: []
 	);
-	const [uploadProgress, setUploadProgress] = useState<number>(100);
+	const [uploadProgress, setUploadProgress] = useState<number>(0);
 	const { uploadImage } = useImage();
 	const [isDirty, setIsDirty] = useState(false);
+	const [selectedImg, setSelectedImage] = useState<ImageUrl | null>(null);
 
 	const uploadImageMutation = useMutation({
 		mutationFn: ({
@@ -105,17 +108,22 @@ const PropertyForm = ({
 				import.meta.env.VITE_CLOUDINARY_PROPERTY_PRESET as string
 			);
 
-			return uploadImageMutation.mutateAsync({ formData, setUploadProgress });
+			return uploadImageMutation.mutateAsync({
+				formData,
+				setUploadProgress,
+			});
 		});
 
 		try {
 			await Promise.all(uploadPromises);
 		} catch (error) {
-			console.error("One or more uploads failed.", error);
+			toast.error("One or more uploads failed.");
 		}
 	};
 
 	const handleDelete = (imageInput: ImageUrl) => {
+		setSelectedImage(imageInput);
+
 		return deleteImageMutation.mutate(
 			{
 				publicId: imageInput.public_id,
@@ -127,6 +135,11 @@ const PropertyForm = ({
 					setImagesUrl((prev) =>
 						prev.filter((item) => item.url !== imageInput.url)
 					);
+					setSelectedImage(null);
+				},
+				onError: () => {
+					toast.error("An error occurred, please try again later!");
+					setSelectedImage(null);
 				},
 			}
 		);
@@ -264,7 +277,7 @@ const PropertyForm = ({
 									<input
 										type="file"
 										id="img-upload"
-										accept="image/jpeg,image/png,image/jpg"
+										accept="image/jpeg,image/png,image/jpg,image/webp, image/gif"
 										multiple
 										hidden
 										name="images"
@@ -285,17 +298,23 @@ const PropertyForm = ({
 								<div
 									style={{
 										display: "grid",
-										gridTemplateColumns: `repeat(auto-fit, minmax(70px, 80px))`,
+										gridTemplateColumns: `repeat(auto-fit, minmax(60px, 80px))`,
 										gap: 5,
 									}}
 									className="mt-4"
 								>
-									{imagesUrl.map((img) => {
+									{imagesUrl.map((img, index) => {
 										return (
 											<div
 												key={img.public_id}
 												className="relative w-full rounded-lg overflow-hidden"
 											>
+												{deleteImageMutation.isPending &&
+													img.public_id === selectedImg?.public_id && (
+														<div className="absolute z-50 flex items-center justify-center h-full w-full">
+															<Spinner size="sm" />
+														</div>
+													)}
 												<Image
 													height={70}
 													width={"100%"}
@@ -312,6 +331,21 @@ const PropertyForm = ({
 													className="absolute -right-0 top-0 z-20 bg-default-300 !px-0 min-w-4 max-w-4 h-4 rounded-full"
 												>
 													<CloseIcon className="w-3" />
+												</Button>
+												<Button
+													onPress={() => {
+														dispatch(
+															setImagePreview({
+																showPreview: true,
+																imageUrl: imagesUrl.map((img) => img.url),
+																currentItemIndex: index,
+															})
+														);
+													}}
+													variant="flat"
+													className="absolute -left-0 top-0 z-20 bg-default-300 !px-0 min-w-4 max-w-4 h-4 rounded-full"
+												>
+													<ExpandIcon className="w-2 h-2 fill-white" />
 												</Button>
 											</div>
 										);

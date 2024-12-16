@@ -9,12 +9,15 @@ import { motion } from "framer-motion";
 import { ArrowBack } from "../../components/svgs";
 import Button from "../../components/ui/Button";
 import socket from "../../../configs/socket";
+import ImagePreview from "../../components/ui/ImagePreview";
 
 const DashboardLayout: FC = () => {
 	const navigate = useNavigate();
 	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-	const { dashboardPageTitle } = useSelector((state: RootState) => state.app);
+	const { dashboardPageTitle, imagePreview } = useSelector(
+		(state: RootState) => state.app
+	);
 	const { user } = useSelector((state: RootState) => state.user);
 	const scrollRef = useRef<HTMLDivElement>(null);
 	const { pathname } = useLocation();
@@ -144,6 +147,12 @@ const DashboardLayout: FC = () => {
 					<Outlet />
 				</div>
 			</div>
+			{imagePreview.showPreview && (
+				<ImagePreview
+					imageUrl={imagePreview.imageUrl}
+					currentItemIndex={imagePreview.currentItemIndex}
+				/>
+			)}
 		</main>
 	);
 };

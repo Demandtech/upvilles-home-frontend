@@ -3,10 +3,14 @@ import { ReactNode } from "react";
 
 const initialState: {
 	dashboardPageTitle: { title: string | ReactNode; showIcon: boolean };
-	toast: { message: string };
+	imagePreview: {
+		showPreview: boolean;
+		imageUrl: string[];
+		currentItemIndex: number;
+	};
 } = {
 	dashboardPageTitle: { title: "", showIcon: false },
-	toast: { message: "" },
+	imagePreview: { showPreview: false, imageUrl: [], currentItemIndex: 0 },
 };
 
 const accountSlice = createSlice({
@@ -22,14 +26,20 @@ const accountSlice = createSlice({
 			state.dashboardPageTitle = payload;
 		},
 
-		closeToast: (state) => {
-			state.toast = { message: "" };
-		},
-		openToast: (state, { payload }: PayloadAction<{ message: string }>) => {
-			state.toast = { message: payload.message };
+		setImagePreview: (
+			state,
+			{
+				payload,
+			}: PayloadAction<{
+				showPreview: boolean;
+				imageUrl: string[];
+				currentItemIndex: number;
+			}>
+		) => {
+			state.imagePreview = payload;
 		},
 	},
 });
 
-export const { setTitle } = accountSlice.actions;
+export const { setTitle, setImagePreview } = accountSlice.actions;
 export default accountSlice.reducer;

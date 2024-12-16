@@ -1,6 +1,6 @@
-import { Select, SelectItem } from "@nextui-org/select";
 import { memo } from "react";
 import { SelectProps } from "../../types/common";
+import { Select, SelectItem } from "@nextui-org/select";
 
 function App({
 	register,
@@ -17,7 +17,7 @@ function App({
 	variant,
 }: SelectProps) {
 	return (
-		<div className="w-full">
+		<div>
 			<Select
 				labelPlacement="outside"
 				label={label}
@@ -39,8 +39,8 @@ function App({
 				variant={variant}
 			>
 				{(item) => (
-					<SelectItem color="primary" key={item.key}>
-						{item.label}
+					<SelectItem color="primary" key={item?.key}>
+						{item?.label}
 					</SelectItem>
 				)}
 			</Select>
